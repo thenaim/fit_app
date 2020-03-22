@@ -1,0 +1,8 @@
+{
+	"id": "fit_app",
+	"display": {
+		"name": "FitSmart",
+		"icon": "res/logo.png"
+	},
+	"application": { }
+}
