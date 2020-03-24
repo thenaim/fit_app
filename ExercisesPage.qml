@@ -15,6 +15,9 @@ Rectangle {
     opacity: 1.0;
     color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
 
+    /**
+    * Chips horizontal cards
+    */
     Chips {
         id: chipItems;
         anchors.top: exercisesPage.top;
@@ -28,37 +31,29 @@ Rectangle {
         }
 
         onKeyPressed: {
-            if (key === "Up") {
-                tab.setFocus();
-            }
+            const chipCurrent = {
+                index: chipItems.currentIndex,
+                data: model.get(chipItems.currentIndex)
+            };
+
             if (key === "Select" || key === "Down") {
-                const chipCurrent = {
-                    index: chipItems.currentIndex,
-                    data: model.get(chipItems.currentIndex)
-                };
-
-                exercisesCategory.setFocus();
                 exercisesPage.updateExercises(chipCurrent.data.id);
+                exerciseItemsList.setFocus();
             }
         }
 
-        onLeftPressed: {
-            const currentIndex = chipItems.currentIndex + 1;
-            const chipItemModelCount = chipItems.model.count;
-            if (chipItemModelCount) {
-                if (currentIndex === 1) chipItems.currentIndex = chipItemModelCount - 1;
-            }
+        onUpPressed: {
+            tab.setFocus();
         }
 
-        onRightPressed: {
-            const currentIndex = chipItems.currentIndex + 1;
-            const chipItemModelCount = chipItems.model.count;
-            if (chipItemModelCount) {
-                if (currentIndex === chipItemModelCount) chipItems.currentIndex = 0;
-            }
-        }
+        onLeftPressed: {}
+
+        onRightPressed: {}
     }
 
+    /**
+    * Chip category name
+    */
     Rectangle {
         id: exercisesCategory;
         anchors.top: chipItems.bottom;
@@ -88,6 +83,9 @@ Rectangle {
             }
         }
 
+        /**
+        * Chip category items
+        */
         ListView {
             id: exerciseItemsList;
             z: 1;
@@ -99,17 +97,27 @@ Rectangle {
 
             spacing: 10;
             height: app.sizes.exercise.height + 70;
-
-            focus: false;
+            opacity: 1.0;
+            focus: true;
             clip: true;
 
             delegate: ExerciseDelegate {}
 
             model: ListModel { id: exerciseItemModel; }
-
-
-            keyNavigationWraps: false;
             
+            onSelectPressed: {
+                log("currentExerciseItemsList");
+                const currentExerciseItemsList = model.get(exerciseItemsList.currentIndex);
+                exerciseDetailContainer.id = currentExerciseItemsList.id;
+                exerciseDetailContainer.title = currentExerciseItemsList.title;
+                exerciseDetailContainer.description = currentExerciseItemsList.description;
+                exerciseDetailContainer.images = currentExerciseItemsList.images;
+
+                exercisesPageContainer.visible = false;
+                exerciseDetailContainer.visible = true;
+                exerciseDetailContainer.setFocus();
+            }
+
             onCompleted: {
                 chipItems.setFocus();
             }
@@ -118,9 +126,11 @@ Rectangle {
                 if (key === "Up") {
                     chipItems.setFocus();
                 }
-                if (key === "Select") {
-                }
             }
+
+            onLeftPressed: {}
+
+            onRightPressed: {}
 
 
             /**
@@ -220,13 +230,14 @@ Rectangle {
         fit.loading = true;
         chipItems.getChips(app.config.api.exercisesCategories, (callback) => {
             if (callback) {
-                app.httpServer(app.config.api.exercises, "GET", { stingray: load("stingray"), token: app.config.token, type: type }, (exercise) => {
+                app.httpServer(app.config.api.exercises, "GET", { stingray: load("fit_stingray"), token: app.config.token, type: type }, (exercise) => {
                     // reset models
                     exerciseItemsList.exerciseItemModel.reset();
 
                     if (exercise.length) {
                         exercise.forEach((vid) => {
                             const data = {
+                                id: vid["id"],
                                 title: vid["name"],
                                 description: vid["detail"],
                                 images: vid.images
@@ -244,13 +255,14 @@ Rectangle {
     }
 
     function updateExercises(type) {
-        app.httpServer(app.config.api.exercises, "GET", { stingray: load("stingray"), token: app.config.token, type: type }, (exercise) => {
+        app.httpServer(app.config.api.exercises, "GET", { stingray: load("fit_stingray"), token: app.config.token, type: type }, (exercise) => {
             // reset models
             exerciseItemsList.exerciseItemModel.reset();
 
             if (exercise.length) {
                 exercise.forEach((vid) => {
                     const data = {
+                        id: vid["id"],
                         title: vid["name"],
                         description: vid["detail"],
                         images: vid.images
@@ -262,9 +274,5 @@ Rectangle {
                 exerciseText.text = chipsList.model.get(chipsList.currentIndex).name;
             };
         });
-    }
-
-    function getActiveCategory() {
-
     }
 }

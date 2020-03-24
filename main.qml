@@ -5,6 +5,7 @@ import "Dashboard.qml";
 import "Tab.qml";
 import "VideoItems.qml";
 import "ExercisesPage.qml";
+import "ExerciseDetail.qml";
 import "NutritionItems.qml";
 import "NutritionDetail.qml";
 import "SettingsPage.qml";
@@ -20,6 +21,7 @@ Application {
     property var stingray: {};
 
     property bool isDark: true;
+    property bool fullscreen: false;
     property bool loading: false;
 
     color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
@@ -135,10 +137,15 @@ Application {
                         exercisesPageContainer.visible = false;
                         nutritionItems.visible = false;
 
-                        settingPage.id = fit.stingray.id;
-                        settingPage.integrated = fit.stingray.integrated;
-                        settingPage.visible = true;
-                        settingPage.setFocus();
+                        fit.appInit((callback) => {
+                            if (callback) {
+                                settingPageItem.id = fit.stingray.id;
+                                settingPageItem.integrated = fit.stingray.integrated;
+                                settingPage.visible = true;
+                                settingPage.setFocus();
+                            }
+                        });
+
                         break;
                     default:
                         break;
@@ -146,21 +153,9 @@ Application {
             }
         }
 
-        onLeftPressed: {
-            const currentIndex = tab.currentIndex + 1;
-            const tabItemModelCount = tab.model.count;
-            if (tabItemModelCount) {
-                if (currentIndex === 1) tab.currentIndex = tabItemModelCount - 1;
-            }
-        }
+        onLeftPressed: {}
 
-        onRightPressed: {
-            const currentIndex = tab.currentIndex + 1;
-            const tabItemModelCount = tab.model.count;
-            if (tabItemModelCount) {
-                if (currentIndex === tabItemModelCount) tab.currentIndex = 0;
-            }
-        }
+        onRightPressed: {}
     }
 
     /**
@@ -168,14 +163,15 @@ Application {
     */
     Rectangle {
 		id: mainView;
+        z: 2;
 
-        anchors.top: tab.bottom;
-        anchors.left: menuView.right;
-        anchors.right: mainWindow.right;
-        anchors.bottom: mainWindow.bottom;
-        anchors.margins: app.sizes.margin;
+        anchors.top: fit.fullscreen ? mainWindow.top : tab.bottom;
+        anchors.left: fit.fullscreen ? mainWindow.left : menuView.right;
+        anchors.right: fit.fullscreen ? mainWindow.right : mainWindow.right;
+        anchors.bottom: fit.fullscreen ? mainWindow.bottom : mainWindow.bottom;
+        anchors.margins: fit.fullscreen ? 0 : app.sizes.margin;
 
-		radius: app.sizes.radius;
+		radius: fit.fullscreen ? 0 : app.sizes.radius;
 		color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
 
         /**
@@ -201,10 +197,10 @@ Application {
                 if (key === "Red") {
 
                     // TODO: Add Bookmarks
-                    /*
+                    
                     let current = model.get(videoItems.currentIndex);
                     fit.loading = true;
-                    app.httpServer(app.config.api.addDeleteBookmark, "GET", { stingray: load("stingray"), token: app.config.token, videoId: current.videoId }, (book) => {
+                    app.httpServer(app.config.api.addDeleteBookmark, "GET", { stingray: load("fit_stingray"), token: app.config.token, videoId: current.videoId }, (book) => {
 
                         if (book.added) {
                             current.bookmark = true;
@@ -222,7 +218,7 @@ Application {
                         fit.loading = false;
                         videoItems.setFocus();
                     });
-                    */
+                    
                 }
             }
 
@@ -236,8 +232,8 @@ Application {
                 mainView.visible = false;
 
                 // Show player element and play url
-                fitSmartPlayer.visible = true;
                 fitSmartPlayer.title = model.get(videoItems.currentIndex).title;
+                fitSmartPlayer.visible = true;
                 fitSmartPlayer.playVideos(url);
             }
 
@@ -245,30 +241,9 @@ Application {
                 tab.setFocus();
             }
 
-            onLeftPressed: {
-                const currentIndex = videoItems.currentIndex + 1;
-                const videoItemModelCount = videoItems.model.count;
-                if (videoItemModelCount) {
-                    if (currentIndex === 1) return;
+            onLeftPressed: {}
 
-                    if (currentIndex <= videoItemModelCount) {
-                        videoItems.currentIndex -= 1;
-                    }
-                }
-            }
-
-            onRightPressed: {
-                const currentIndex = videoItems.currentIndex + 1;
-                const videoItemModelCount = videoItems.model.count;
-
-                if (videoItemModelCount) {
-                    if (currentIndex === videoItemModelCount) return;
-
-                    if (currentIndex < videoItemModelCount) {
-                        videoItems.currentIndex += 1;
-                    }
-                }
-            }
+            onRightPressed: {}
         }
 
         /**
@@ -286,6 +261,18 @@ Application {
             focus: false;
 
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+        }
+
+        ExerciseDetail {
+            id: exerciseDetailContainer;
+            anchors.top: mainView.top;
+            anchors.left: mainView.left;
+            anchors.right: mainView.right;
+            anchors.bottom: mainView.bottom;
+            anchors.margins: app.sizes.margin;
+
+            visible: false;
+            focus: false;
         }
 
         /**
@@ -322,36 +309,18 @@ Application {
 
             onDownPressed: {}
 
-            onLeftPressed: {
-                const currentIndex = nutritionItems.currentIndex + 1;
-                const nutritionItemModelCount = nutritionItems.model.count;
-                if (nutritionItemModelCount) {
-                    if (currentIndex === 1) return;
+            onLeftPressed: {}
 
-                    if (currentIndex <= nutritionItemModelCount) {
-                        nutritionItems.currentIndex -= 1;
-                    }
-                }
-            }
-
-            onRightPressed: {
-                const currentIndex = nutritionItems.currentIndex + 1;
-                const nutritionItemModelCount = nutritionItems.model.count;
-
-                if (nutritionItemModelCount) {
-                    if (currentIndex === nutritionItemModelCount) return;
-
-                    if (currentIndex < nutritionItemModelCount) {
-                        nutritionItems.currentIndex += 1;
-                    }
-                }
-            }
+            onRightPressed: {}
 
             onBackPressed: {
                 return log("Back => ", key);
             }
         }
 
+        /**
+        * Nutrition Detail
+        */
         NutritionDetail {
             id: nutritionDetail;
 
@@ -455,14 +424,21 @@ Application {
     * @return {Object} Id, isDark, integrated
     */
     function appInit(callback) {
-        app.httpServer(app.config.api.stingray, "GET", { stingray: load("stingray") || "", token: app.config.token }, (data) => {
+        app.httpServer(app.config.api.stingray, "GET", { stingray: load("fit_stingray") || "", token: app.config.token }, (data) => {
             if (!data.id) return callback(false);
     
-            // save stingray ID
-            save("stingray", data.id);
+            // save stingray
+            save("fit_stingray", data.id);
+            save("fit_integrated", data.integrated);
             fit.stingray = data;
             callback(true);
         });
+    }
+
+    onKeyPressed: {
+        if (key === "Blue") {
+            fit.fullscreen = !fit.fullscreen;
+        }
     }
 
     onBackPressed: {

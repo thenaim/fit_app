@@ -85,8 +85,8 @@ Item {
         anchors.horizontalCenter: nameText.horizontalCenter;
         anchors.margins: app.sizes.margin;
 
-        width: 100;
-        height: 100;
+        width: 50;
+        height: 50;
 
         visible: false;
         registerInCacheSystem: false;
@@ -179,7 +179,7 @@ Item {
 
     function sendVk(id) {
         fit.loading = true;
-        app.httpServer(app.config.api.nutritionSend, "GET", { stingray: load("stingray"), token: app.config.token, id: id }, (vk) => {
+        app.httpServer(app.config.api.nutritionSend, "GET", { stingray: load("fit_stingray"), token: app.config.token, id: id }, (vk) => {
 
             if (vk.sended) {
                 vkButton.visible = false;

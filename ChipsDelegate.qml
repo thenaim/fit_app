@@ -3,7 +3,7 @@ Rectangle {
     id: chipsDelegate;
     anchors.top: chipItems.top;
 
-    opacity: 1.0;
+    opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
     color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
     focus: true;
 

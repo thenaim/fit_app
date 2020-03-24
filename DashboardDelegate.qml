@@ -20,6 +20,7 @@ Item {
               black: true;
 		}
 	}
+
     Rectangle {
         id: progressDelegate;
         anchors.top: progressText.bottom;
@@ -51,14 +52,21 @@ Item {
 
             focus: true;
 
-            BodyText {
-                id: categoryText;
+            Text {
+                id: progressPointsText;
                 anchors.verticalCenter: parent.verticalCenter;
                 anchors.horizontalCenter: parent.horizontalCenter;
-                text: model.points + "/1000";
-                font.pointSize: 14;
+                opacity: 1.0;
 
                 color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+
+                text: model.points + "/1000";
+
+                font: Font {
+                    family: "Times";
+                    pixelSize: 24;
+                    black: true;
+                }
             }
         }
     }

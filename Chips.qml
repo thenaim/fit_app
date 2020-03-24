@@ -19,7 +19,7 @@ ListView {
     model: ListModel { id: chipModel; }
 
     function getChips(url, callback) {
-        app.httpServer(url, "GET", { stingray: load("stingray"), token: app.config.token }, (chips) => {
+        app.httpServer(url, "GET", { stingray: load("fit_stingray"), token: app.config.token }, (chips) => {
             chipsList.chipModel.reset();
             if (chips.length) {
                 chipsList.width = app.sizes.chips.width * chips.length;

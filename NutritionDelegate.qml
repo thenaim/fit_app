@@ -68,5 +68,7 @@ Rectangle {
             }
         }
     }
+
+    onCompleted: {}
 }
 

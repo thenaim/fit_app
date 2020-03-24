@@ -2,7 +2,7 @@
  * Server adress with IPv4 (for local tests)
  */
 
-const server = "http://192.168.1.64:8080";
+const server = "http://172.17.0.1:8080";
 
 /**
  * App config
@@ -17,6 +17,7 @@ this.config = {
         exercisesCategories: server + "/exercise/categories",
         addDeleteBookmark: server + "/bookmarks/addDelete",
         nutritionSend: server + "/nutrition/send",
+        exerciseSend: server + "/exercise/send",
         themeChange: server + "/settings/themechange"
     },
     animationDuration: 150,
@@ -58,6 +59,7 @@ this.tabs = [{
  * Theme colors - light and dark
  */
 this.theme = {
+    active: "#3F0B81",
     light: {
         background: "#03E4A1",
         textColor: "#000000",
@@ -109,6 +111,7 @@ this.sizes = {
  * @return {String} Wraped text with '\n'
  */
 this.wrapText = (text, maxLength) => {
+    text += "";
     const result = [];
     let line = [],
         length = 0;
@@ -151,8 +154,8 @@ this.httpServer = (url, method, params, callback) => {
     url = url + this.formatParams(params);
 
     const http = new XMLHttpRequest();
-    // http.setRequestHeader("Content-Type", "application/json");
-    // http.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    http.setRequestHeader("Content-Type", "application/json");
+    http.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     http.onreadystatechange = () => {
         if (http.readyState !== XMLHttpRequest.DONE) return callback(false);
         if (http.status !== 200) {

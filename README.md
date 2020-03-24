@@ -36,7 +36,7 @@ git clone https://github.com/thenaim/fit_app
 ```
 **Step 6.** Install IPv4 for server and app (for local work)
 
-On Server project set IPv4 and port on `app.js` 12 line.
+On Server project set IPv4 and port on `app.js` 15 line.
 
 On App project [StingrayTv] set IPv4 and port on `js/app.js` on 5 line.
 
