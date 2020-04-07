@@ -2,7 +2,7 @@
  * Server adress with IPv4 (for local tests)
  */
 
-const server = "http://172.17.0.1:8080";
+const server = "http://192.168.1.66:8080";
 
 /**
  * App config
@@ -23,6 +23,24 @@ this.config = {
     animationDuration: 150,
     inactiveOpacity: 0.4,
     defaultImage: "apps/fit_app/res/default_video_image.png"
+};
+
+/**
+ * App config
+ */
+this.texts = {
+    integrateSendVk: "Отправить упражнение в ВК",
+    notIntegrateSendVk: "Чтобы отправить интегрируйте приложение с ВК",
+    sended: "Отправлено!",
+    nutritionSended: "Ретцепт успешно отправлен!",
+    fullNutritionSend: "Отправить полный ретцепт в ВК",
+    checkIntegration: "Проверить интеграцию",
+    appFunctions: [
+        "1. Функция сделать полный экран. Это синяя кнопка на пульте.",
+        "2. Добавить в закладки. Это краная кнопка на пульте."
+    ],
+
+    doFullscreen: "-- Сделайте полный экран, чтобы посмотреть полную инструкцию упражнения ---"
 };
 
 /**
@@ -132,12 +150,16 @@ this.wrapText = (text, maxLength) => {
 
 /**
  * Format params
+ * Set auth token and stingray id
+ * 
  * @param  {Object} params
  * @return {String} formated params like "?a=1&b=2&c=3"
  */
-this.formatParams = (params) => {
-    // params.token = this.config.token;
-    return "?" + Object
+this.formatParams = (url, params) => {
+    params.token = this.config.token;
+    params.stingray = load("fit_stingray") || "";
+
+    return url + "?" + Object
         .keys(params)
         .map(function (key) {
             return key + "=" + encodeURIComponent(params[key]);
@@ -151,22 +173,28 @@ this.formatParams = (params) => {
  * @return {Function} callback with http result
  */
 this.httpServer = (url, method, params, callback) => {
-    url = url + this.formatParams(params);
+    url = this.formatParams(url, params);
 
     const http = new XMLHttpRequest();
     http.setRequestHeader("Content-Type", "application/json");
     http.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    http.timeout = 10000;
+
     http.onreadystatechange = () => {
-        if (http.readyState !== XMLHttpRequest.DONE) return callback(false);
-        if (http.status !== 200) {
+        if (http.readyState === XMLHttpRequest.DONE) {
+            if (http.status === 200) {
+                return callback(JSON.parse(http.responseText));
+            }
             log("Error status [httpServer function]", request.status);
             return callback(false);
         }
 
-        return callback(JSON.parse(http.responseText));
+    };
+
+    http.onerror = () => {
+        log("Error [httpServer function]", url);
     };
 
     http.open(method, url, true);
-
     http.send();
 };

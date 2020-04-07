@@ -36,9 +36,9 @@ git clone https://github.com/thenaim/fit_app
 ```
 **Step 6.** Install IPv4 for server and app (for local work)
 
-On Server project set IPv4 and port on `app.js` 15 line.
+On Server project set IPv4 and port on `.evn` file.
 
-On App project [StingrayTv] set IPv4 and port on `js/app.js` on 5 line.
+On App project [StingrayTv] set IPv4 and port on `js/app.js`. In line 5.
 
 **Step 7.** Run server
 ```sh
@@ -47,7 +47,7 @@ cd fit_server
 ```sh
 node app.js
 ```
-Ps: If everything is ok, then you see like: `App is running at http://192.168.1.64:8080` 
+Ps: If everything is ok, then you see like: `FitSmart server is running at http://192.168.1.64:8080` 
 
 **Step 8.** Run [StingrayTv Emulator]
 

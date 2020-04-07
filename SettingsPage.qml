@@ -4,7 +4,7 @@ import controls.Button;
 Item {
     id: settingPageItem;
     property string id;
-    property bool integrated;
+    property bool vkIntegrated;
 
     property string integratedText: "Интегрирован с ВК\nТеперь можно отправлять упражнения, рецепты и много другое.";
     property string notIntegratedText: "Не интегрирован с ВК\nПереходите в группу: https://vk.com/fit_Smart.\nДля подключения нужно отправит ID приложения.";
@@ -60,7 +60,7 @@ Item {
 
             fit.appInit((callback) => {
                 if (callback) {
-                    if (load("fit_integrated")) {
+                    if (load("fit_integratedVk")) {
                         integrateTextDes.text = settingPageItem.integratedText;
                     } else {
                         integrateTextDes.text = settingPageItem.notIntegratedText;
@@ -166,7 +166,7 @@ Item {
         opacity: 1;
         visible: true;
         color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-        text: "1. Функция сделать полный экран. Это синяя кнопка на пульте.\n2. Добавить в закладки. Это краная кнопка на пульте.";
+        text: app.texts.appFunctions.join("\r\n");
         wrapMode: Text.WordWrap;
 
         font: Font {
@@ -210,12 +210,11 @@ Item {
 
     function updateTheme(isDark) {
         fit.loading = true;
-        app.httpServer(app.config.api.themeChange, "GET", { stingray: load("fit_stingray"), token: app.config.token, isDark: isDark }, (theme) => {
+        app.httpServer(app.config.api.themeChange, "GET", { isDark: isDark }, (theme) => {
 
             if (theme.changed) {
                 fit.stingray.isDark = isDark;
                 fit.isDark = isDark;
-                log(fit.isDark);
             };
 
             fit.loading = false;
@@ -224,7 +223,7 @@ Item {
     }
 
     onVisibleChanged: {
-        if (load("fit_integrated")) {
+        if (load("fit_integratedVk")) {
             integrateTextDes.text = settingPageItem.integratedText;
         } else {
             integrateTextDes.text = settingPageItem.notIntegratedText;

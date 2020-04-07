@@ -5,7 +5,7 @@ Item {
     id: exerciseDetail;
     z: 2;
 
-    property bool integrated: false; 
+    property bool vkIntegrated: false; 
     property string vkId; 
     property string id;
     property string title;
@@ -127,19 +127,15 @@ Item {
             anchors.topMargin: app.sizes.margin / 2;
 
             color: activeFocus ? "#4680C2" : app.theme.light.background;
-            text: exerciseDetail.integrated ? "Отправить упражнение в ВК" : "Чтобы отправить интегрируйте приложение с ВК";
+            text: exerciseDetail.vkIntegrated ? "Отправить упражнение в ВК" : "Чтобы отправить интегрируйте приложение с ВК";
             radius: app.sizes.radius;
             visible: true;
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
 
             onSelectPressed: {
                 fit.loading = true;
-                if (exerciseDetail.integrated) {
-                    app.httpServer(app.config.api.exerciseSend, "GET", {
-                        stingray: load("fit_stingray"),
-                        token: app.config.token,
-                        id: exerciseDetail.id
-                    }, (vk) => {
+                if (exerciseDetail.vkIntegrated) {
+                    app.httpServer(app.config.api.exerciseSend, "GET", { id: exerciseDetail.id }, (vk) => {
 
                         if (vk.sended) {
                             vkButton.text = "Отправлено!"
@@ -202,13 +198,13 @@ Item {
 		
 		onTriggered: {
             this.stop();
-			vkButton.text = exerciseDetail.integrated ? "Отправить упражнение в ВК" : "Чтобы отправить интегрируйте приложение с ВК"
+			vkButton.text = exerciseDetail.vkIntegrated ? "Отправить упражнение в ВК" : "Чтобы отправить интегрируйте приложение с ВК"
 		}
 	}
 
 
     onVisibleChanged: {
-        exerciseDetail.integrated = fit.stingray.integrated;
+        exerciseDetail.vkIntegrated = fit.stingray.vkIntegrated;
         vkButton.setFocus();
     }
 

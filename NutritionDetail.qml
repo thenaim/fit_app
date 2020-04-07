@@ -179,7 +179,7 @@ Item {
 
     function sendVk(id) {
         fit.loading = true;
-        app.httpServer(app.config.api.nutritionSend, "GET", { stingray: load("fit_stingray"), token: app.config.token, id: id }, (vk) => {
+        app.httpServer(app.config.api.nutritionSend, "GET", { id: id }, (vk) => {
 
             if (vk.sended) {
                 vkButton.visible = false;
@@ -194,9 +194,9 @@ Item {
     onVisibleChanged: {
         nutritionDetail.stingray = fit.stingray;
 
-        // On page load check integrated or not
+        // On page load check vkIntegrated or not
         // integrate texts and button hide/show
-        if (nutritionDetail.stingray.integrated) {
+        if (nutritionDetail.stingray.vkIntegrated) {
             sendedText.visible = false;
             integrateText.visible = false
             vkButton.visible = true;

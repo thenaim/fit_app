@@ -25,7 +25,7 @@ GridView {
     
         fit.loading = true;
 
-        app.httpServer(url, "GET", { stingray: load("fit_stingray"), token: app.config.token }, (nutritions) => {
+        app.httpServer(url, "GET", {}, (nutritions) => {
             nutritionItemsList.nutritionModel.reset();
             if (nutritions.length) {
                 nutritions.forEach((nut) => {

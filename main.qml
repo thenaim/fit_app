@@ -140,7 +140,7 @@ Application {
                         fit.appInit((callback) => {
                             if (callback) {
                                 settingPageItem.id = fit.stingray.id;
-                                settingPageItem.integrated = fit.stingray.integrated;
+                                settingPageItem.vkIntegrated = fit.stingray.vkIntegrated;
                                 settingPage.visible = true;
                                 settingPage.setFocus();
                             }
@@ -200,7 +200,7 @@ Application {
                     
                     let current = model.get(videoItems.currentIndex);
                     fit.loading = true;
-                    app.httpServer(app.config.api.addDeleteBookmark, "GET", { stingray: load("fit_stingray"), token: app.config.token, videoId: current.videoId }, (book) => {
+                    app.httpServer(app.config.api.addDeleteBookmark, "GET", { videoId: current.videoId }, (book) => {
 
                         if (book.added) {
                             current.bookmark = true;
@@ -209,8 +209,6 @@ Application {
                         if (book.deleted) {
                             current.bookmark = false;
                         }
-
-                        log(JSON.stringify(book));
                         
                         model.remove(videoItems.currentIndex, 1);
                         model.insert(videoItems.currentIndex, current);
@@ -313,9 +311,7 @@ Application {
 
             onRightPressed: {}
 
-            onBackPressed: {
-                return log("Back => ", key);
-            }
+            onBackPressed: {}
         }
 
         /**
@@ -398,7 +394,7 @@ Application {
     * Hide player function
     */
     function hideFitSmartPlayer() {
-        // Hide elements
+        // Show (main) elements
         tab.visible = true;
         menuView.visible = true;
         mainView.visible = true;
@@ -421,16 +417,17 @@ Application {
     /**
     * App init
     * On first lunch - load & check stingray token and settings
-    * @return {Object} Id, isDark, integrated
+    * @return {Object} Id, isDark, vkIntegrated
     */
     function appInit(callback) {
-        app.httpServer(app.config.api.stingray, "GET", { stingray: load("fit_stingray") || "", token: app.config.token }, (data) => {
+        app.httpServer(app.config.api.stingray, "GET", {}, (data) => {
             if (!data.id) return callback(false);
     
             // save stingray
             save("fit_stingray", data.id);
-            save("fit_integrated", data.integrated);
+            save("fit_integratedVk", data.vkIntegrated);
             fit.stingray = data;
+
             callback(true);
         });
     }

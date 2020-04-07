@@ -106,7 +106,6 @@ Rectangle {
             model: ListModel { id: exerciseItemModel; }
             
             onSelectPressed: {
-                log("currentExerciseItemsList");
                 const currentExerciseItemsList = model.get(exerciseItemsList.currentIndex);
                 exerciseDetailContainer.id = currentExerciseItemsList.id;
                 exerciseDetailContainer.title = currentExerciseItemsList.title;
@@ -230,7 +229,7 @@ Rectangle {
         fit.loading = true;
         chipItems.getChips(app.config.api.exercisesCategories, (callback) => {
             if (callback) {
-                app.httpServer(app.config.api.exercises, "GET", { stingray: load("fit_stingray"), token: app.config.token, type: type }, (exercise) => {
+                app.httpServer(app.config.api.exercises, "GET", { type: type }, (exercise) => {
                     // reset models
                     exerciseItemsList.exerciseItemModel.reset();
 
@@ -255,7 +254,7 @@ Rectangle {
     }
 
     function updateExercises(type) {
-        app.httpServer(app.config.api.exercises, "GET", { stingray: load("fit_stingray"), token: app.config.token, type: type }, (exercise) => {
+        app.httpServer(app.config.api.exercises, "GET", { type: type }, (exercise) => {
             // reset models
             exerciseItemsList.exerciseItemModel.reset();
 

@@ -22,7 +22,7 @@ GridView {
     function getVideos(url) {
         fit.loading = true;
 
-        app.httpServer(url, "GET", { stingray: load("fit_stingray"), token: app.config.token }, (videos) => {
+        app.httpServer(url, "GET", {}, (videos) => {
             videoItemsList.videoModel.reset();
             if (videos.length) {
                 videos.forEach((vid) => {
