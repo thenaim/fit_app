@@ -159,7 +159,7 @@ Item {
 
     function sendVk(id) {
         fit.loading = true;
-        app.httpServer(app.config.api.nutritionSend, "GET", { id: id }, (vk) => {
+        app.httpServer(app.config.api.nutritionSend, "GET", { id: id }, "sendVk", (vk) => {
 
             if (vk.sended) {
                 vkButton.visible = false;

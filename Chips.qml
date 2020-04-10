@@ -19,7 +19,7 @@ ListView {
     model: ListModel { id: chipModel; }
 
     function getChips(url, callback) {
-        app.httpServer(url, "GET", {}, (chips) => {
+        app.httpServer(url, "GET", {}, "getChips", (chips) => {
             chipsList.chipModel.reset();
             if (chips.length) {
                 chipsList.width = app.sizes.chips.width * chips.length;

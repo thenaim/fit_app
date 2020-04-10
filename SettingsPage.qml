@@ -12,10 +12,136 @@ Item {
     opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
     width: 600;
 
+    /**
+    * FitSmart logo
+    */
+    Image {
+        id: fitSmartImage;
+        anchors.top: settingPageItem.top;
+        anchors.topMargin: -app.sizes.margin;
+
+        anchors.horizontalCenter: settingPage.horizontalCenter;
+        async: false;
+
+        source: fit.isDark ? "apps/fit_app/res/dark_logo.png" : "apps/fit_app/res/light_logo.png";
+    }
+
+    Item {
+        id: settingTexts;
+        anchors.top: fitSmartImage.bottom;
+        anchors.left: settingPageItem.left;
+        width: 600;
+
+        Text {
+            id: mainInfoText;
+            z: 3;
+
+            anchors.top: settingTexts.top;
+            anchors.left: settingTexts.left;
+            anchors.topMargin: app.sizes.margin;
+
+            opacity: 1;
+            visible: true;
+            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            text: "Информация:";
+            wrapMode: Text.WordWrap;
+
+            font: Font {
+                family: "Times";
+                pixelSize: 30;
+                black: true;
+            }
+        }
+
+        Text {
+            id: integrateText;
+            z: 3;
+
+            anchors.top: mainInfoText.bottom;
+            anchors.left: mainInfoText.left;
+            anchors.topMargin: app.sizes.margin / 2;
+
+            opacity: 1;
+            visible: true;
+            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            text: "ID: " + settingPageItem.id;
+            wrapMode: Text.WordWrap;
+
+            font: Font {
+                family: "Times";
+                pixelSize: 28;
+                black: true;
+            }
+        }
+
+        Text {
+            id: integrateTextDes;
+            z: 3;
+
+            anchors.top: integrateText.bottom;
+            anchors.left: integrateText.left;
+            anchors.topMargin: app.sizes.margin / 2;
+
+            opacity: 1;
+            visible: true;
+            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            text: "";
+            wrapMode: Text.WordWrap;
+
+            font: Font {
+                family: "Times";
+                pixelSize: 26;
+                black: true;
+            }
+        }
+
+        Text {
+            id: infoTitleText;
+            z: 3;
+
+            anchors.top: integrateTextDes.bottom;
+            anchors.left: integrateTextDes.left;
+            anchors.topMargin: app.sizes.margin;
+
+            opacity: 1;
+            visible: true;
+            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            text: "Инструкция:";
+            wrapMode: Text.WordWrap;
+
+            font: Font {
+                family: "Times";
+                pixelSize: 30;
+                black: true;
+            }
+        }
+
+        Text {
+            id: infoTextDes;
+            z: 3;
+
+            anchors.top: infoTitleText.bottom;
+            anchors.left: infoTitleText.left;
+            anchors.topMargin: app.sizes.margin / 2;
+
+            opacity: 1;
+            visible: true;
+            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            text: app.texts.appFunctions.join("\r\n");
+            wrapMode: Text.WordWrap;
+
+            font: Font {
+                family: "Times";
+                pixelSize: 24;
+                black: true;
+            }
+        }
+    }
+
     Button {
         id: themeChanger;
-        anchors.top: settingPageItem.top;
-        anchors.left: settingPageItem.left;
+        anchors.top: fitSmartImage.bottom;
+        anchors.right: settingPageItem.right;
 
         opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
         color: activeFocus ? app.theme.active : app.theme.light.background;
@@ -40,7 +166,7 @@ Item {
         id: reloadIntegrated;
 
         anchors.top: themeChanger.bottom;
-        anchors.left: settingPageItem.left;
+        anchors.right: settingPageItem.right;
         anchors.topMargin: app.sizes.margin;
 
         opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
@@ -68,111 +194,6 @@ Item {
                     fit.loading = false;
                 }
             });
-        }
-    }
-
-    Text {
-        id: mainInfoText;
-        z: 3;
-
-        anchors.top: reloadIntegrated.bottom;
-        anchors.left: reloadIntegrated.left;
-        anchors.topMargin: app.sizes.margin;
-
-        opacity: 1;
-        visible: true;
-        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-        text: "Информация:";
-        wrapMode: Text.WordWrap;
-
-        font: Font {
-            family: "Times";
-            pixelSize: 30;
-            black: true;
-        }
-    }
-
-    Text {
-        id: integrateText;
-        z: 3;
-
-        anchors.top: mainInfoText.bottom;
-        anchors.left: mainInfoText.left;
-        anchors.topMargin: app.sizes.margin / 2;
-
-        opacity: 1;
-        visible: true;
-        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-        text: "ID: " + settingPageItem.id;
-        wrapMode: Text.WordWrap;
-
-        font: Font {
-            family: "Times";
-            pixelSize: 28;
-            black: true;
-        }
-    }
-
-    Text {
-        id: integrateTextDes;
-        z: 3;
-
-        anchors.top: integrateText.bottom;
-        anchors.left: integrateText.left;
-        anchors.topMargin: app.sizes.margin / 2;
-
-        opacity: 1;
-        visible: true;
-        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-        text: "";
-        wrapMode: Text.WordWrap;
-
-        font: Font {
-            family: "Times";
-            pixelSize: 26;
-            black: true;
-        }
-    }
-
-    Text {
-        id: infoTitleText;
-        z: 3;
-
-        anchors.top: integrateTextDes.bottom;
-        anchors.left: integrateTextDes.left;
-        anchors.topMargin: app.sizes.margin;
-
-        opacity: 1;
-        visible: true;
-        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-        text: "Инструкция:";
-        wrapMode: Text.WordWrap;
-
-        font: Font {
-            family: "Times";
-            pixelSize: 30;
-            black: true;
-        }
-    }
-
-     Text {
-        id: infoTextDes;
-        z: 3;
-
-        anchors.top: infoTitleText.bottom;
-        anchors.left: infoTitleText.left;
-        anchors.topMargin: app.sizes.margin / 2;
-
-        opacity: 1;
-        visible: true;
-        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-        text: app.texts.appFunctions.join("\r\n");
-        wrapMode: Text.WordWrap;
-
-        font: Font {
-            family: "Times";
-            pixelSize: 24;
-            black: true;
         }
     }
 
@@ -210,7 +231,7 @@ Item {
 
     function updateTheme(isDark) {
         fit.loading = true;
-        app.httpServer(app.config.api.themeChange, "GET", { isDark: isDark }, (theme) => {
+        app.httpServer(app.config.api.themeChange, "GET", { isDark: isDark }, "updateTheme", (theme) => {
 
             if (theme.changed) {
                 fit.stingray.isDark = isDark;

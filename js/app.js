@@ -172,7 +172,7 @@ this.formatParams = (url, params) => {
  * @param  {String} url, method, body
  * @return {Function} callback with http result
  */
-this.httpServer = (url, method, params, callback) => {
+this.httpServer = (url, method, params, functionName, callback) => {
     url = this.formatParams(url, params);
 
     const http = new XMLHttpRequest();
@@ -187,7 +187,7 @@ this.httpServer = (url, method, params, callback) => {
             } else {
                 log("\n----",
                     "\nError http server status:", http.status,
-                    "\nFile: app.js 183 line",
+                    "\nFunction name:", functionName,
                     "\nError url:", url,
                     "\nText response:", http.responseText ? http.responseText : null,
                     "\n----");

@@ -95,13 +95,33 @@ Item {
         }
     }
 
+    ScrollingText {
+        id: descriptionexerciseText;
+        anchors.top: exercisesImages.bottom;
+        anchors.left: exercisesImages.left;
+        anchors.right: exercisesImages.right;
+        anchors.bottom: descriptionAndButton.top;
+        anchors.topMargin: app.sizes.margin;
+
+        opacity: 1.0;
+
+        visible: fit.fullscreen;
+        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+        text: exerciseDetail.description;
+
+        font: secondaryFont;
+    }
+
 
     Item {
         id: descriptionAndButton;
-        anchors.top: exercisesImages.bottom;
+        anchors.top: descriptionexerciseText.visible ? descriptionexerciseText.bottom : exercisesImages.bottom;
         anchors.left: exercisesImages.left;
+        anchors.right: exercisesImages.right;
+        anchors.bottom: exerciseDetail.bottom;
         anchors.topMargin: app.sizes.margin;
         anchors.horizontalCenter: exerciseDetail.horizontalCenter;
+        visible: !fit.fullscreen;
 
         Image {
             id: vkButtonImage;
@@ -131,11 +151,14 @@ Item {
             radius: app.sizes.radius;
             visible: true;
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+            font: Font {
+                pixelSize: 15;
+            }
 
             onSelectPressed: {
                 fit.loading = true;
                 if (exerciseDetail.vkIntegrated) {
-                    app.httpServer(app.config.api.exerciseSend, "GET", { id: exerciseDetail.id }, (vk) => {
+                    app.httpServer(app.config.api.exerciseSend, "GET", "vkButton", { id: exerciseDetail.id }, (vk) => {
 
                         if (vk.sended) {
                             vkButton.text = "Отправлено!"
@@ -146,12 +169,6 @@ Item {
                     });
                 }
             }
-
-            onLeftPressed: {
-                fullscreenButton.setFocus();
-            }
-            
-            onTopPressed: {}
         }
 
         Text {
@@ -168,24 +185,6 @@ Item {
             font: Font {
                 family: "Times";
                 pixelSize: 24;
-                black: true;
-            }
-        }
-
-        Text {
-            id: descriptionexerciseText;
-            anchors.top: exercisesImages.bottom;
-            anchors.left: descriptionAndButton.left;
-            anchors.topMargin: app.sizes.margin;
-
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-
-            visible: fit.fullscreen;
-            text: app.wrapText(exerciseDetail.description, 280);
-
-            font: Font {
-                family: "Times";
-                pixelSize: 22;
                 black: true;
             }
         }

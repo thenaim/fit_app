@@ -229,7 +229,7 @@ Rectangle {
         fit.loading = true;
         chipItems.getChips(app.config.api.exercisesCategories, (callback) => {
             if (callback) {
-                app.httpServer(app.config.api.exercises, "GET", { type: type }, (exercise) => {
+                app.httpServer(app.config.api.exercises, "GET", { type: type }, "getChipsAndExercises", (exercise) => {
                     // reset models
                     exerciseItemsList.exerciseItemModel.reset();
 
@@ -254,7 +254,7 @@ Rectangle {
     }
 
     function updateExercises(type) {
-        app.httpServer(app.config.api.exercises, "GET", { type: type }, (exercise) => {
+        app.httpServer(app.config.api.exercises, "GET", { type: type }, "updateExercises", (exercise) => {
             // reset models
             exerciseItemsList.exerciseItemModel.reset();
 

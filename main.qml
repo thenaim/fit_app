@@ -27,22 +27,6 @@ Application {
     color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
 
     /**
-    * FitSmart logo
-    */
-    Image {
-        id: fitSmartImage;
-
-        anchors.top: mainWindow.top;
-        anchors.left: mainWindow.left;
-        anchors.topMargin: app.sizes.tabCards.width / 4;
-
-        // anchors.horizontalCenter: menuView.horizontalCenter;
-        async: false;
-
-        source: fit.isDark ? "apps/fit_app/res/dark_logo.png" : "apps/fit_app/res/light_logo.png";
-    }
-
-    /**
     * Main tabs
     */
     Tab {
@@ -165,7 +149,7 @@ Application {
                     
                     let current = model.get(videoItems.currentIndex);
                     fit.loading = true;
-                    app.httpServer(app.config.api.addDeleteBookmark, "GET", { videoId: current.videoId }, (book) => {
+                    app.httpServer(app.config.api.addDeleteBookmark, "GET", { videoId: current.videoId }, "Add bookmark key: Red", (book) => {
 
                         if (book.added) {
                             current.bookmark = true;
@@ -385,7 +369,7 @@ Application {
     * @return {Object} Id, isDark, vkIntegrated
     */
     function appInit(callback) {
-        app.httpServer(app.config.api.stingray, "GET", {}, (data) => {
+        app.httpServer(app.config.api.stingray, "GET", {}, "appInit", (data) => {
             if (!data.id) return callback(false);
     
             // save stingray

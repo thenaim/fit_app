@@ -23,7 +23,7 @@ GridView {
     function getVideos(url) {
         fit.loading = true;
 
-        app.httpServer(url, "GET", {}, (videos) => {
+        app.httpServer(url, "GET", {}, "getVideos", (videos) => {
             videoItemsList.videoModel.reset();
             if (videos.length) {
                 videos.forEach((vid) => {

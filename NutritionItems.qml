@@ -25,7 +25,7 @@ GridView {
     
         fit.loading = true;
 
-        app.httpServer(url, "GET", {}, (nutritions) => {
+        app.httpServer(url, "GET", {}, "getNutritions", (nutritions) => {
             nutritionItemsList.nutritionModel.reset();
             if (nutritions.length) {
                 nutritions.forEach((nut) => {
