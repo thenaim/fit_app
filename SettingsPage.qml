@@ -28,38 +28,16 @@ Item {
 
     Item {
         id: settingTexts;
+        z: 3;
         anchors.top: fitSmartImage.bottom;
         anchors.left: settingPageItem.left;
         width: 600;
 
         Text {
-            id: mainInfoText;
-            z: 3;
+            id: integrateText;
 
             anchors.top: settingTexts.top;
             anchors.left: settingTexts.left;
-            anchors.topMargin: app.sizes.margin;
-
-            opacity: 1;
-            visible: true;
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: "Информация:";
-            wrapMode: Text.WordWrap;
-
-            font: Font {
-                family: "Times";
-                pixelSize: 30;
-                black: true;
-            }
-        }
-
-        Text {
-            id: integrateText;
-            z: 3;
-
-            anchors.top: mainInfoText.bottom;
-            anchors.left: mainInfoText.left;
-            anchors.topMargin: app.sizes.margin / 2;
 
             opacity: 1;
             visible: true;
@@ -69,14 +47,13 @@ Item {
 
             font: Font {
                 family: "Times";
-                pixelSize: 28;
+                pixelSize: 26;
                 black: true;
             }
         }
 
         Text {
             id: integrateTextDes;
-            z: 3;
 
             anchors.top: integrateText.bottom;
             anchors.left: integrateText.left;
@@ -97,7 +74,6 @@ Item {
 
         Text {
             id: infoTitleText;
-            z: 3;
 
             anchors.top: integrateTextDes.bottom;
             anchors.left: integrateTextDes.left;
@@ -118,7 +94,6 @@ Item {
 
         Text {
             id: infoTextDes;
-            z: 3;
 
             anchors.top: infoTitleText.bottom;
             anchors.left: infoTitleText.left;

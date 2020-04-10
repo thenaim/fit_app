@@ -34,7 +34,6 @@ Application {
         id: tab;
         anchors.top: mainWindow.top;
         anchors.margins: app.sizes.margin;
-        // anchors.leftMargin: menuView.width + (app.sizes.margin * 3);
 
         anchors.horizontalCenter: mainWindow.horizontalCenter;
         width: app.sizes.tabCards.width * app.tabs.length;
@@ -44,75 +43,7 @@ Application {
 
         onKeyPressed: {
             if (key === "Select" || key === "Down") {
-                const tabCurrent = {
-                    index: tab.currentIndex,
-                    data: model.get(tab.currentIndex)
-                };
-
-                switch (tabCurrent.data.id) {
-                    case "video":
-                        videoItems.visible = true;
-                        exercisesPageContainer.visible = false;
-                        nutritionItems.visible = false;
-                        statsPage.visible = false;
-                        settingPage.visible = false;
-                        videoItems.setFocus();
-                        videoItems.getVideos(tabCurrent.data.url);
-                        break;
-                    case "exercises":
-                        videoItems.visible = false;
-                        exercisesPageContainer.visible = true;
-                        nutritionItems.visible = false;
-                        statsPage.visible = false;
-                        settingPage.visible = false;
-                        exercisesPageContainer.setFocus();
-                        exercisesPageContainer.getChipsAndExercises("Abs");
-                        break;
-                    case "nutrition":
-                        videoItems.visible = false;
-                        exercisesPageContainer.visible = false;
-                        nutritionItems.visible = true;
-                        statsPage.visible = false;
-                        settingPage.visible = false;
-                        nutritionItems.setFocus();
-                        nutritionItems.getNutritions(tabCurrent.data.url);
-                        break;
-                    case "bookmark":
-                        videoItems.visible = true;
-                        exercisesPageContainer.visible = false;
-                        nutritionItems.visible = false;
-                        statsPage.visible = false;
-                        settingPage.visible = false;
-                        videoItems.setFocus();
-                        videoItems.getVideos(tabCurrent.data.url);
-                        break;
-                    case "stats":
-                        statsPage.visible = true;
-                        videoItems.visible = false;
-                        exercisesPageContainer.visible = false;
-                        nutritionItems.visible = false;
-                        settingPage.visible = false;
-                        statsPage.setFocus();
-                        break;                        
-                    case "setting":
-                        videoItems.visible = false;
-                        exercisesPageContainer.visible = false;
-                        nutritionItems.visible = false;
-                        statsPage.visible = false;
-
-                        fit.appInit((callback) => {
-                            if (callback) {
-                                settingPageItem.id = fit.stingray.id;
-                                settingPageItem.vkIntegrated = fit.stingray.vkIntegrated;
-                                settingPage.visible = true;
-                                settingPage.setFocus();
-                            }
-                        });
-
-                        break;
-                    default:
-                        break;
-                }
+                app.onTabChange();
             }
         }
 
@@ -158,28 +89,8 @@ Application {
 
             onKeyPressed: {
                 if (key === "Red") {
-
-                    // TODO: Add Bookmarks
-                    
                     let current = model.get(videoItems.currentIndex);
-                    fit.loading = true;
-                    app.httpServer(app.config.api.addDeleteBookmark, "GET", { videoId: current.videoId }, "Add bookmark key: Red", (book) => {
-
-                        if (book.added) {
-                            current.bookmark = true;
-                        }
-
-                        if (book.deleted) {
-                            current.bookmark = false;
-                        }
-                        
-                        model.remove(videoItems.currentIndex, 1);
-                        model.insert(videoItems.currentIndex, current);
-
-                        fit.loading = false;
-                        videoItems.setFocus();
-                    });
-                    
+                    app.addVideoToBookmark(current);
                 }
             }
 
@@ -286,7 +197,6 @@ Application {
             anchors.top: mainView.top;
             anchors.horizontalCenter: mainWindow.horizontalCenter;
             anchors.margins: app.sizes.margin;
-            // anchors.leftMargin: menuView.width + app.sizes.margin;
 
             width: 720;
             visible: false;

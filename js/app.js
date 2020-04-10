@@ -209,3 +209,103 @@ this.httpServer = (url, method, params, functionName, callback) => {
     http.open(method, url, true);
     http.send();
 };
+
+/**
+ * On change tab select page
+ */
+this.onTabChange = () => {
+    const tabCurrent = {
+        index: tab.currentIndex,
+        data: model.get(tab.currentIndex)
+    };
+
+    switch (tabCurrent.data.id) {
+        case "video":
+            videoItems.visible = true;
+            exercisesPageContainer.visible = false;
+            nutritionItems.visible = false;
+            statsPage.visible = false;
+            settingPage.visible = false;
+            videoItems.setFocus();
+            videoItems.getVideos(tabCurrent.data.url);
+            break;
+        case "exercises":
+            videoItems.visible = false;
+            exercisesPageContainer.visible = true;
+            nutritionItems.visible = false;
+            statsPage.visible = false;
+            settingPage.visible = false;
+            exercisesPageContainer.setFocus();
+            exercisesPageContainer.getChipsAndExercises("Abs");
+            break;
+        case "nutrition":
+            videoItems.visible = false;
+            exercisesPageContainer.visible = false;
+            nutritionItems.visible = true;
+            statsPage.visible = false;
+            settingPage.visible = false;
+            nutritionItems.setFocus();
+            nutritionItems.getNutritions(tabCurrent.data.url);
+            break;
+        case "bookmark":
+            videoItems.visible = true;
+            exercisesPageContainer.visible = false;
+            nutritionItems.visible = false;
+            statsPage.visible = false;
+            settingPage.visible = false;
+            videoItems.setFocus();
+            videoItems.getVideos(tabCurrent.data.url);
+            break;
+        case "stats":
+            statsPage.visible = true;
+            videoItems.visible = false;
+            exercisesPageContainer.visible = false;
+            nutritionItems.visible = false;
+            settingPage.visible = false;
+            statsPage.setFocus();
+            break;
+        case "setting":
+            videoItems.visible = false;
+            exercisesPageContainer.visible = false;
+            nutritionItems.visible = false;
+            statsPage.visible = false;
+
+            fit.appInit((callback) => {
+                if (callback) {
+                    settingPageItem.id = fit.stingray.id;
+                    settingPageItem.vkIntegrated = fit.stingray.vkIntegrated;
+                    settingPage.visible = true;
+                    settingPage.setFocus();
+                }
+            });
+
+            break;
+        default:
+            break;
+    }
+};
+
+/**
+ * On select video add to bookmark
+ */
+this.addVideoToBookmark = (current) => {
+    fit.loading = true;
+    this.httpServer(app.config.api.addDeleteBookmark, "GET", {
+        videoId: current.videoId
+    }, "Add bookmark key: Red", (book) => {
+
+        if (book.added) {
+            current.bookmark = true;
+        }
+
+        if (book.deleted) {
+            current.bookmark = false;
+        }
+
+        videoItems.model.remove(videoItems.currentIndex, 1);
+        videoItems.model.insert(videoItems.currentIndex, current);
+
+        fit.loading = false;
+        videoItems.setFocus();
+    });
+};
