@@ -2,7 +2,7 @@
  * Server adress with IPv4 (for local tests)
  */
 
-const server = "http://192.168.1.66:8080";
+const server = "http://192.168.1.72:8080";
 
 /**
  * App config
@@ -21,7 +21,7 @@ this.config = {
         themeChange: server + "/settings/themechange"
     },
     animationDuration: 150,
-    inactiveOpacity: 0.4,
+    inactiveOpacity: 0.6,
     defaultImage: "apps/fit_app/res/default_video_image.png"
 };
 
@@ -181,17 +181,23 @@ this.httpServer = (url, method, params, callback) => {
     http.timeout = 10000;
 
     http.onreadystatechange = () => {
-        if (http.readyState === XMLHttpRequest.DONE) {
+        if (http.readyState === 4) {
             if (http.status === 200) {
                 return callback(JSON.parse(http.responseText));
+            } else {
+                log("\n----",
+                    "\nError http server status:", http.status,
+                    "\nFile: app.js 183 line",
+                    "\nError url:", url,
+                    "\nText response:", http.responseText ? http.responseText : null,
+                    "\n----");
+                return callback(false);
             }
-            log("Error status [httpServer function]", request.status);
-            return callback(false);
         }
 
     };
 
-    http.onerror = () => {
+    http.onerror = function (e) {
         log("Error [httpServer function]", url);
     };
 

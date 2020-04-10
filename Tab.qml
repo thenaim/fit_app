@@ -5,7 +5,7 @@ import "js/app.js" as app;
 ListView {
     id: tabList;
 
-    orientation: dashboardList.horizontal;
+    orientation: mainWindow.horizontal;
     property bool loading: false;
 
     visible: !loading;

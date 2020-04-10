@@ -144,7 +144,7 @@ Rectangle {
                 z: 2;
                 color: exerciseItemsList.highlightColor;
                 anchors.bottom: exerciseItemsList.bottom;
-                opacity: exerciseItemsList.activeFocus ? 1 : 0.6;
+                opacity: exerciseItemsList.activeFocus ? 0.4 : 0.2;
                 visible: exerciseItemsList.count;
 
                 doHighlight: {

@@ -157,26 +157,6 @@ Item {
         }
     }
 
-    Image {
-        id: settingThemeLogo;
-        z: 1;
-        opacity: 0.2;
-
-        anchors.bottom: nutritionDetail.bottom;
-        anchors.bottomMargin: -20;
-        anchors.horizontalCenter: nutritionDetail.horizontalCenter;
-        height: 300;
-
-        registerInCacheSystem: false;
-        async: false;
-        fillMode: PreserveAspectFit;
-
-        source: "apps/fit_app/res/mode_" + (fit.isDark ? "dark.png" : "light.png");
-
-        Behavior on width  { animation: Animation { duration: app.config.animationDuration; } }
-        Behavior on height { animation: Animation { duration: app.config.animationDuration; } }
-    }
-
     function sendVk(id) {
         fit.loading = true;
         app.httpServer(app.config.api.nutritionSend, "GET", { id: id }, (vk) => {

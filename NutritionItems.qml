@@ -80,7 +80,7 @@ GridView {
 
         visible: nutritionItemsList.count;
 
-		opacity: parent.activeFocus && nutritionItemsList.count ? 0.3 : 0.6;
+		opacity: parent.activeFocus && nutritionItemsList.count ? 0.4 : 0.2;
 		color: nutritionItemsList.highlightColor;
         radius: app.sizes.radius;
 

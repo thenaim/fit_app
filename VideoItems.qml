@@ -4,6 +4,7 @@ import "js/app.js" as app;
 
 GridView {
     id: videoItemsList;
+	z: 1;
 
     property bool loading: false;
 
@@ -67,14 +68,14 @@ GridView {
 
 	Rectangle {
 		id: highlight;
-        z: 2;
+		z: 2;
 
         width: app.sizes.poster.width - 4;
         height: app.sizes.poster.height * 2 - 12;
 
         visible: videoItemsList.count;
 
-		opacity: parent.activeFocus && videoItemsList.count ? 0.3 : 0.6;
+		opacity: parent.activeFocus && videoItemsList.count ? 0.4 : 0.2;
 		color: videoItemsList.highlightColor;
         // radius: app.sizes.radius;
 

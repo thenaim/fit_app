@@ -6,7 +6,7 @@ ListView {
     id: chipsList;
     z: 1;
     property int position: 0;
-    orientation: dashboardList.horizontal;
+    orientation: mainWindow.horizontal;
 
     height: app.sizes.chips.height;
     spacing: 10;

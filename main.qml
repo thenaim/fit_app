@@ -27,55 +27,20 @@ Application {
     color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
 
     /**
-    * Left side container (Dashboard)
+    * FitSmart logo
     */
-    Rectangle {
-		id: menuView;
-        visible: true;
-		width: 320;
-	
+    Image {
+        id: fitSmartImage;
+
+        anchors.top: mainWindow.top;
         anchors.left: mainWindow.left;
-        anchors.top: tab.bottom;
-        anchors.bottom: mainWindow.bottom;
-        anchors.margins: app.sizes.margin;
+        anchors.topMargin: app.sizes.tabCards.width / 4;
 
-		radius: app.sizes.radius;
-		color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
+        // anchors.horizontalCenter: menuView.horizontalCenter;
+        async: false;
 
-        /**
-        * FitSmart logo
-        */
-        Image {
-            id: fitSmartImage;
-
-            anchors.bottom: menuView.top;
-            anchors.topMargin: app.sizes.tabCards.width / 4;
-
-            anchors.horizontalCenter: menuView.horizontalCenter;
-            async: false;
-
-            source: fit.isDark ? "apps/fit_app/res/dark_logo.png" : "apps/fit_app/res/light_logo.png";
-        }
-
-        /**
-        * Dashboard (left side)
-        */
-        Dashboard {
-            id: dashboard;
-
-            anchors.top: menuView.top;
-            anchors.left: menuView.left;
-            anchors.right: menuView.right;
-            anchors.bottom: menuView.bottom;
-            anchors.margins: app.sizes.margin;
-
-            anchors.verticalCenter: menuView.verticalCenter;
-
-            spacing: app.sizes.margin;
-            focus: false;
-            opacity: 1.0;
-        }
-	}
+        source: fit.isDark ? "apps/fit_app/res/dark_logo.png" : "apps/fit_app/res/light_logo.png";
+    }
 
     /**
     * Main tabs
@@ -84,7 +49,7 @@ Application {
         id: tab;
         anchors.top: mainWindow.top;
         anchors.margins: app.sizes.margin;
-        anchors.leftMargin: menuView.width + (app.sizes.margin * 3);
+        // anchors.leftMargin: menuView.width + (app.sizes.margin * 3);
 
         anchors.horizontalCenter: mainWindow.horizontalCenter;
         width: app.sizes.tabCards.width * app.tabs.length;
@@ -166,9 +131,9 @@ Application {
         z: 2;
 
         anchors.top: fit.fullscreen ? mainWindow.top : tab.bottom;
-        anchors.left: fit.fullscreen ? mainWindow.left : menuView.right;
-        anchors.right: fit.fullscreen ? mainWindow.right : mainWindow.right;
-        anchors.bottom: fit.fullscreen ? mainWindow.bottom : mainWindow.bottom;
+        anchors.left: mainWindow.left;
+        anchors.right: mainWindow.right;
+        anchors.bottom: mainWindow.bottom;
         anchors.margins: fit.fullscreen ? 0 : app.sizes.margin;
 
 		radius: fit.fullscreen ? 0 : app.sizes.radius;
@@ -226,7 +191,7 @@ Application {
 
                 // Hide elements
                 tab.visible = false;
-                menuView.visible = false;
+                // menuView.visible = false;
                 mainView.visible = false;
 
                 // Show player element and play url
@@ -323,7 +288,7 @@ Application {
             anchors.top: mainView.top;
             anchors.horizontalCenter: mainWindow.horizontalCenter;
             anchors.margins: app.sizes.margin;
-            anchors.leftMargin: menuView.width + app.sizes.margin;
+            // anchors.leftMargin: menuView.width + app.sizes.margin;
 
             width: 720;
             visible: false;
@@ -396,7 +361,7 @@ Application {
     function hideFitSmartPlayer() {
         // Show (main) elements
         tab.visible = true;
-        menuView.visible = true;
+        // menuView.visible = true;
         mainView.visible = true;
 
         // Hide player
