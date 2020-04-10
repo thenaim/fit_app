@@ -67,6 +67,11 @@ this.tabs = [{
         url: server + "/bookmarks"
     },
     {
+        id: "stats",
+        title: "Статистика",
+        url: server + "/stats"
+    },
+    {
         id: "setting",
         title: "Настройки",
         url: server + "/settings"

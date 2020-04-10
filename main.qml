@@ -8,6 +8,7 @@ import "ExercisesPage.qml";
 import "ExerciseDetail.qml";
 import "NutritionItems.qml";
 import "NutritionDetail.qml";
+import "StatsPage.qml";
 import "SettingsPage.qml";
 import "FitSmartPlayer.qml";
 
@@ -53,6 +54,7 @@ Application {
                         videoItems.visible = true;
                         exercisesPageContainer.visible = false;
                         nutritionItems.visible = false;
+                        statsPage.visible = false;
                         settingPage.visible = false;
                         videoItems.setFocus();
                         videoItems.getVideos(tabCurrent.data.url);
@@ -61,6 +63,7 @@ Application {
                         videoItems.visible = false;
                         exercisesPageContainer.visible = true;
                         nutritionItems.visible = false;
+                        statsPage.visible = false;
                         settingPage.visible = false;
                         exercisesPageContainer.setFocus();
                         exercisesPageContainer.getChipsAndExercises("Abs");
@@ -69,6 +72,7 @@ Application {
                         videoItems.visible = false;
                         exercisesPageContainer.visible = false;
                         nutritionItems.visible = true;
+                        statsPage.visible = false;
                         settingPage.visible = false;
                         nutritionItems.setFocus();
                         nutritionItems.getNutritions(tabCurrent.data.url);
@@ -77,14 +81,24 @@ Application {
                         videoItems.visible = true;
                         exercisesPageContainer.visible = false;
                         nutritionItems.visible = false;
+                        statsPage.visible = false;
                         settingPage.visible = false;
                         videoItems.setFocus();
                         videoItems.getVideos(tabCurrent.data.url);
                         break;
+                    case "stats":
+                        statsPage.visible = true;
+                        videoItems.visible = false;
+                        exercisesPageContainer.visible = false;
+                        nutritionItems.visible = false;
+                        settingPage.visible = false;
+                        statsPage.setFocus();
+                        break;                        
                     case "setting":
                         videoItems.visible = false;
                         exercisesPageContainer.visible = false;
                         nutritionItems.visible = false;
+                        statsPage.visible = false;
 
                         fit.appInit((callback) => {
                             if (callback) {
@@ -285,6 +299,27 @@ Application {
                 nutritionItems.visible = true;
                 nutritionItems.setFocus();
             }
+        }
+
+        /**
+        * Stats Page
+        */
+        StatsPage {
+            id: statsPage;
+
+            anchors.top: mainView.top;
+            anchors.left: mainView.left;
+            anchors.right: mainView.right;
+            anchors.bottom: mainView.bottom;
+            anchors.margins: app.sizes.margin;
+
+            visible: false;
+            focus: false;
+
+            onUpPressed: {
+                tab.setFocus();
+            }
+            
         }
 
         /**
