@@ -6,7 +6,7 @@ import "Tab.qml";
 import "VideoItems.qml";
 import "ExercisesPage.qml";
 import "ExerciseDetail.qml";
-import "NutritionItems.qml";
+import "NutritionPage.qml";
 import "NutritionDetail.qml";
 import "StatsPage.qml";
 import "SettingsPage.qml";
@@ -149,7 +149,6 @@ Application {
 
         /**
         * Nutrition Items
-        */
         NutritionItems {
             id: nutritionItems;
 
@@ -187,6 +186,21 @@ Application {
 
             onBackPressed: {}
         }
+        */
+
+        NutritionPage {
+            id: nutritionPageContainer;
+            anchors.top: mainView.top;
+            anchors.left: mainView.left;
+            anchors.right: mainView.right;
+            anchors.bottom: mainView.bottom;
+            anchors.margins: app.sizes.margin;
+
+            visible: false;
+            focus: false;
+
+            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+        }
 
         /**
         * Nutrition Detail
@@ -206,8 +220,8 @@ Application {
 
             onClosed: {
                 nutritionDetail.visible = false;
-                nutritionItems.visible = true;
-                nutritionItems.setFocus();
+                nutritionPageContainer.visible = true;
+                nutritionPageContainer.setFocus();
             }
         }
 
@@ -285,6 +299,14 @@ Application {
     }
 
     /**
+    * NotificatorManager
+    */
+    NotificatorManager {
+        id: notificatorManager;
+        text: "";
+    }
+
+    /**
     * Hide player function
     */
     function hideFitSmartPlayer() {
@@ -302,10 +324,11 @@ Application {
 
 
     /**
-    * Change app theme
+    * Show Notification
     */
-    function changeTheme() {
-        fit.isDark = !fit.isDark;
+    function showNotification(text) {
+        notificatorManager.text = text;
+        notificatorManager.addNotify();
     }
 
     /**
@@ -318,8 +341,8 @@ Application {
             if (!data.id) return callback(false);
     
             // save stingray
-            save("fit_stingray", data.id);
-            save("fit_integratedVk", data.vkIntegrated);
+            save("fit_stingray", JSON.stringify(data));
+            // save("fit_integratedVk", data.vkIntegrated);
             fit.stingray = data;
 
             callback(true);
@@ -337,11 +360,13 @@ Application {
     }
 
     onCompleted: {
-        videoItems.setFocus();
+        tab.currentIndex = 1;
+        tab.currentIndex = 0;
+
         // Waiting stingray token/settings, then load page data
         fit.appInit((callback) => {
             if (callback) {
-                videoItems.getVideos(app.tabs[0].url);
+                videoItems.getVideos(tab.model.get(tab.currentIndex).url);
                 videoItems.setFocus();
             }
         });

@@ -3,8 +3,8 @@ Rectangle {
     id: videosDelegate;
     anchors.top: videoItems.top;
 
-    width: app.sizes.poster.width - 5;
-    height: (app.sizes.poster.height * 2) - 12;
+    width: app.sizes.poster.width;
+    height: (app.sizes.poster.height * 2);
     opacity: 1;
     color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
 
@@ -15,19 +15,20 @@ Rectangle {
         anchors.top: videosDelegate.top;
         anchors.left: videosDelegate.left;
 
-        width: app.sizes.poster.width - 5;
-        height: app.sizes.poster.height + 24;
+        width: app.sizes.poster.width;
+        height: app.sizes.poster.height;
 
         Image {
             id: imageCardDefault;
             anchors.top: videosDelegate.top;
             anchors.left: parent.left;
 
-            width: parent.width;
-            height: parent.height;
+            width: app.sizes.poster.width;
+            height: app.sizes.poster.height;
             
             visible: imageCard.status !== ui.Image.Ready;
             opacity: imageCard.status !== ui.Image.Ready ? 1.0 : 0;
+            registerInCacheSystem: false;
 
             source: app.config.defaultImage;
 
@@ -39,8 +40,8 @@ Rectangle {
             anchors.top: videosDelegate.top;
             anchors.left: parent.left;
 
-            width: parent.width;
-            height: parent.height;
+            width: app.sizes.poster.width;
+            height: app.sizes.poster.height;
 
             registerInCacheSystem: false;
 
@@ -50,6 +51,28 @@ Rectangle {
         }
     }
 
+    ScrollingText {
+        id: videoText;
+        z: 2;
+        anchors.top: imageVideoItem.bottom;
+        anchors.left: imageVideoItem.left;
+        anchors.right: imageVideoItem.right;
+        anchors.bottom: bookmarkImage.top;
+        anchors.margins: app.sizes.margin / 2;
+        opacity: 1.0;
+
+        visible: true;
+        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+        text: model.title;
+
+        font: Font {
+            family: "Times";
+            pixelSize: 26;
+            black: true;
+        }
+    }
+
+    /*
     Text {
         id: videoText;
         z: 2;
@@ -71,6 +94,7 @@ Rectangle {
             black: true;
         }
     }
+    */
 
     Image {
         id: bookmarkImage;

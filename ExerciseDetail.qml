@@ -147,7 +147,7 @@ Item {
             anchors.topMargin: app.sizes.margin / 2;
 
             color: activeFocus ? "#4680C2" : app.theme.light.background;
-            text: exerciseDetail.vkIntegrated ? "Отправить упражнение в ВК" : "Чтобы отправить интегрируйте приложение с ВК";
+            text: exerciseDetail.vkIntegrated ? app.texts.integrateSendVk : app.texts.notIntegrateSendVk;
             radius: app.sizes.radius;
             visible: true;
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
@@ -161,7 +161,7 @@ Item {
                     app.httpServer(app.config.api.exerciseSend, "GET", "vkButton", { id: exerciseDetail.id }, (vk) => {
 
                         if (vk.sended) {
-                            vkButton.text = "Отправлено!"
+                            vkButton.text = app.texts.sended;
                             timerSend.start();
                         };
 
@@ -180,7 +180,7 @@ Item {
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
             visible: !fit.fullscreen;
-            text: "-- Сделайте полный экран, чтобы посмотреть полную инструкцию упражнения ---";
+            text: app.texts.doFullscreen;
 
             font: Font {
                 family: "Times";
@@ -197,7 +197,7 @@ Item {
 		
 		onTriggered: {
             this.stop();
-			vkButton.text = exerciseDetail.vkIntegrated ? "Отправить упражнение в ВК" : "Чтобы отправить интегрируйте приложение с ВК"
+			vkButton.text = exerciseDetail.vkIntegrated ? app.texts.integrateSendVk : app.texts.notIntegrateSendVk;
 		}
 	}
 

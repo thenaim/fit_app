@@ -2,7 +2,7 @@
  * Server adress with IPv4 (for local tests)
  */
 
-const server = "http://192.168.1.72:8080";
+const server = "http://192.168.1.71:8080";
 
 /**
  * App config
@@ -35,6 +35,7 @@ this.texts = {
     nutritionSended: "Ретцепт успешно отправлен!",
     fullNutritionSend: "Отправить полный ретцепт в ВК",
     checkIntegration: "Проверить интеграцию",
+    settingInfo: "Mожно отправлять упражнения, рецепты и много другое.\nБот ВК: https://vk.com/fit_smart_bot.\nБот Телеграм: https://t.me/fit_smart_bot.\nДля подключения нужно отправит ID приложения.",
     appFunctions: [
         "1. Функция сделать полный экран. Это синяя кнопка на пульте.",
         "2. Добавить в закладки. Это краная кнопка на пульте."
@@ -107,11 +108,11 @@ this.sizes = {
     margin: 20,
     radius: 20,
     poster: {
-        width: 285,
-        height: 155 // 135
+        width: 295,
+        height: 166
     },
     tabCards: {
-        width: 150,
+        width: 180,
         height: 120
     },
     chips: {
@@ -161,8 +162,10 @@ this.wrapText = (text, maxLength) => {
  * @return {String} formated params like "?a=1&b=2&c=3"
  */
 this.formatParams = (url, params) => {
+    let stingray = JSON.parse(load("fit_stingray") || "{}");
+
     params.token = this.config.token;
-    params.stingray = load("fit_stingray") || "";
+    params.stingray = stingray.id || "";
 
     return url + "?" + Object
         .keys(params)
@@ -189,15 +192,14 @@ this.httpServer = (url, method, params, functionName, callback) => {
         if (http.readyState === 4) {
             if (http.status === 200) {
                 return callback(JSON.parse(http.responseText));
-            } else {
-                log("\n----",
-                    "\nError http server status:", http.status,
-                    "\nFunction name:", functionName,
-                    "\nError url:", url,
-                    "\nText response:", http.responseText ? http.responseText : null,
-                    "\n----");
-                return callback(false);
             }
+            log("\n----",
+                "\nError http server status:", http.status,
+                "\nFunction name:", functionName,
+                "\nError url:", url,
+                "\nText response:", http.responseText ? http.responseText : null,
+                "\n----");
+            return callback(false);
         }
 
     };
@@ -223,7 +225,7 @@ this.onTabChange = () => {
         case "video":
             videoItems.visible = true;
             exercisesPageContainer.visible = false;
-            nutritionItems.visible = false;
+            nutritionPageContainer.visible = false;
             statsPage.visible = false;
             settingPage.visible = false;
             videoItems.setFocus();
@@ -232,7 +234,7 @@ this.onTabChange = () => {
         case "exercises":
             videoItems.visible = false;
             exercisesPageContainer.visible = true;
-            nutritionItems.visible = false;
+            nutritionPageContainer.visible = false;
             statsPage.visible = false;
             settingPage.visible = false;
             exercisesPageContainer.setFocus();
@@ -241,16 +243,16 @@ this.onTabChange = () => {
         case "nutrition":
             videoItems.visible = false;
             exercisesPageContainer.visible = false;
-            nutritionItems.visible = true;
+            nutritionPageContainer.visible = true;
             statsPage.visible = false;
             settingPage.visible = false;
-            nutritionItems.setFocus();
-            nutritionItems.getNutritions(tabCurrent.data.url);
+            nutritionDays.setFocus();
+            nutritionItemsList.getNutritions();
             break;
         case "bookmark":
             videoItems.visible = true;
             exercisesPageContainer.visible = false;
-            nutritionItems.visible = false;
+            nutritionPageContainer.visible = false;
             statsPage.visible = false;
             settingPage.visible = false;
             videoItems.setFocus();
@@ -260,20 +262,18 @@ this.onTabChange = () => {
             statsPage.visible = true;
             videoItems.visible = false;
             exercisesPageContainer.visible = false;
-            nutritionItems.visible = false;
+            nutritionPageContainer.visible = false;
             settingPage.visible = false;
             statsPage.setFocus();
             break;
         case "setting":
             videoItems.visible = false;
             exercisesPageContainer.visible = false;
-            nutritionItems.visible = false;
+            nutritionPageContainer.visible = false;
             statsPage.visible = false;
 
             fit.appInit((callback) => {
                 if (callback) {
-                    settingPageItem.id = fit.stingray.id;
-                    settingPageItem.vkIntegrated = fit.stingray.vkIntegrated;
                     settingPage.visible = true;
                     settingPage.setFocus();
                 }
@@ -296,10 +296,12 @@ this.addVideoToBookmark = (current) => {
 
         if (book.added) {
             current.bookmark = true;
+            fit.showNotification("Видео успешно сохранено в закладках");
         }
 
         if (book.deleted) {
             current.bookmark = false;
+            fit.showNotification("Видео успешно удалено из закладки");
         }
 
         videoItems.model.remove(videoItems.currentIndex, 1);

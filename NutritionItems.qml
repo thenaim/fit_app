@@ -20,15 +20,13 @@ GridView {
 
     model: ListModel { id: nutritionModel; }
 
-    function getNutritions(url) {
-        if (nutritionModel.count) return;
-    
+    function getNutritions(day) {
         fit.loading = true;
 
-        app.httpServer(url, "GET", {}, "getNutritions", (nutritions) => {
+        app.httpServer(app.tabs[2].url, "GET", { type: "muscle_building", day: day || 1 }, "getNutritions", (nutritions) => {
             nutritionItemsList.nutritionModel.reset();
-            if (nutritions.length) {
-                nutritions.forEach((nut) => {
+            if (nutritions.data.length) {
+                nutritions.data.forEach((nut) => {
                     nutritionItemsList.nutritionModel.append({
                         id: nut["id"],
                         name: nut["name"],
@@ -40,7 +38,6 @@ GridView {
             };
 
             fit.loading = false;
-            nutritionItems.setFocus();
         });
     }
 

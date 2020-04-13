@@ -4,13 +4,12 @@ import "js/app.js" as app;
 
 ListView {
     id: tabList;
-
-    orientation: mainWindow.horizontal;
-    property bool loading: false;
-
-    visible: !loading;
     z: 1;
+    orientation: mainWindow.horizontal;
+
     height: app.sizes.tabCards.height;
+	focus: true;
+	clip: true;
 
     delegate: TabDelegate {}
     model: ListModel { }
@@ -31,9 +30,9 @@ ListView {
 	Rectangle {
 		id: tabHighlight;
 		color: tabList.highlightColor;
-        anchors.top: tabList.bottom;
+        anchors.bottom: tabList.bottom;
         // anchors.left: tabList.left;
-		// visible: tabList.count;
+		visible: tabList.count;
         z: 1;
         opacity: 1;
         radius: app.sizes.radius;

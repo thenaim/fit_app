@@ -8,8 +8,8 @@ GridView {
 
     property bool loading: false;
 
-    cellWidth: app.sizes.poster.width;
-    cellHeight: app.sizes.poster.height * 2;
+    cellWidth: app.sizes.poster.width + 5;
+    cellHeight: (app.sizes.poster.height * 2) + 5;
 
     visible: !loading;
 
@@ -24,7 +24,7 @@ GridView {
         fit.loading = true;
 
         app.httpServer(url, "GET", {}, "getVideos", (videos) => {
-            videoItemsList.videoModel.reset();
+        	videoItemsList.videoModel.reset();
             if (videos.length) {
                 videos.forEach((vid) => {
                     videoItemsList.videoModel.append({
@@ -70,8 +70,8 @@ GridView {
 		id: highlight;
 		z: 2;
 
-        width: app.sizes.poster.width - 4;
-        height: app.sizes.poster.height * 2 - 12;
+        width: app.sizes.poster.width;
+        height: app.sizes.poster.height * 2;
 
         visible: videoItemsList.count;
 

@@ -38,7 +38,7 @@ Rectangle {
 
         anchors.bottom: tabDelegate.bottom;
         anchors.horizontalCenter: parent.horizontalCenter;
-        anchors.bottomMargin: app.sizes.margin;
+        anchors.bottomMargin: app.sizes.margin / 1.2;
 
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
@@ -46,7 +46,7 @@ Rectangle {
 
  		font: Font {
 			  family: "Times";
-			  pixelSize: 26;
+			  pixelSize: 30;
               black: true;
 		}
 	}

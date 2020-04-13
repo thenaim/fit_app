@@ -107,7 +107,7 @@ Item {
         opacity: 1;
         visible: false;
         color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-        text: "Ретцепт успешно отправлен!";
+        text: app.texts.nutritionSended;
         wrapMode: Text.WordWrap;
 
         font: Font {
@@ -128,7 +128,7 @@ Item {
         opacity: 1;
         visible: false;
         color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-        text: "Интегрируйте приложение с ВК";
+        text: app.texts.notIntegrateSendVk;
         wrapMode: Text.WordWrap;
 
         font: Font {
@@ -150,7 +150,7 @@ Item {
 
         color: !activeFocus ? app.theme.light.background : "#4680C2";
 
-        text: "Отправить полный ретцепт в ВК";
+        text: app.texts.fullNutritionSend;
 
         onSelectPressed: {
             nutritionDetail.sendVk(nutritionDetail.id);
@@ -213,6 +213,7 @@ Item {
 
         // go back
         nutritionDetail.visible = false;
+        nutritionDays.visible = true;
         nutritionItems.visible = true;
         nutritionItems.setFocus();
     }

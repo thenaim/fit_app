@@ -6,8 +6,6 @@ Item {
     property string id;
     property bool vkIntegrated;
 
-    property string integratedText: "Интегрирован с ВК\nТеперь можно отправлять упражнения, рецепты и много другое.";
-    property string notIntegratedText: "Не интегрирован с ВК\nПереходите в группу: https://vk.com/fit_Smart.\nДля подключения нужно отправит ID приложения.";
     z: 10;
     opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
     width: 600;
@@ -47,13 +45,13 @@ Item {
 
             font: Font {
                 family: "Times";
-                pixelSize: 26;
+                pixelSize: 28;
                 black: true;
             }
         }
 
         Text {
-            id: integrateTextDes;
+            id: vkIntegratedOrNot;
 
             anchors.top: integrateText.bottom;
             anchors.left: integrateText.left;
@@ -62,7 +60,46 @@ Item {
             opacity: 1;
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: "";
+            text: "ВК не интегрирован.";
+            wrapMode: Text.WordWrap;
+
+            font: Font {
+                family: "Times";
+                pixelSize: 26;
+                black: true;
+            }
+        }
+
+        Text {
+            id: tgIntegratedOrNot;
+
+            anchors.top: vkIntegratedOrNot.bottom;
+            anchors.left: vkIntegratedOrNot.left;
+
+            opacity: 1;
+            visible: true;
+            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            text: "Телеграм не интегрирован.";
+            wrapMode: Text.WordWrap;
+
+            font: Font {
+                family: "Times";
+                pixelSize: 26;
+                black: true;
+            }
+        }
+
+        Text {
+            id: settingMoreInfo;
+
+            anchors.top: tgIntegratedOrNot.bottom;
+            anchors.left: tgIntegratedOrNot.left;
+            anchors.topMargin: app.sizes.margin / 2;
+
+            opacity: 1;
+            visible: true;
+            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            text: app.texts.settingInfo;
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -75,8 +112,8 @@ Item {
         Text {
             id: infoTitleText;
 
-            anchors.top: integrateTextDes.bottom;
-            anchors.left: integrateTextDes.left;
+            anchors.top: settingMoreInfo.bottom;
+            anchors.left: settingMoreInfo.left;
             anchors.topMargin: app.sizes.margin;
 
             opacity: 1;
@@ -161,11 +198,7 @@ Item {
 
             fit.appInit((callback) => {
                 if (callback) {
-                    if (load("fit_integratedVk")) {
-                        integrateTextDes.text = settingPageItem.integratedText;
-                    } else {
-                        integrateTextDes.text = settingPageItem.notIntegratedText;
-                    }
+                    settingPageItem.checkVkAndTelegram();
                     fit.loading = false;
                 }
             });
@@ -219,11 +252,18 @@ Item {
     }
 
     onVisibleChanged: {
-        if (load("fit_integratedVk")) {
-            integrateTextDes.text = settingPageItem.integratedText;
-        } else {
-            integrateTextDes.text = settingPageItem.notIntegratedText;
-        }
+        settingPageItem.checkVkAndTelegram();
         themeChanger.setFocus();
+    }
+
+    /**
+    * Get App settings
+    */
+    function checkVkAndTelegram() {
+        const stingray = JSON.parse(load("fit_stingray"));
+        settingPageItem.id = stingray.id;
+
+        stingray.vkIntegrated ? vkIntegratedOrNot.text = "ВК интегрирован." : vkIntegratedOrNot.text = "ВК не интегрирован.";
+        stingray.tgIntegrated ? tgIntegratedOrNot.text = "Телеграм интегрирован." : tgIntegratedOrNot.text = "Телеграм не интегрирован.";
     }
 }
