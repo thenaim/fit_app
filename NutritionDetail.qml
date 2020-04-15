@@ -8,7 +8,8 @@ Item {
     property bool sended: false;
 
     property string vkId; 
-    property int id;
+    property string id;
+    property int day;
     property string name;
     property string steps;
     property string ingredients;
@@ -108,7 +109,7 @@ Item {
 
         onSelectPressed: {
             sendSocial.visible = true;
-            sendSocial.showSendSocial("nutrition", nutritionDetail.id);
+            sendSocial.showSendSocial("nutrition", nutritionDetail.id, nutritionDetail.day, "muscle_building");
         }
     }
 

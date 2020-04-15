@@ -2,7 +2,7 @@
  * Server adress with IPv4 (for local tests)
  */
 
-const server = "http://192.168.1.70:8080";
+const server = "http://192.168.1.69:8080";
 
 /**
  * App config
@@ -16,8 +16,7 @@ this.config = {
         exercises: server + "/exercises",
         exercisesCategories: server + "/exercise/categories",
         addDeleteBookmark: server + "/bookmarks/addDelete",
-        nutritionSend: server + "/nutrition/send",
-        exerciseSend: server + "/exercise/send",
+        sendToSocial: server + "/social/send",
         themeChange: server + "/settings/themechange"
     },
     animationDuration: 150,

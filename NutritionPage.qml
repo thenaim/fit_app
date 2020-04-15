@@ -191,6 +191,7 @@ Rectangle {
 
             const currentNutritionItem = model.get(nutritionItems.currentIndex);
             nutritionDetail.id = currentNutritionItem.id;
+            nutritionDetail.day = nutritionDays.model.get(nutritionDays.currentIndex).day;
             nutritionDetail.name = currentNutritionItem.name;
             nutritionDetail.steps = currentNutritionItem.steps;
             nutritionDetail.ingredients = currentNutritionItem.ingredients;

@@ -323,6 +323,13 @@ Application {
             // save("fit_integratedVk", data.vkIntegrated);
             fit.stingray = data;
 
+            if (data.vkIntegrated) {
+                fit.showNotification("ВК успешно интегрирован!");
+            }
+            if (data.tgIntegrated) {
+                fit.showNotification("Телеграм успешно интегрирован!");
+            }
+
             callback(true);
         });
     }
