@@ -3,11 +3,11 @@ import "js/app.js" as app;
 Rectangle {
     id: statsBarDelegate;
     z: 1;
-    height: 70;
+    height: 50;
     width: parent.width;
     opacity: 1.0;
     color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
-    focus: true;
+    focus: false;
 
     Text {
 		id: daysTabText;

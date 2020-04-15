@@ -14,7 +14,7 @@ Item {
 
     opacity: 1.0;
 
-    focus: true;
+    focus: false;
 
     Text {
         id: nameText;
@@ -147,7 +147,7 @@ Item {
             anchors.topMargin: app.sizes.margin / 2;
 
             color: activeFocus ? "#4680C2" : app.theme.light.background;
-            text: exerciseDetail.vkIntegrated ? app.texts.integrateSendVk : app.texts.notIntegrateSendVk;
+            text: "Отправить в социальные сети";
             radius: app.sizes.radius;
             visible: true;
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
@@ -156,6 +156,9 @@ Item {
             }
 
             onSelectPressed: {
+                sendSocial.visible = true;
+                sendSocial.showSendSocial("exercise", exerciseDetail.id);
+                return;
                 fit.loading = true;
                 if (exerciseDetail.vkIntegrated) {
                     app.httpServer(app.config.api.exerciseSend, "GET", "vkButton", { id: exerciseDetail.id }, (vk) => {

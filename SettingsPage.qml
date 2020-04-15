@@ -155,8 +155,8 @@ Item {
         anchors.top: fitSmartImage.bottom;
         anchors.right: settingPageItem.right;
 
-        opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
-        color: activeFocus ? app.theme.active : app.theme.light.background;
+        opacity: themeChanger.activeFocus ? 1.0 : app.config.inactiveOpacity;
+        color: themeChanger.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
         text: fit.isDark ? "Изменить тему на: светлую" : "Изменить тему на: тёмную";
         radius: app.sizes.radius;
         width: 400;
@@ -181,8 +181,8 @@ Item {
         anchors.right: settingPageItem.right;
         anchors.topMargin: app.sizes.margin;
 
-        opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
-        color: activeFocus ? app.theme.active : app.theme.light.background;
+        opacity: reloadIntegrated.activeFocus ? 1.0 : app.config.inactiveOpacity;
+        color: reloadIntegrated.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
         text: "Проверить интеграцию";
         radius: app.sizes.radius;
         width: 400;

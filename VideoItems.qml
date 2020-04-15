@@ -37,7 +37,7 @@ GridView {
             };
 
             fit.loading = false;
-            videoItems.setFocus();
+            // videoItems.setFocus();
         });
     }
 

@@ -10,6 +10,7 @@ import "NutritionPage.qml";
 import "NutritionDetail.qml";
 import "StatsPage.qml";
 import "SettingsPage.qml";
+import "SendSocial.qml";
 import "FitSmartPlayer.qml";
 
 import controls.Spinner;
@@ -145,6 +146,8 @@ Application {
 
             visible: false;
             focus: false;
+
+            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
         }
 
         /**
@@ -212,11 +215,11 @@ Application {
             anchors.horizontalCenter: mainWindow.horizontalCenter;
             anchors.margins: app.sizes.margin;
 
-            width: 720;
+            width: 920;
             visible: false;
             keyNavigationWraps: true;
 
-            opacity: 1.0;
+            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
 
             onClosed: {
                 nutritionDetail.visible = false;
@@ -266,6 +269,16 @@ Application {
             }
             
         }
+
+        SendSocial {
+			id: sendSocial;
+            z: 4;
+
+			width: 420;
+			height: 225;
+
+			anchors.centerIn: mainView;
+		}
     }
 
     /**
@@ -360,6 +373,8 @@ Application {
     }
 
     onCompleted: {
+        // sendSocial.visible = true;
+        // sendSocialColumn.setFocus();
         tab.currentIndex = 1;
         tab.currentIndex = 0;
 
