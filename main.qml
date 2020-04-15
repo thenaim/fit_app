@@ -136,6 +136,9 @@ Application {
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
         }
 
+        /**
+        * Exercises detail
+        */
         ExerciseDetail {
             id: exerciseDetailContainer;
             anchors.top: mainView.top;
@@ -149,47 +152,6 @@ Application {
 
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
         }
-
-        /**
-        * Nutrition Items
-        NutritionItems {
-            id: nutritionItems;
-
-            anchors.top: mainView.top;
-            anchors.left: mainView.left;
-            anchors.right: mainView.right;
-            anchors.bottom: mainView.bottom;
-            anchors.margins: app.sizes.margin;
-
-            opacity: 1.0;
-
-            onSelectPressed: {
-                nutritionItems.visible = false;
-
-                const currentNutritionItem = model.get(nutritionItems.currentIndex);
-                nutritionDetail.id = currentNutritionItem.id;
-                nutritionDetail.name = currentNutritionItem.name;
-                nutritionDetail.steps = currentNutritionItem.steps;
-                nutritionDetail.ingredients = currentNutritionItem.ingredients;
-                nutritionDetail.image = currentNutritionItem.image;
-
-                nutritionDetail.visible = true;
-                nutritionDetail.setFocus();
-            }
-
-            onUpPressed: {
-                tab.setFocus();
-            }
-
-            onDownPressed: {}
-
-            onLeftPressed: {}
-
-            onRightPressed: {}
-
-            onBackPressed: {}
-        }
-        */
 
         NutritionPage {
             id: nutritionPageContainer;
@@ -270,6 +232,9 @@ Application {
             
         }
 
+        /**
+        * Send social modal
+        */
         SendSocial {
 			id: sendSocial;
             z: 4;

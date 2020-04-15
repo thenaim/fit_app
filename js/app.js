@@ -2,7 +2,7 @@
  * Server adress with IPv4 (for local tests)
  */
 
-const server = "http://192.168.1.71:8080";
+const server = "http://192.168.1.70:8080";
 
 /**
  * App config

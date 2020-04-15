@@ -24,6 +24,9 @@ Item {
         source: fit.isDark ? "apps/fit_app/res/dark_logo.png" : "apps/fit_app/res/light_logo.png";
     }
 
+    /**
+    * Setting page infos
+    */
     Item {
         id: settingTexts;
         z: 3;
@@ -150,6 +153,9 @@ Item {
         }
     }
 
+    /**
+    * Theme changer button
+    */
     Button {
         id: themeChanger;
         anchors.top: fitSmartImage.bottom;
@@ -174,6 +180,9 @@ Item {
         }
     }
 
+    /**
+    * Check integration
+    */
     Button {
         id: reloadIntegrated;
 
@@ -205,6 +214,9 @@ Item {
         }
     }
 
+    /**
+    * Image background for setting page
+    */
     Image {
         id: settingThemeLogo;
         z: 1;
@@ -237,6 +249,9 @@ Item {
 		}
 	}
 
+    /**
+    * Update theme function
+    */
     function updateTheme(isDark) {
         fit.loading = true;
         app.httpServer(app.config.api.themeChange, "GET", { isDark: isDark }, "updateTheme", (theme) => {
@@ -251,11 +266,6 @@ Item {
         });
     }
 
-    onVisibleChanged: {
-        settingPageItem.checkVkAndTelegram();
-        themeChanger.setFocus();
-    }
-
     /**
     * Get App settings
     */
@@ -265,5 +275,10 @@ Item {
 
         stingray.vkIntegrated ? vkIntegratedOrNot.text = "ВК интегрирован." : vkIntegratedOrNot.text = "ВК не интегрирован.";
         stingray.tgIntegrated ? tgIntegratedOrNot.text = "Телеграм интегрирован." : tgIntegratedOrNot.text = "Телеграм не интегрирован.";
+    }
+
+    onVisibleChanged: {
+        settingPageItem.checkVkAndTelegram();
+        themeChanger.setFocus();
     }
 }

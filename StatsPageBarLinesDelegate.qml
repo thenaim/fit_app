@@ -9,6 +9,3 @@ Rectangle {
     color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
     focus: true;
 }
-
-
-

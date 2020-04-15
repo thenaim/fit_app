@@ -7,6 +7,9 @@ import "js/app.js" as app;
 Item {
     id: statsPage;
 
+    /**
+    * Stats page title
+    */
 	Text {
 		id: statText;
         opacity: 1.0;
@@ -27,6 +30,9 @@ Item {
 		}
 	}
 
+    /**
+    * Chart Bar container
+    */
     Rectangle {
         id: centeredStat;
         anchors.top: statText.bottom;
@@ -36,6 +42,9 @@ Item {
         width: 960;
         height: 352;
 
+        /**
+        * Chart Bar lines
+        */
         ListView {
             id: barRightLines;
             anchors.top: centeredStat.top;
@@ -56,6 +65,9 @@ Item {
             }
         }
 
+        /**
+        * Chart Bars
+        */
         ListView {
             id: barCharts;
             z: 2;
@@ -80,6 +92,9 @@ Item {
             }
         }
 
+        /**
+        * Chart Bar right length
+        */
         ListView {
             id: barRight;
             anchors.top: centeredStat.top;
