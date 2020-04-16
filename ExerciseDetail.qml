@@ -123,26 +123,10 @@ Item {
         anchors.horizontalCenter: exerciseDetail.horizontalCenter;
         visible: !fit.fullscreen;
 
-        Image {
-            id: vkButtonImage;
-            anchors.top: descriptionAndButton.top;
-            anchors.horizontalCenter: exerciseDetail.horizontalCenter;
-
-            width: 50;
-            height: 50;
-
-            visible: true;
-            registerInCacheSystem: false;
-
-            source: "apps/fit_app/res/VK_logo.png";
-
-            fillMode: PreserveAspectFit;
-        }
-
         Button {
             id: vkButton;
 
-            anchors.top: vkButtonImage.bottom;
+            anchors.top: descriptionAndButton.top;
             anchors.horizontalCenter: exerciseDetail.horizontalCenter;
             anchors.topMargin: app.sizes.margin / 2;
 

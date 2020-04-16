@@ -345,8 +345,6 @@ Application {
     }
 
     onCompleted: {
-        // sendSocial.visible = true;
-        // sendSocialColumn.setFocus();
         tab.currentIndex = 1;
         tab.currentIndex = 0;
 
@@ -357,6 +355,9 @@ Application {
                 videoItems.setFocus();
             }
         });
+
+        // default nutrition type
+        save("nutrition_type", "muscle_building");
     }
 
     onVisibleChanged: {

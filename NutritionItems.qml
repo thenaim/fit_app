@@ -22,8 +22,7 @@ GridView {
 
     function getNutritions(day) {
         fit.loading = true;
-
-        app.httpServer(app.tabs[2].url, "GET", { type: "muscle_building", day: day || 1 }, "getNutritions", (nutritions) => {
+        app.httpServer(app.tabs[2].url, "GET", { type: load("nutrition_type"), day: day || 1 }, "getNutritions", (nutritions) => {
             nutritionItemsList.nutritionModel.reset();
             if (nutritions.data.length) {
                 nutritions.data.forEach((nut) => {

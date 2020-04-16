@@ -158,12 +158,13 @@ Item {
     */
     Button {
         id: themeChanger;
+        z: 1;
         anchors.top: fitSmartImage.bottom;
         anchors.right: settingPageItem.right;
 
         opacity: themeChanger.activeFocus ? 1.0 : app.config.inactiveOpacity;
         color: themeChanger.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: fit.isDark ? "Изменить тему на: светлую" : "Изменить тему на: тёмную";
+        text: fit.isDark ? "Тёмная тема" : "Светлая тема";
         radius: app.sizes.radius;
         width: 400;
         onUpPressed: {
@@ -175,6 +176,11 @@ Item {
         }
 
         onSelectPressed: {
+            if (fit.stingray.isDark) {
+                fit.showNotification("Светлая тема активирована");
+            } else {
+                fit.showNotification("Тёмная тема активирована");
+            }
             fit.stingray.isDark = !fit.stingray.isDark;
             settingPageItem.updateTheme(fit.stingray.isDark)
         }
@@ -185,6 +191,7 @@ Item {
     */
     Button {
         id: reloadIntegrated;
+        z: 1;
 
         anchors.top: themeChanger.bottom;
         anchors.right: settingPageItem.right;
@@ -198,6 +205,10 @@ Item {
 
         onUpPressed: {
             themeChanger.setFocus();
+        }
+
+        onDownPressed: {
+            nutritionTypeButton.setFocus();
         }
 
         onSelectPressed: {
@@ -215,11 +226,44 @@ Item {
     }
 
     /**
+    * Nutrition type
+    */
+    Button {
+        id: nutritionTypeButton;
+        z: 1;
+
+        anchors.top: reloadIntegrated.bottom;
+        anchors.right: settingPageItem.right;
+        anchors.topMargin: app.sizes.margin;
+
+        opacity: nutritionTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
+        color: nutritionTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+        text: "Рецепты: Наращивание мышц";
+        radius: app.sizes.radius;
+        width: 400;
+
+        onUpPressed: {
+            reloadIntegrated.setFocus();
+        }
+
+        onSelectPressed: {
+            if (load("nutrition_type") === "muscle_building") {
+                save("nutrition_type", "weight_loss");
+                nutritionTypeButton.text = "Рецепты: Снижение веса";
+                fit.showNotification("Рецепты изменены на Снижение веса");
+            } else {
+                save("nutrition_type", "muscle_building");
+                nutritionTypeButton.text = "Рецепты: Наращивание мышц";
+                fit.showNotification("Рецепты изменены на Наращивание мышц");
+            }
+        }
+    }
+
+    /**
     * Image background for setting page
     */
     Image {
         id: settingThemeLogo;
-        z: 1;
         opacity: 0.4;
 
         anchors.bottom: settingPageItem.bottom;
@@ -239,7 +283,7 @@ Item {
 
     Timer {
 		id: reloadingTimer;
-		interval: 800;
+		interval: 1000;
 		repeat: false;
 		running: false;
 

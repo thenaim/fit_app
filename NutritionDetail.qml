@@ -109,7 +109,7 @@ Item {
 
         onSelectPressed: {
             sendSocial.visible = true;
-            sendSocial.showSendSocial("nutrition", nutritionDetail.id, nutritionDetail.day, "muscle_building");
+            sendSocial.showSendSocial("nutrition", nutritionDetail.id, nutritionDetail.day, load("nutrition_type"));
         }
     }
 
