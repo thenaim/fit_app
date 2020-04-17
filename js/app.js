@@ -263,6 +263,7 @@ this.onTabChange = () => {
             exercisesPageContainer.visible = false;
             nutritionPageContainer.visible = false;
             settingPage.visible = false;
+            statsPage.getStats();
             statsPage.setFocus();
             break;
         case "setting":

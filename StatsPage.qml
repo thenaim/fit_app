@@ -82,14 +82,6 @@ Item {
             model: ListModel {}
 
             delegate: StatsPageBarChartsDelegate {}
-
-            onCompleted: {
-                model.append({ points: 20, name: "FIT баллы" });
-                model.append({ points: 111, name: "Просмотры видео" });
-                model.append({ points: 180, name: "Просмотры упражнений" });
-                model.append({ points: 50, name: "Просмотры рецептов" });
-                model.append({ points: 90, name: "Социальные сети" });
-            }
         }
 
         /**
@@ -116,6 +108,20 @@ Item {
                 });
             }
         }
+    }
+
+    function getStats() {
+        app.httpServer(app.config.api.stingray, "GET", {}, "appInit", (data) => {
+            if (!data.id) return callback(false);
+
+            if (data.stats.length) {
+                barCharts.model.reset();
+        
+                data.stats.forEach((stat) => {
+                    barCharts.model.append(stat);
+                });
+            }
+        });
     }
 
     onVisibleChanged: {}

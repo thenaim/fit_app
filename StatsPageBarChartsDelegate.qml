@@ -3,10 +3,10 @@ import "js/app.js" as app;
 Rectangle {
     id: barCharts;
     anchors.bottom: centeredStat.bottom;
-    height: model.points;
+    height: model.points ? model.points : 1;
     width: 176;
     opacity: 0.4;
-    color: app.theme.active;
+    color: model.colors;
 
     Text {
 		id: barChartsPoint;
@@ -39,7 +39,7 @@ Rectangle {
 
  		font: Font {
 			  family: "Times";
-			  pixelSize: 20;
+			  pixelSize: 22;
               black: true;
 		}
 	}
