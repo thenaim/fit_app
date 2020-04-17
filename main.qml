@@ -97,7 +97,7 @@ Application {
 
             onSelectPressed: {
                 let videoId = model.get(videoItems.currentIndex).videoId;
-                const url = app.config.api.watch + "/" + videoId;
+                const url =  app.formatParams(app.config.api.watch + "/" + videoId, {});
 
                 // Hide elements
                 tab.visible = false;

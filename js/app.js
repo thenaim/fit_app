@@ -17,7 +17,8 @@ this.config = {
         exercisesCategories: server + "/exercise/categories",
         addDeleteBookmark: server + "/bookmarks/addDelete",
         sendToSocial: server + "/social/send",
-        themeChange: server + "/settings/themechange"
+        themeChange: server + "/settings/themechange",
+        stats: server + "/stats"
     },
     animationDuration: 150,
     inactiveOpacity: 0.6,

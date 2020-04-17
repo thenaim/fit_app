@@ -3,7 +3,7 @@ import "js/app.js" as app;
 Rectangle {
     id: barCharts;
     anchors.bottom: centeredStat.bottom;
-    height: model.points ? model.points : 1;
+    height: model.points >= 350 ? +barCharts.height : model.points === 0 ? 1 : model.points;
     width: 176;
     opacity: 0.4;
     color: model.colors;
@@ -21,7 +21,7 @@ Rectangle {
 
  		font: Font {
 			  family: "Times";
-			  pixelSize: 28;
+			  pixelSize: 26;
               black: true;
 		}
 	}

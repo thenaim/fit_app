@@ -199,6 +199,9 @@ Rectangle {
 
             nutritionDetail.visible = true;
             nutritionDetail.setFocus();
+
+            // stats
+            app.httpServer(app.config.api.stats, "GET", { type: "nutrition" }, "statsNutrition", () => {});
         }
 
         onUpPressed: {

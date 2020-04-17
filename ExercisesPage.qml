@@ -115,6 +115,9 @@ Rectangle {
                 exercisesPageContainer.visible = false;
                 exerciseDetailContainer.visible = true;
                 exerciseDetailContainer.setFocus();
+
+                // stats
+                app.httpServer(app.config.api.stats, "GET", { type: "exercise" }, "statsExercise", () => {});
             }
 
             onCompleted: {
