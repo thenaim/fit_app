@@ -7,7 +7,9 @@ Item {
     property var stingray: {};
     property bool sended: false;
 
-    property string vkId; 
+    property string vkId;
+
+    property string page;
     property string id;
     property int day;
     property string name;
@@ -119,18 +121,24 @@ Item {
     }
 
     onUpPressed: {
-        // go back
         nutritionDetail.visible = false;
-        nutritionItems.visible = true;
-        nutritionDays.visible = true;
+        if (nutritionDetail.page === "main") {
+            nutritionPage.visible = true;
+            nutritionItems.setFocus();
+        } else if (nutritionDetail.page === "bookmark") {
+            bookmarkPage.visible = true;
+        }
         tab.setFocus();
     }
 
     onBackPressed: {
-        // go back
         nutritionDetail.visible = false;
-        nutritionItems.visible = true;
-        nutritionDays.visible = true;
-        nutritionItems.setFocus();
+        if (nutritionDetail.page === "main") {
+            nutritionPage.visible = true;
+            nutritionItems.setFocus();
+        } else if (nutritionDetail.page === "bookmark") {
+            bookmarkPage.visible = true;
+            bookmarkExerciseItemsList.setFocus();
+        }
     }
 }

@@ -93,6 +93,9 @@ Item {
                     chipItems.setFocus();
                 } else if (key === "Select") {
                     const currentExerciseItemsList = model.get(exerciseItemsList.currentIndex);
+
+                    exerciseDetailContainer.page = "main";
+
                     exerciseDetailContainer.id = currentExerciseItemsList.id;
                     exerciseDetailContainer.title = currentExerciseItemsList.title;
                     exerciseDetailContainer.description = currentExerciseItemsList.description;

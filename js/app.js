@@ -264,7 +264,7 @@ this.onTabChange = () => {
             break;
         case "nutrition":
             nutritionPageContainer.visible = true;
-            nutritionDays.setFocus();
+            nutritionItemsList.setFocus();
             nutritionItemsList.getNutritions();
             break;
         case "bookmark":

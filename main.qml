@@ -96,7 +96,7 @@ Application {
             }
 
             onSelectPressed: {
-                videoItems.playVideoById("main");
+                videoItems.openVideoPlay("main");
             }
 
             onUpPressed: {
@@ -104,18 +104,16 @@ Application {
             }
 
             /**
-            * Play Video
-            * @param {String} page from where opening video (main, bookmark)
+            * Play Video function
             */
-            function playVideoById(page) {
-                let video = videoItems.model.get(videoItems.currentIndex);
-                if (page === "bookmark") {
-                    video = bookmarkVideoItemsList.model.get(bookmarkVideoItemsList.currentIndex);
-                }
+            function openVideoPlay(page) {
+                const video = videoItems.model.get(videoItems.currentIndex);
 
                 // Hide elements
                 tab.visible = false;
                 mainView.visible = false;
+
+                fitSmartPlayer.page = "main";
 
                 // Show player element and play url
                 fitSmartPlayer.title = video.title;
@@ -290,17 +288,40 @@ Application {
     */
     FitSmartPlayer {
         id: fitSmartPlayer;
+        property string page;
         z: 5;
         anchors.fill: mainWindow;
 
         visible: false;
 
         onBackPressed: {
-            fit.hideFitSmartPlayer();
+            fitSmartPlayer.hideFitSmartPlayer(fitSmartPlayer.page);
         }
 
         onFinished: {
-            fit.hideFitSmartPlayer();
+            fitSmartPlayer.hideFitSmartPlayer(fitSmartPlayer.page);
+        }
+
+        /**
+        * Hide player function
+        * @param {String} page main|bookmark
+        * page param for setting focus, after close player
+        */
+        function hideFitSmartPlayer(page) {
+            // Show (main) elements
+            tab.visible = true;
+            mainView.visible = true;
+
+            // Hide player
+            fitSmartPlayer.visible = false;
+            fitSmartPlayer.abort();
+
+            // Set focus
+            if (page === "main") {
+                videoItems.setFocus();
+            } else if (page === "bookmark") {
+                bookmarkVideoItemsList.setFocus();
+            }
         }
     }
 
@@ -353,22 +374,6 @@ Application {
 
             bookmarkTypes.model.set(bookmarkTabIndex, getTypeBookmarkTab);
         }
-    }
-
-    /**
-    * Hide player function
-    */
-    function hideFitSmartPlayer() {
-        // Show (main) elements
-        tab.visible = true;
-        // menuView.visible = true;
-        mainView.visible = true;
-
-        // Hide player
-        fitSmartPlayer.visible = false;
-        fitSmartPlayer.abort();
-
-        videoItems.setFocus();
     }
 
     /**

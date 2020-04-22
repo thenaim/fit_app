@@ -191,10 +191,10 @@ Item {
                 let current = model.get(nutritionItems.currentIndex);
                 app.addToBookmark(current, "nutrition", "main");
             } else if (key === "Select") {
-                nutritionDays.visible = false;
-                nutritionItems.visible = false;
-
                 const currentNutritionItem = model.get(nutritionItems.currentIndex);
+                
+                nutritionDetail.page = "main";
+
                 nutritionDetail.id = currentNutritionItem.id;
                 nutritionDetail.day = nutritionDays.model.get(nutritionDays.currentIndex).day;
                 nutritionDetail.name = currentNutritionItem.name;
@@ -202,6 +202,7 @@ Item {
                 nutritionDetail.ingredients = currentNutritionItem.ingredients;
                 nutritionDetail.image = currentNutritionItem.image;
 
+                nutritionPage.visible = false;
                 nutritionDetail.visible = true;
                 nutritionDetail.setFocus();
 

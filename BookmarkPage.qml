@@ -193,7 +193,7 @@ Item {
                 let current = model.get(bookmarkVideoItemsList.currentIndex);
                 app.addToBookmark(current, "video", "bookmark");
             } else if (key === "Select") {
-                videoItems.playVideoById("main");
+                bookmarkPage.openVideoPlay();
             }
         }
 
@@ -322,7 +322,7 @@ Item {
             if (key === "Up") {
                 bookmarkTypes.setFocus();
             } else if (key === "Select") {
-                log("SELECT");
+                bookmarkPage.openExerciseDetailPage();
             }
         }
 
@@ -449,7 +449,7 @@ Item {
             if (key === "Up") {
                 bookmarkTypes.setFocus();
             } else if (key === "Select") {
-                log("SELECT");
+                bookmarkPage.openNutritionDetailPage();
             }
         }
 
@@ -636,6 +636,68 @@ Item {
             pixelSize: 28;
             black: true;
         }
+    }
+
+    /**
+    * Open Video Detail
+    */
+    function openVideoPlay() {
+        const video = bookmarkVideoItemsList.model.get(bookmarkVideoItemsList.currentIndex);
+
+        // Hide main elements
+        tab.visible = false;
+        mainView.visible = false;
+
+        fitSmartPlayer.page = "bookmark";
+    
+        // Show player element and play url
+        fitSmartPlayer.title = video.title;
+        fitSmartPlayer.visible = true;
+        fitSmartPlayer.playVideos(app.formatParams(app.config.api.watch + "/" + video.videoId, {}));
+    }
+
+    /**
+    * Open Exercise Detail Page
+    */
+    function openExerciseDetailPage() {
+        const currentExerciseItemsList = bookmarkExerciseItemsList.model.get(bookmarkExerciseItemsList.currentIndex);
+
+        exerciseDetailContainer.page = "bookmark";
+
+        exerciseDetailContainer.id = currentExerciseItemsList.id;
+        exerciseDetailContainer.title = currentExerciseItemsList.title;
+        exerciseDetailContainer.description = currentExerciseItemsList.description;
+        exerciseDetailContainer.images = currentExerciseItemsList.images;
+
+        bookmarkPage.visible = false;
+        exerciseDetailContainer.visible = true;
+        exerciseDetailContainer.setFocus();
+
+        // stats
+        app.httpServer(app.config.api.stats, "GET", { type: "exercise" }, "statsExercise", () => {});
+    }
+
+    /**
+    * Open Nutrition Detail Page
+    */
+    function openNutritionDetailPage() {
+        const currentNutritionItem = model.get(nutritionItems.currentIndex);
+
+        nutritionDetail.page = "bookmark";
+
+        nutritionDetail.id = currentNutritionItem.id;
+        nutritionDetail.day = nutritionDays.model.get(nutritionDays.currentIndex).day;
+        nutritionDetail.name = currentNutritionItem.name;
+        nutritionDetail.steps = currentNutritionItem.steps;
+        nutritionDetail.ingredients = currentNutritionItem.ingredients;
+        nutritionDetail.image = currentNutritionItem.image;
+
+        bookmarkPage.visible = false;
+        nutritionDetail.visible = true;
+        nutritionDetail.setFocus();
+
+        // stats
+        app.httpServer(app.config.api.stats, "GET", { type: "nutrition" }, "statsNutrition", () => {});
     }
 
     onVisibleChanged: {

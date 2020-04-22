@@ -6,7 +6,9 @@ Item {
     z: 2;
 
     property bool vkIntegrated: false; 
-    property string vkId; 
+    property string vkId;
+
+    property string page; 
     property string id;
     property string title;
     property var description;
@@ -142,19 +144,6 @@ Item {
             onSelectPressed: {
                 sendSocial.visible = true;
                 sendSocial.showSendSocial("exercise", exerciseDetail.id);
-                return;
-                fit.loading = true;
-                if (exerciseDetail.vkIntegrated) {
-                    app.httpServer(app.config.api.exerciseSend, "GET", "vkButton", { id: exerciseDetail.id }, (vk) => {
-
-                        if (vk.sended) {
-                            vkButton.text = app.texts.sended;
-                            timerSend.start();
-                        };
-
-                        fit.loading = false;
-                    });
-                }
             }
         }
 
@@ -196,13 +185,22 @@ Item {
 
     onUpPressed: {
         exerciseDetailContainer.visible = false;
-        exercisesPageContainer.visible = true;
+        if (exerciseDetail.page === "main") {
+            exercisesPageContainer.visible = true;
+        } else if (exerciseDetail.page === "bookmark") {
+            bookmarkPage.visible = true;
+        }
         tab.setFocus();
     }
 
     onBackPressed: {
         exerciseDetailContainer.visible = false;
-        exercisesPageContainer.visible = true;
-        exerciseItemsList.setFocus();
+        if (exerciseDetail.page === "main") {
+            exercisesPageContainer.visible = true;
+            exerciseItemsList.setFocus();
+        } else if (exerciseDetail.page === "bookmark") {
+            bookmarkPage.visible = true;
+            bookmarkExerciseItemsList.setFocus();
+        }
     }
 }
