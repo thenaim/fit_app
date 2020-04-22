@@ -16,7 +16,7 @@ ListView {
 
     onCompleted: {
         app.tabs.forEach((tab) => {
-            model.append({ id: tab.id, title: tab.title, url: tab.url });
+            model.append(tab);
         });
     }
 

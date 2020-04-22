@@ -2,9 +2,9 @@ import "js/app.js" as app;
 import "NutritionDaysDelegate.qml";
 import "NutritionItems.qml";
 
-Rectangle {
+Item {
     id: nutritionPage;
-    property bool loading: false;
+	z: 1;
 
     anchors.top: nutritionPageContainer.top;
     anchors.left: nutritionPageContainer.left;
@@ -12,7 +12,6 @@ Rectangle {
     anchors.bottom: nutritionPageContainer.bottom;
 
     opacity: 1.0;
-    color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
 
     /**
     * Day Cards
@@ -78,7 +77,7 @@ Rectangle {
             anchors.bottom: nutritionDays.bottom;
             anchors.left: nutritionDays.left;
             anchors.right: nutritionDays.right;
-            color: app.theme.dark.layout_background;
+            color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
 
             height: nutritionDays.hlHeight;
             visible: true;
@@ -185,35 +184,30 @@ Rectangle {
 
         opacity: 1.0;
 
-        onSelectPressed: {
-            nutritionDays.visible = false;
-            nutritionItems.visible = false;
+        onKeyPressed: {
+            if (key === "Up") {
+                nutritionDays.setFocus();
+            } else if (key === "Red") {
+                let current = model.get(nutritionItems.currentIndex);
+                app.addToBookmark(current, "nutrition", "main");
+            } else if (key === "Select") {
+                nutritionDays.visible = false;
+                nutritionItems.visible = false;
 
-            const currentNutritionItem = model.get(nutritionItems.currentIndex);
-            nutritionDetail.id = currentNutritionItem.id;
-            nutritionDetail.day = nutritionDays.model.get(nutritionDays.currentIndex).day;
-            nutritionDetail.name = currentNutritionItem.name;
-            nutritionDetail.steps = currentNutritionItem.steps;
-            nutritionDetail.ingredients = currentNutritionItem.ingredients;
-            nutritionDetail.image = currentNutritionItem.image;
+                const currentNutritionItem = model.get(nutritionItems.currentIndex);
+                nutritionDetail.id = currentNutritionItem.id;
+                nutritionDetail.day = nutritionDays.model.get(nutritionDays.currentIndex).day;
+                nutritionDetail.name = currentNutritionItem.name;
+                nutritionDetail.steps = currentNutritionItem.steps;
+                nutritionDetail.ingredients = currentNutritionItem.ingredients;
+                nutritionDetail.image = currentNutritionItem.image;
 
-            nutritionDetail.visible = true;
-            nutritionDetail.setFocus();
+                nutritionDetail.visible = true;
+                nutritionDetail.setFocus();
 
-            // stats
-            app.httpServer(app.config.api.stats, "GET", { type: "nutrition" }, "statsNutrition", () => {});
+                // stats
+                app.httpServer(app.config.api.stats, "GET", { type: "nutrition" }, "statsNutrition", () => {});
+            }
         }
-
-        onUpPressed: {
-            nutritionDays.setFocus();
-        }
-
-        onDownPressed: {}
-
-        onLeftPressed: {}
-
-        onRightPressed: {}
-
-        onBackPressed: {}
     }
 }

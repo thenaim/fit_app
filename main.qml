@@ -1,13 +1,13 @@
 /**
 * Pages and controllers
 */
-import "Dashboard.qml";
 import "Tab.qml";
 import "VideoItems.qml";
 import "ExercisesPage.qml";
 import "ExerciseDetail.qml";
 import "NutritionPage.qml";
 import "NutritionDetail.qml";
+import "BookmarkPage.qml";
 import "StatsPage.qml";
 import "SettingsPage.qml";
 import "SendSocial.qml";
@@ -91,32 +91,37 @@ Application {
             onKeyPressed: {
                 if (key === "Red") {
                     let current = model.get(videoItems.currentIndex);
-                    app.addVideoToBookmark(current);
+                    app.addToBookmark(current, "video", "main");
                 }
             }
 
             onSelectPressed: {
-                let videoId = model.get(videoItems.currentIndex).videoId;
-                const url =  app.formatParams(app.config.api.watch + "/" + videoId, {});
-
-                // Hide elements
-                tab.visible = false;
-                // menuView.visible = false;
-                mainView.visible = false;
-
-                // Show player element and play url
-                fitSmartPlayer.title = model.get(videoItems.currentIndex).title;
-                fitSmartPlayer.visible = true;
-                fitSmartPlayer.playVideos(url);
+                videoItems.playVideoById("main");
             }
 
             onUpPressed: {
                 tab.setFocus();
             }
 
-            onLeftPressed: {}
+            /**
+            * Play Video
+            * @param {String} page from where opening video (main, bookmark)
+            */
+            function playVideoById(page) {
+                let video = videoItems.model.get(videoItems.currentIndex);
+                if (page === "bookmark") {
+                    video = bookmarkVideoItemsList.model.get(bookmarkVideoItemsList.currentIndex);
+                }
 
-            onRightPressed: {}
+                // Hide elements
+                tab.visible = false;
+                mainView.visible = false;
+
+                // Show player element and play url
+                fitSmartPlayer.title = video.title;
+                fitSmartPlayer.visible = true;
+                fitSmartPlayer.playVideos(app.formatParams(app.config.api.watch + "/" + video.videoId, {}));
+            }
         }
 
         /**
@@ -153,6 +158,9 @@ Application {
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
         }
 
+        /**
+        * Nutrition page
+        */
         NutritionPage {
             id: nutritionPageContainer;
             anchors.top: mainView.top;
@@ -191,6 +199,23 @@ Application {
         }
 
         /**
+        * Bookmark page
+        */
+        BookmarkPage {
+            id: bookmarkPageContainer;
+            anchors.top: mainView.top;
+            anchors.left: mainView.left;
+            anchors.right: mainView.right;
+            anchors.bottom: mainView.bottom;
+            anchors.margins: app.sizes.margin;
+
+            visible: false;
+            focus: false;
+
+            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+        }
+
+        /**
         * Stats Page
         */
         StatsPage {
@@ -202,12 +227,9 @@ Application {
             anchors.bottom: mainView.bottom;
             anchors.margins: app.sizes.margin;
 
+            opacity: 1.0;
             visible: false;
-            focus: false;
-
-            onUpPressed: {
-                tab.setFocus();
-            }
+            focus: true;
             
         }
 
@@ -244,6 +266,23 @@ Application {
 
 			anchors.centerIn: mainView;
 		}
+
+        /**
+        * Main view background image
+        */
+        Image {
+            id: backThemeLogo;
+            anchors.centerIn: mainView;
+
+            opacity: 0.09;
+            height: 400;
+
+            registerInCacheSystem: false;
+            async: false;
+            fillMode: PreserveAspectFit;
+
+            source: "apps/fit_app/res/video_page_" + (fit.isDark ? "dark.png" : "light.png");
+        }
     }
 
     /**
@@ -251,6 +290,7 @@ Application {
     */
     FitSmartPlayer {
         id: fitSmartPlayer;
+        z: 5;
         anchors.fill: mainWindow;
 
         visible: false;
@@ -285,6 +325,37 @@ Application {
     }
 
     /**
+    * Add/Delete Badge
+    * @param {String} added true|false
+    * @param {String} type bookmark type index video=0|exercise=|nutrition
+    */
+    function addDeleteBadge(added, type) {
+        const tabIndex = app.tabs.findIndex(tab => tab.id === "bookmark");
+        let bookmarkTab = tab.model.get(tabIndex);
+        
+        // main tab badge
+        if (added) {
+            bookmarkTab.badgeInt += 1;
+        } else if (!added && bookmarkTab.badgeInt) {
+            bookmarkTab.badgeInt -= 1;
+        }
+        tab.model.set(tabIndex, bookmarkTab);
+
+        // bookmark page tabs badges
+        if (bookmarkTypes.model.count != 0) {
+            const bookmarkTabIndex = app.bookmarksTypes.findIndex(tab => tab.type === type);
+            const getTypeBookmarkTab = bookmarkTypes.model.get(bookmarkTabIndex);
+            if (added) {
+                getTypeBookmarkTab.badgeInt += 1;
+            } else if (!added && getTypeBookmarkTab.badgeInt) {
+                getTypeBookmarkTab.badgeInt -= 1;
+            }
+
+            bookmarkTypes.model.set(bookmarkTabIndex, getTypeBookmarkTab);
+        }
+    }
+
+    /**
     * Hide player function
     */
     function hideFitSmartPlayer() {
@@ -299,7 +370,6 @@ Application {
 
         videoItems.setFocus();
     }
-
 
     /**
     * Show Notification

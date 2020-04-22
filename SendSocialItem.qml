@@ -21,7 +21,7 @@ Rectangle {
 		opacity: itemRect.activeFocus ? 1.0 : app.config.inactiveOpacity;
 
 		font: Font {
-			family: "Times";
+			family: "Proxima Nova Condensed";
 			pixelSize: itemRect.activeFocus ? 28 : 26;
 			black: true;
 		}

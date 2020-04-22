@@ -1,5 +1,7 @@
 import "js/app.js" as app;
 
+import "Badge.qml";
+
 Rectangle {
     id: tabDelegate;
     opacity: 1.0;
@@ -45,10 +47,39 @@ Rectangle {
 		text: model.title;
 
  		font: Font {
-			  family: "Times";
+			  family: "Proxima Nova Condensed";
 			  pixelSize: 30;
               black: true;
 		}
 	}
+
+    Rectangle {
+        id: badge;
+        anchors.top: tabDelegate.top;
+        anchors.right: tabDelegate.right;
+        anchors.rightMargin: -(badge.width / 2);
+
+        height: 20;
+        width: badgeLength.width + 10;
+        radius: app.sizes.radius / 2;
+
+        opacity: 1;
+        color: "#f44336";
+        visible: model.badgeInt;
+
+        Text {
+            id: badgeLength;
+            anchors.centerIn: badge;
+            opacity: parent.opacity;
+
+            color: "#fff";
+            text: model.badgeInt;
+            font: Font {
+                family: "Proxima Nova Condensed";
+                pixelSize: 22;
+                black: true;
+            }
+        }
+    }
 }
 

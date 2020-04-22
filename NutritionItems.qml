@@ -9,7 +9,7 @@ GridView {
     property bool loading: false;
 
     cellWidth: app.sizes.nutrition.width;
-    cellHeight: app.sizes.nutrition.height;
+    cellHeight: app.sizes.nutrition.height + 40;
 
     visible: !loading;
 
@@ -31,6 +31,7 @@ GridView {
                         name: nut["name"],
                         steps: nut["steps"],
                         ingredients: nut["ingredients"],
+                        bookmark: nut["bookmark"],
                         image: nut["image"] //.split(".")[0]
                     });
                 });
@@ -39,28 +40,6 @@ GridView {
             fit.loading = false;
         });
     }
-
-    Image {
-        id: nutritionThemeLogo;
-        z: 1;
-        anchors.bottom: nutritionItemsList.bottom;
-        anchors.horizontalCenter: nutritionItemsList.horizontalCenter;
-
-        opacity: 0.1;
-        height: 300;
-
-        registerInCacheSystem: false;
-        async: false;
-        fillMode: PreserveAspectFit;
-
-        source: "apps/fit_app/res/video_page_" + (fit.isDark ? "dark.png" : "light.png");
-
-        Behavior on width  { animation: Animation { duration: app.config.animationDuration; } }
-        Behavior on height { animation: Animation { duration: app.config.animationDuration; } }
-    }
-
-
-
 
     /**
     * GridView nutritionHighlight
@@ -71,12 +50,12 @@ GridView {
 		id: highlight;
         z: 2;
 
-        width: app.sizes.nutrition.width;
-        height: app.sizes.nutrition.height;
+        width: nutritionItemsList.cellWidth - 5;
+        height: nutritionItemsList.cellHeight - 5;
 
         visible: nutritionItemsList.count;
 
-		opacity: parent.activeFocus && nutritionItemsList.count ? 0.4 : 0.2;
+		opacity: parent.activeFocus && nutritionItemsList.count ? 0.2 : 0.1;
 		color: nutritionItemsList.highlightColor;
         radius: app.sizes.radius;
 
@@ -97,8 +76,6 @@ GridView {
 			highlightYAnim.complete();
 			this.y = itemRect.Top;
 			this.x = itemRect.Left;
-			this.height = 255;
-			this.width =  280;
 			if (this.y != itemRect.Top && this.x != itemRect.Left) {
 				highlightXAnim.complete();
 				highlightYAnim.complete();

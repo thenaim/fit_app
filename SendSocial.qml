@@ -27,7 +27,7 @@ Rectangle {
 		text: "Отправьте в ВК или Телеграм";
 
  		font: Font {
-			  family: "Times";
+			  family: "Proxima Nova Condensed";
 			  pixelSize: 30;
               black: true;
 		}

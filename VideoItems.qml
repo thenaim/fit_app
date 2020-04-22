@@ -37,29 +37,8 @@ GridView {
             };
 
             fit.loading = false;
-            // videoItems.setFocus();
         });
     }
-
-    Image {
-        id: videoThemeLogo;
-        anchors.bottom: videoItemsList.bottom;
-        anchors.horizontalCenter: videoItemsList.horizontalCenter;
-
-        opacity: 0.1;
-        height: 300;
-
-        registerInCacheSystem: false;
-        async: false;
-        fillMode: PreserveAspectFit;
-
-        source: "apps/fit_app/res/video_page_" + (fit.isDark ? "dark.png" : "light.png");
-
-        Behavior on width  { animation: Animation { duration: app.config.animationDuration; } }
-        Behavior on height { animation: Animation { duration: app.config.animationDuration; } }
-    }
-
-
 
     /**
     * GridView videoItemsList
@@ -75,7 +54,7 @@ GridView {
 
         visible: videoItemsList.count;
 
-		opacity: parent.activeFocus && videoItemsList.count ? 0.4 : 0.2;
+		opacity: parent.activeFocus && videoItemsList.count ? 0.2 : 0.1;
 		color: videoItemsList.highlightColor;
         // radius: app.sizes.radius;
 

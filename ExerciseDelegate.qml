@@ -5,8 +5,8 @@ Rectangle {
     anchors.top: exerciseItems.top;
 
     width: app.sizes.exercise.width;
-    height: app.sizes.exercise.height + 70;
-    opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+    height: app.sizes.exercise.height + 100;
+    opacity: 1;
     color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
 
     focus: true;
@@ -44,7 +44,7 @@ Rectangle {
         anchors.margins: app.sizes.margin / 2;
 
         width: app.sizes.exercise.width;
-        height: app.sizes.exercise.height / 2;
+        height: (app.sizes.exercise.height / 2) + 30;
 
         Text {
             id: exerciseText;
@@ -57,10 +57,31 @@ Rectangle {
             wrapMode: Text.WordWrap;
 
             font: Font {
-                family: "Times";
+                family: "Proxima Nova Condensed";
                 pixelSize: 26;
                 black: true;
             }
+        }
+
+        Image {
+            id: bookmarkImage;
+            z: 2;
+            // anchors.top: exerciseText.bottom;
+            anchors.left: exerciseDelegate.left;
+            anchors.right: exerciseDelegate.right;
+            anchors.bottom: exerciseDelegate.bottom;
+            // anchors.horizontalCenter: exerciseDelegate.horizontalCenter;
+            anchors.margins: app.sizes.margin / 2;
+
+            width: 20;
+            height: 20;
+
+            visible: true;
+            registerInCacheSystem: false;
+
+            source: model.bookmark ? "apps/fit_app/res/heart_added.png" : "apps/fit_app/res/heart_add.png";
+
+            fillMode: PreserveAspectFit;
         }
     }
 }

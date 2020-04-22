@@ -1,7 +1,6 @@
 import "js/app.js" as app;
 Rectangle {
     id: videosDelegate;
-    anchors.top: videoItems.top;
 
     width: app.sizes.poster.width;
     height: (app.sizes.poster.height * 2);
@@ -66,7 +65,7 @@ Rectangle {
         text: model.title;
 
         font: Font {
-            family: "Times";
+            family: "Proxima Nova Condensed";
             pixelSize: 26;
             black: true;
         }
@@ -89,7 +88,7 @@ Rectangle {
         wrapMode: Text.WordWrap;
 
         font: Font {
-            family: "Times";
+            family: "Proxima Nova Condensed";
             pixelSize: videosDelegate.activeFocus ? 22 : 20;
             black: true;
         }

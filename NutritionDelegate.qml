@@ -1,11 +1,11 @@
 import "js/app.js" as app;
 Rectangle {
     id: nutritionDelegate;
-    
-    anchors.top: nutritionItems.top;
+	z: 1;
+    anchors.top: parent.top;
 
     width: app.sizes.nutrition.width - 5;
-    height: app.sizes.nutrition.height - 5;
+    height: app.sizes.nutrition.height + 35;
 
     opacity: 1;
     color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
@@ -62,11 +62,32 @@ Rectangle {
             wrapMode: Text.WordWrap;
 
             font: Font {
-                family: "Times";
+                family: "Proxima Nova Condensed";
                 pixelSize: 26;
                 black: true;
             }
         }
+    }
+
+    Image {
+        id: bookmarkImage;
+        z: 2;
+        // anchors.top: exerciseText.bottom;
+        anchors.left: nutritionDelegate.left;
+        anchors.right: nutritionDelegate.right;
+        anchors.bottom: nutritionDelegate.bottom;
+        // anchors.horizontalCenter: exerciseDelegate.horizontalCenter;
+        anchors.margins: app.sizes.margin / 2;
+
+        width: 20;
+        height: 20;
+
+        visible: true;
+        registerInCacheSystem: false;
+
+        source: model.bookmark ? "apps/fit_app/res/heart_added.png" : "apps/fit_app/res/heart_add.png";
+
+        fillMode: PreserveAspectFit;
     }
 
     onCompleted: {}

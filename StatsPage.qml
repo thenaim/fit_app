@@ -6,13 +6,14 @@ import "js/app.js" as app;
 
 Item {
     id: statsPage;
+    z: 1;
+    opacity: 1.0;
 
     /**
     * Stats page title
     */
 	Text {
 		id: statText;
-        opacity: 1.0;
 
         anchors.bottom: centeredStat.top;
 
@@ -24,7 +25,7 @@ Item {
 		text: "Статистика активности и баллы";
 
  		font: Font {
-			  family: "Times";
+			  family: "Proxima Nova Condensed";
 			  pixelSize: 36;
               black: true;
 		}
@@ -42,6 +43,8 @@ Item {
         width: 960;
         height: 352;
 
+        opacity: 1.0;
+
         /**
         * Chart Bar lines
         */
@@ -53,6 +56,8 @@ Item {
             width: 960;
             spacing: 48;
             height: 2;
+            focus: false;
+            opacity: 1.0;
 
             model: ListModel {}
 
@@ -70,7 +75,6 @@ Item {
         */
         ListView {
             id: barCharts;
-            z: 2;
             orientation: mainWindow.horizontal;
             anchors.top: centeredStat.top;
             anchors.left: centeredStat.left;
@@ -79,9 +83,15 @@ Item {
             spacing: 20;
             height: 350;
 
+            focus: true;
+
             model: ListModel {}
 
             delegate: StatsPageBarChartsDelegate {}
+
+            onUpPressed: {
+                tab.setFocus();
+            }
         }
 
         /**
@@ -94,8 +104,9 @@ Item {
             anchors.topMargin: -10;
             width: 50;
             height: 370;
-            focus: true;
+            focus: false;
             clip: true;
+            opacity: 1.0;
 
             model: ListModel {}
 
@@ -120,6 +131,7 @@ Item {
                 data.stats.forEach((stat) => {
                     barCharts.model.append(stat);
                 });
+                barCharts.setFocus();
             }
         });
     }

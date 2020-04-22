@@ -20,7 +20,7 @@ Rectangle {
 		text: model.line;
 
  		font: Font {
-			  family: "Times";
+			  family: "Proxima Nova Condensed";
 			  pixelSize: 28;
               black: true;
 		}

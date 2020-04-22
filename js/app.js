@@ -15,6 +15,7 @@ this.config = {
         watch: server + "/videos/watch",
         exercises: server + "/exercises",
         exercisesCategories: server + "/exercise/categories",
+        getBookmarks: server + "/bookmarks",
         addDeleteBookmark: server + "/bookmarks/addDelete",
         sendToSocial: server + "/social/send",
         themeChange: server + "/settings/themechange",
@@ -26,58 +27,59 @@ this.config = {
 };
 
 /**
- * App config
- */
-this.texts = {
-    integrateSendVk: "Отправить упражнение в ВК",
-    notIntegrateSendVk: "Чтобы отправить интегрируйте приложение с ВК",
-    sended: "Отправлено!",
-    nutritionSended: "Ретцепт успешно отправлен!",
-    fullNutritionSend: "Отправить полный ретцепт в ВК",
-    checkIntegration: "Проверить интеграцию",
-    settingInfo: "Mожно отправлять упражнения, рецепты и много другое.\nБот ВК: https://vk.com/fit_smart_bot.\nБот Телеграм: https://t.me/fit_smart_bot.\nДля подключения нужно отправит ID приложения.",
-    appFunctions: [
-        "1. Функция сделать полный экран. Это синяя кнопка на пульте.",
-        "2. Добавить в закладки. Это краная кнопка на пульте."
-    ],
-
-    doFullscreen: "-- Сделайте полный экран, чтобы посмотреть полную инструкцию упражнения ---"
-};
-
-/**
  * App tabs
  */
 this.tabs = [{
         id: "video",
         title: "Видео",
-        url: server + "/videos"
+        url: server + "/videos",
+        badgeInt: 0
     },
     {
         id: "exercises",
         title: "Упражнения",
-        url: server + "/exercises"
+        url: server + "/exercises",
+        badgeInt: 0
     },
     {
         id: "nutrition",
         title: "Питание",
-        url: server + "/nutritions"
+        url: server + "/nutritions",
+        badgeInt: 0
     },
     {
         id: "bookmark",
         title: "Закладки",
-        url: server + "/bookmarks"
+        url: server + "/bookmarks",
+        badgeInt: 0
     },
     {
         id: "stats",
         title: "Статистика",
-        url: server + "/stats"
+        url: server + "/stats",
+        badgeInt: 0
     },
     {
         id: "setting",
         title: "Настройки",
-        url: server + "/settings"
+        url: server + "/settings",
+        badgeInt: 0
     }
 ];
+
+this.bookmarksTypes = [{
+    type: "video",
+    title: "Видео",
+    badgeInt: 0
+}, {
+    type: "exercise",
+    title: "Упражнения",
+    badgeInt: 0
+}, {
+    type: "nutrition",
+    title: "Питание",
+    badgeInt: 0
+}];
 
 /**
  * Theme colors - light and dark
@@ -130,6 +132,81 @@ this.sizes = {
 };
 
 /**
+ * App texts
+ */
+this.texts = {
+    integrateSendVk: "Отправить упражнение в ВК",
+    notIntegrateSendVk: "Чтобы отправить интегрируйте приложение с ВК",
+    sended: "Отправлено!",
+    nutritionSended: "Ретцепт успешно отправлен!",
+    fullNutritionSend: "Отправить полный ретцепт в ВК",
+    checkIntegration: "Проверить интеграцию",
+    settingInfo: "Mожно отправлять упражнения, рецепты и много другое.\nБот ВК: https://vk.com/fit_smart_bot.\nБот Телеграм: https://t.me/fit_smart_bot.\nДля подключения нужно отправит ID приложения.",
+    appFunctions: [
+        "1. Функция сделать полный экран. Это синяя кнопка на пульте.",
+        "2. Добавить в закладки. Это краная кнопка на пульте."
+    ],
+
+    doFullscreen: "-- Сделайте полный экран, чтобы посмотреть полную инструкцию упражнения ---"
+};
+
+/**
+ * Format params
+ * Set auth token and stingray id
+ * 
+ * @param  {String} url
+ * @param  {Object} params
+ * @return {String} formated params like "http://example.example?a=1&b=2&c=3"
+ */
+this.formatParams = (url, params) => {
+    let stingray = JSON.parse(load("fit_stingray") || "{}");
+
+    params.token = this.config.token;
+    params.stingray = stingray.id || "";
+
+    return url + "?" + Object
+        .keys(params)
+        .map(function (key) {
+            return key + "=" + encodeURIComponent(params[key]);
+        })
+        .join("&");
+};
+
+/**
+ * Function to callback httpServer requests
+ * @param  {String} url
+ * @param  {String} method http
+ * @param  {Object} params request
+ * @param  {String} functionName where culling [httpServer] function
+ * @return {Function} callback with result
+ */
+this.httpServer = (url, method, params, functionName, callback) => {
+    const http = new XMLHttpRequest();
+    http.setRequestHeader("Content-Type", "application/json");
+    http.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    http.timeout = 10000;
+
+    http.onreadystatechange = () => {
+        if (http.readyState === 4) {
+            if (http.status === 200) {
+                return callback(JSON.parse(http.responseText));
+            }
+            log("\n----",
+                "\nError http server status:", http.status,
+                "\nFunction name:", functionName,
+                "\nError url:", url,
+                "\nText response:", http.responseText ? http.responseText : null,
+                "\n----");
+            return callback(false);
+        }
+
+    };
+
+    http.open(method, this.formatParams(url, params), true);
+    http.send();
+};
+
+/**
  * Wrap text
  * @param  {String} s string to wrap
  * @return {String} Wraped text with '\n'
@@ -155,131 +232,58 @@ this.wrapText = (text, maxLength) => {
 };
 
 /**
- * Format params
- * Set auth token and stingray id
- * 
- * @param  {Object} params
- * @return {String} formated params like "?a=1&b=2&c=3"
- */
-this.formatParams = (url, params) => {
-    let stingray = JSON.parse(load("fit_stingray") || "{}");
-
-    params.token = this.config.token;
-    params.stingray = stingray.id || "";
-
-    return url + "?" + Object
-        .keys(params)
-        .map(function (key) {
-            return key + "=" + encodeURIComponent(params[key]);
-        })
-        .join("&");
-};
-
-/**
- * Function to callback httpServer requests
- * @param  {String} url, method, body
- * @return {Function} callback with http result
- */
-this.httpServer = (url, method, params, functionName, callback) => {
-    url = this.formatParams(url, params);
-
-    const http = new XMLHttpRequest();
-    http.setRequestHeader("Content-Type", "application/json");
-    http.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    http.timeout = 10000;
-
-    http.onreadystatechange = () => {
-        if (http.readyState === 4) {
-            if (http.status === 200) {
-                return callback(JSON.parse(http.responseText));
-            }
-            log("\n----",
-                "\nError http server status:", http.status,
-                "\nFunction name:", functionName,
-                "\nError url:", url,
-                "\nText response:", http.responseText ? http.responseText : null,
-                "\n----");
-            return callback(false);
-        }
-
-    };
-
-    http.onerror = function (e) {
-        log("Error [httpServer function]", url);
-    };
-
-    http.open(method, url, true);
-    http.send();
-};
-
-/**
  * On change tab select page
+ * main.qml - 47 line.
  */
 this.onTabChange = () => {
+    // Hide all tab pages
+    videoItems.visible = false;
+    exercisesPageContainer.visible = false;
+    nutritionPageContainer.visible = false;
+    bookmarkPageContainer.visible = false;
+    statsPage.visible = false;
+    settingPage.visible = false;
+
+    // get current tab
     const tabCurrent = {
         index: tab.currentIndex,
-        data: model.get(tab.currentIndex)
+        data: tab.model.get(tab.currentIndex)
     };
 
+    // check tab id and active page
     switch (tabCurrent.data.id) {
         case "video":
             videoItems.visible = true;
-            exercisesPageContainer.visible = false;
-            nutritionPageContainer.visible = false;
-            statsPage.visible = false;
-            settingPage.visible = false;
             videoItems.setFocus();
             videoItems.getVideos(tabCurrent.data.url);
             break;
         case "exercises":
-            videoItems.visible = false;
             exercisesPageContainer.visible = true;
-            nutritionPageContainer.visible = false;
-            statsPage.visible = false;
-            settingPage.visible = false;
             exercisesPageContainer.setFocus();
             exercisesPageContainer.getChipsAndExercises("Abs");
             break;
         case "nutrition":
-            videoItems.visible = false;
-            exercisesPageContainer.visible = false;
             nutritionPageContainer.visible = true;
-            statsPage.visible = false;
-            settingPage.visible = false;
             nutritionDays.setFocus();
             nutritionItemsList.getNutritions();
             break;
         case "bookmark":
-            videoItems.visible = true;
-            exercisesPageContainer.visible = false;
-            nutritionPageContainer.visible = false;
-            statsPage.visible = false;
-            settingPage.visible = false;
-            videoItems.setFocus();
-            videoItems.getVideos(tabCurrent.data.url);
+            bookmarkPageContainer.visible = true;
+            bookmarkPageContainer.setFocus();
+            bookmarkPageContainer.getBookmarks(bookmarkTypes.model.get(bookmarkTypes.currentIndex).type);
             break;
         case "stats":
             statsPage.visible = true;
-            videoItems.visible = false;
-            exercisesPageContainer.visible = false;
-            nutritionPageContainer.visible = false;
-            settingPage.visible = false;
             statsPage.getStats();
-            statsPage.setFocus();
+            barCharts.setFocus();
             break;
         case "setting":
-            videoItems.visible = false;
-            exercisesPageContainer.visible = false;
-            nutritionPageContainer.visible = false;
-            statsPage.visible = false;
-
+            settingPage.visible = true;
             fit.appInit((callback) => {
                 if (callback) {
-                    settingPage.visible = true;
                     settingPage.setFocus();
                 }
             });
-
             break;
         default:
             break;
@@ -287,28 +291,38 @@ this.onTabChange = () => {
 };
 
 /**
- * On select video add to bookmark
+ * On select item add to bookmark
+ * @param  {Object} current model item
+ * @param  {String} type item of adding/deleting item
+ * @param  {String} page main or bookmark page
  */
-this.addVideoToBookmark = (current) => {
+this.addToBookmark = (current, type, page) => {
     fit.loading = true;
     this.httpServer(app.config.api.addDeleteBookmark, "GET", {
-        videoId: current.videoId
+        id: type === "video" ? current.videoId : current.id,
+        type: type
     }, "Add bookmark key: Red", (book) => {
 
+        // if bookmark added, then show notification
         if (book.added) {
             current.bookmark = true;
-            fit.showNotification("Видео успешно сохранено в закладках");
-        }
-
-        if (book.deleted) {
+            fit.addDeleteBadge(book.added, type);
+            fit.showNotification("Успешно сохранено в закладках");
+        } else {
             current.bookmark = false;
-            fit.showNotification("Видео успешно удалено из закладки");
+            fit.addDeleteBadge(book.added, type);
+            fit.showNotification("Успешно удалено из закладки");
         }
 
-        videoItems.model.remove(videoItems.currentIndex, 1);
-        videoItems.model.insert(videoItems.currentIndex, current);
+        // check page type and update item
+        if (type === "video") {
+            videoItems.model.set(videoItems.currentIndex, current);
+        } else if (type === "exercise") {
+            exerciseItemsList.model.set(exerciseItemsList.currentIndex, current);
+        } else if (type === "nutrition") {
+            nutritionItems.model.set(nutritionItems.currentIndex, current);
+        }
 
         fit.loading = false;
-        videoItems.setFocus();
     });
 };

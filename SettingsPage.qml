@@ -47,7 +47,7 @@ Item {
             wrapMode: Text.WordWrap;
 
             font: Font {
-                family: "Times";
+                family: "Proxima Nova Condensed";
                 pixelSize: 28;
                 black: true;
             }
@@ -67,7 +67,7 @@ Item {
             wrapMode: Text.WordWrap;
 
             font: Font {
-                family: "Times";
+                family: "Proxima Nova Condensed";
                 pixelSize: 26;
                 black: true;
             }
@@ -86,7 +86,7 @@ Item {
             wrapMode: Text.WordWrap;
 
             font: Font {
-                family: "Times";
+                family: "Proxima Nova Condensed";
                 pixelSize: 26;
                 black: true;
             }
@@ -106,7 +106,7 @@ Item {
             wrapMode: Text.WordWrap;
 
             font: Font {
-                family: "Times";
+                family: "Proxima Nova Condensed";
                 pixelSize: 26;
                 black: true;
             }
@@ -126,7 +126,7 @@ Item {
             wrapMode: Text.WordWrap;
 
             font: Font {
-                family: "Times";
+                family: "Proxima Nova Condensed";
                 pixelSize: 30;
                 black: true;
             }
@@ -146,7 +146,7 @@ Item {
             wrapMode: Text.WordWrap;
 
             font: Font {
-                family: "Times";
+                family: "Proxima Nova Condensed";
                 pixelSize: 24;
                 black: true;
             }
@@ -164,7 +164,7 @@ Item {
 
         opacity: themeChanger.activeFocus ? 1.0 : app.config.inactiveOpacity;
         color: themeChanger.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: fit.isDark ? "Тёмная тема" : "Светлая тема";
+        text: fit.isDark ? "Оформление: Тёмная тема" : "Оформление: Светлая тема";
         radius: app.sizes.radius;
         width: 400;
         onUpPressed: {
@@ -172,7 +172,7 @@ Item {
         }
 
         onDownPressed: {
-            reloadIntegrated.setFocus();
+            nutritionTypeButton.setFocus();
         }
 
         onSelectPressed: {
@@ -187,13 +187,51 @@ Item {
     }
 
     /**
+    * Nutrition type
+    */
+    Button {
+        id: nutritionTypeButton;
+        z: 1;
+
+        anchors.top: themeChanger.bottom;
+        anchors.right: settingPageItem.right;
+        anchors.topMargin: app.sizes.margin;
+
+        opacity: nutritionTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
+        color: nutritionTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+        text: "Питание: Наращивание мышц";
+        radius: app.sizes.radius;
+        width: 400;
+
+        onUpPressed: {
+            themeChanger.setFocus();
+        }
+
+        onDownPressed: {
+            reloadIntegrated.setFocus();
+        }
+
+        onSelectPressed: {
+            if (load("nutrition_type") === "muscle_building") {
+                save("nutrition_type", "weight_loss");
+                nutritionTypeButton.text = "Питание: Снижение веса";
+                fit.showNotification("Питание изменены на Снижение веса");
+            } else {
+                save("nutrition_type", "muscle_building");
+                nutritionTypeButton.text = "Питание: Наращивание мышц";
+                fit.showNotification("Питание изменены на Наращивание мышц");
+            }
+        }
+    }
+
+    /**
     * Check integration
     */
     Button {
         id: reloadIntegrated;
         z: 1;
 
-        anchors.top: themeChanger.bottom;
+        anchors.top: nutritionTypeButton.bottom;
         anchors.right: settingPageItem.right;
         anchors.topMargin: app.sizes.margin;
 
@@ -204,10 +242,6 @@ Item {
         width: 400;
 
         onUpPressed: {
-            themeChanger.setFocus();
-        }
-
-        onDownPressed: {
             nutritionTypeButton.setFocus();
         }
 
@@ -223,62 +257,6 @@ Item {
                 }
             });
         }
-    }
-
-    /**
-    * Nutrition type
-    */
-    Button {
-        id: nutritionTypeButton;
-        z: 1;
-
-        anchors.top: reloadIntegrated.bottom;
-        anchors.right: settingPageItem.right;
-        anchors.topMargin: app.sizes.margin;
-
-        opacity: nutritionTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
-        color: nutritionTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: "Рецепты: Наращивание мышц";
-        radius: app.sizes.radius;
-        width: 400;
-
-        onUpPressed: {
-            reloadIntegrated.setFocus();
-        }
-
-        onSelectPressed: {
-            if (load("nutrition_type") === "muscle_building") {
-                save("nutrition_type", "weight_loss");
-                nutritionTypeButton.text = "Рецепты: Снижение веса";
-                fit.showNotification("Рецепты изменены на Снижение веса");
-            } else {
-                save("nutrition_type", "muscle_building");
-                nutritionTypeButton.text = "Рецепты: Наращивание мышц";
-                fit.showNotification("Рецепты изменены на Наращивание мышц");
-            }
-        }
-    }
-
-    /**
-    * Image background for setting page
-    */
-    Image {
-        id: settingThemeLogo;
-        opacity: 0.4;
-
-        anchors.bottom: settingPageItem.bottom;
-        anchors.bottomMargin: -20;
-        anchors.horizontalCenter: settingPageItem.horizontalCenter;
-        height: 300;
-
-        registerInCacheSystem: false;
-        async: false;
-        fillMode: PreserveAspectFit;
-
-        source: "apps/fit_app/res/mode_" + (fit.isDark ? "dark.png" : "light.png");
-
-        Behavior on width  { animation: Animation { duration: app.config.animationDuration; } }
-        Behavior on height { animation: Animation { duration: app.config.animationDuration; } }
     }
 
     Timer {
