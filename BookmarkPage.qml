@@ -583,9 +583,9 @@ Item {
                     bookmarkExerciseItemsList.bookmarkExerciseItemModel.append({
                         id: vid["id"],
                         title: vid["name"],
-                        description: vid["detail"],
-                        bookmark: vid["bookmark"] ? vid["bookmark"] : false,
-                        images: vid.images
+                        description: vid["text"],
+                        bookmark: vid["bookmark"],
+                        images: vid["images"]
                     });
                 });
                 bookmarkExerciseItemsList.visible = true;

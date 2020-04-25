@@ -26,6 +26,7 @@ ListView {
                 chips.forEach((vid) => {
                     chipsList.chipModel.append({
                         id: vid.id,
+                        id_type: vid.id_type,
                         name: vid.name,
                         image: vid.image
                     });

@@ -17,8 +17,8 @@ ListView {
 
 	model: ListModel { id: exerciseItemModel; }
 
-	function getExercises(type) {
-        app.httpServer(app.config.api.exercises, "GET", { type: type }, "getExercises", (exercise) => {
+	function getExercises(id_type) {
+        app.httpServer(app.config.api.exercises, "GET", { id_type: id_type }, "getExercises", (exercise) => {
             // reset model
             exerciseItemsList.exerciseItemModel.reset();
 
@@ -28,13 +28,11 @@ ListView {
                     exerciseItemsList.exerciseItemModel.append({
                         id: vid["id"],
                         title: vid["name"],
-                        description: vid["detail"],
+                        description: vid["text"],
                         bookmark: vid["bookmark"],
-                        images: vid.images
+                        images: vid["images"]
                     });
                 });
-                // set active category name
-                exerciseText.text = chipsList.model.get(chipsList.currentIndex).name;
             };
         });
     }

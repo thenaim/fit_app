@@ -38,7 +38,7 @@ Item {
             };
 
             if (key === "Select" || key === "Down") {
-                exerciseItemsList.getExercises(chipCurrent.data.id);
+                exerciseItemsList.getExercises(chipCurrent.data.id_type);
                 exerciseItemsList.setFocus();
             }
         }
@@ -118,11 +118,11 @@ Item {
 
     onCompleted: {}
 
-    function getChipsAndExercises(type) {
+    function getChipsAndExercises() {
         fit.loading = true;
         chipItems.getChips(app.config.api.exercisesCategories, (callback) => {
             if (callback) {
-                exerciseItemsList.getExercises(chipItems.model.get(chipItems.currentIndex).id);
+                exerciseItemsList.getExercises(chipItems.model.get(chipItems.currentIndex).id_type);
                 exerciseItemsList.setFocus();
             }
         });

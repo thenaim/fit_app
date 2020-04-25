@@ -100,7 +100,7 @@ Item {
         anchors.horizontalCenter: nameText.horizontalCenter;
         anchors.topMargin: -app.sizes.margin;
 
-        color: activeFocus ? "#4680C2" : app.theme.light.background;
+        color: activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
         text: "Отправить в социальные сети";
         radius: app.sizes.radius;
         visible: true;

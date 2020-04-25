@@ -69,6 +69,8 @@ Application {
 		radius: fit.fullscreen ? 0 : app.sizes.radius;
 		color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
 
+        Behavior on height { animation: Animation { duration: 100; } }
+        Behavior on width { animation: Animation { duration: 100; } }
         /**
         * Video Items
         */
@@ -410,8 +412,11 @@ Application {
     }
 
     onKeyPressed: {
-        if (key === "Blue") {
+        if (key === "Green") {
             fit.fullscreen = !fit.fullscreen;
+        } else if (key === "Yellow") {
+            fit.stingray.isDark = !fit.stingray.isDark;
+            settingPageItem.updateTheme(fit.stingray.isDark);
         }
     }
 

@@ -176,13 +176,8 @@ Item {
         }
 
         onSelectPressed: {
-            if (fit.stingray.isDark) {
-                fit.showNotification("Светлая тема активирована");
-            } else {
-                fit.showNotification("Тёмная тема активирована");
-            }
             fit.stingray.isDark = !fit.stingray.isDark;
-            settingPageItem.updateTheme(fit.stingray.isDark)
+            settingPageItem.updateTheme(fit.stingray.isDark);
         }
     }
 
@@ -275,6 +270,11 @@ Item {
     * Update theme function
     */
     function updateTheme(isDark) {
+        if (isDark) {
+            fit.showNotification("Тёмная тема активирована");
+        } else {
+            fit.showNotification("Светлая тема активирована");
+        }
         fit.loading = true;
         app.httpServer(app.config.api.themeChange, "GET", { isDark: isDark }, "updateTheme", (theme) => {
 

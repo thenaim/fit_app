@@ -143,8 +143,9 @@ this.texts = {
     checkIntegration: "Проверить интеграцию",
     settingInfo: "Mожно отправлять упражнения, рецепты и много другое.\nБот ВК: https://vk.com/fit_smart_bot.\nБот Телеграм: https://t.me/fit_smart_bot.\nДля подключения нужно отправит ID приложения.",
     appFunctions: [
-        "1. Функция сделать полный экран. Это синяя кнопка на пульте.",
-        "2. Добавить в закладки. Это краная кнопка на пульте."
+        "1. Добавить в закладки. Это краная кнопка на пульте.",
+        "2. Функция сделать полный экран. Это зеленая кнопка на пульте.",
+        "3. Изменить оформление. Это желтая кнопка на пульте."
     ],
 
     doFullscreen: "-- Сделайте полный экран, чтобы посмотреть полную инструкцию упражнения ---"
@@ -194,7 +195,7 @@ this.httpServer = (url, method, params, functionName, callback) => {
             log("\n----",
                 "\nError http server status:", http.status,
                 "\nFunction name:", functionName,
-                "\nError url:", url,
+                "\nError url:", this.formatParams(url, params),
                 "\nText response:", http.responseText ? http.responseText : null,
                 "\n----");
             return callback(false);
@@ -260,7 +261,7 @@ this.onTabChange = () => {
         case "exercises":
             exercisesPageContainer.visible = true;
             exercisesPageContainer.setFocus();
-            exercisesPageContainer.getChipsAndExercises("Abs");
+            exercisesPageContainer.getChipsAndExercises();
             break;
         case "nutrition":
             nutritionPageContainer.visible = true;
