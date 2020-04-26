@@ -20,7 +20,7 @@ Rectangle {
         
         anchors.horizontalCenter: parent.horizontalCenter;
 
-        width: chipsDelegate.activeFocus ? 54 : 50;
+        width: chipsDelegate.activeFocus ? 64 : 60;
         height: chipsDelegate.activeFocus ? 54 : 50;
 
         registerInCacheSystem: false;

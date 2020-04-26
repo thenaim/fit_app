@@ -13,6 +13,7 @@ Rectangle {
 
     Rectangle {
         id: imageExerciseItem;
+        z: 1;
         anchors.top: exerciseDelegate.top;
         color: "#ffffff";
         opacity: 1.0;
@@ -22,6 +23,7 @@ Rectangle {
 
         Image {
             id: imageCard;
+            z: 2;
             anchors.top: imageExerciseItem.top;
 
             width: app.sizes.exercise.width;

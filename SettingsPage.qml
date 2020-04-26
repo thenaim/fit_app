@@ -3,10 +3,7 @@ import controls.Button;
 
 Item {
     id: settingPageItem;
-    property string id;
-    property bool vkIntegrated;
-
-    z: 10;
+    z: 4;
     opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
     width: 600;
 
@@ -43,7 +40,7 @@ Item {
             opacity: 1;
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: "ID: " + settingPageItem.id;
+            text: "ID: ";
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -203,19 +200,72 @@ Item {
         }
 
         onDownPressed: {
+            genderTypeButton.setFocus();
+        }
+
+        onSelectPressed: {
+        let stingray = JSON.parse(load("fit_stingray"));
+
+        app.httpServer(app.config.api.updateStingray, "GET", { meal: !stingray.meal }, "nutrition_type", (res) => {
+            if (res.updated) {
+                stingray.meal = !stingray.meal;
+                if (stingray.meal) {
+                    nutritionTypeButton.text = "Питание: Наращивание мышц";
+                    fit.showNotification("Питание изменены на Наращивание мышц");
+                } else {
+                    nutritionTypeButton.text = "Питание: Снижение веса";
+                    fit.showNotification("Питание изменены на Снижение веса");
+                }
+
+                save("fit_stingray", JSON.stringify(stingray));
+            }
+        });
+        }
+    }
+
+    /**
+    * Gender type
+    */
+    Button {
+        id: genderTypeButton;
+        z: 1;
+
+        anchors.top: nutritionTypeButton.bottom;
+        anchors.right: settingPageItem.right;
+        anchors.topMargin: app.sizes.margin;
+
+        opacity: genderTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
+        color: genderTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+        text: "Пол: Женский";
+        radius: app.sizes.radius;
+        width: 400;
+
+        onUpPressed: {
+            nutritionTypeButton.setFocus();
+        }
+
+        onDownPressed: {
             reloadIntegrated.setFocus();
         }
 
         onSelectPressed: {
-            if (load("nutrition_type") === "muscle_building") {
-                save("nutrition_type", "weight_loss");
-                nutritionTypeButton.text = "Питание: Снижение веса";
-                fit.showNotification("Питание изменены на Снижение веса");
-            } else {
-                save("nutrition_type", "muscle_building");
-                nutritionTypeButton.text = "Питание: Наращивание мышц";
-                fit.showNotification("Питание изменены на Наращивание мышц");
-            }
+            let stingray = JSON.parse(load("fit_stingray"));
+
+            app.httpServer(app.config.api.updateStingray, "GET", { gender: stingray.gender === "man" ? "woman" : "man" }, "genderTypeButton", (res) => {
+                if (res.updated) {
+                    if (stingray.gender === "woman") {
+                        stingray.gender = "man";
+                        genderTypeButton.text = "Пол: Мужской";
+                        fit.showNotification("Вы изменили упражнения на мужской");
+                    } else {
+                        stingray.gender = "woman";
+                        genderTypeButton.text = "Пол: Женский";
+                        fit.showNotification("Вы изменили упражнения на женский");
+                    }
+
+                    save("fit_stingray", JSON.stringify(stingray));
+                }
+            });
         }
     }
 
@@ -226,9 +276,9 @@ Item {
         id: reloadIntegrated;
         z: 1;
 
-        anchors.top: nutritionTypeButton.bottom;
+        anchors.top: genderTypeButton.bottom;
         anchors.right: settingPageItem.right;
-        anchors.topMargin: app.sizes.margin;
+        anchors.topMargin: app.sizes.margin * 2;
 
         opacity: reloadIntegrated.activeFocus ? 1.0 : app.config.inactiveOpacity;
         color: reloadIntegrated.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
@@ -237,7 +287,7 @@ Item {
         width: 400;
 
         onUpPressed: {
-            nutritionTypeButton.setFocus();
+            genderTypeButton.setFocus();
         }
 
         onSelectPressed: {
@@ -270,21 +320,43 @@ Item {
     * Update theme function
     */
     function updateTheme(isDark) {
-        if (isDark) {
-            fit.showNotification("Тёмная тема активирована");
-        } else {
-            fit.showNotification("Светлая тема активирована");
-        }
         fit.loading = true;
         app.httpServer(app.config.api.themeChange, "GET", { isDark: isDark }, "updateTheme", (theme) => {
-
             if (theme.changed) {
                 fit.stingray.isDark = isDark;
                 fit.isDark = isDark;
-            };
+
+                if (isDark) {
+                    fit.showNotification("Тёмная тема активирована");
+                } else {
+                    fit.showNotification("Светлая тема активирована");
+                }
+            }
 
             fit.loading = false;
             themeChanger.setFocus();
+        });
+    }
+
+    /**
+    * Update nutrition type
+    */
+    function updateMeal() {
+        let stingray = JSON.parse(load("fit_stingray"));
+
+        app.httpServer(app.config.api.updateStingray, "POST", { meal: stingray.meal }, "nutrition_type", (res) => {
+            if (res.updated) {
+                stingray.meal = !stingray.meal;
+                if (stingray.meal) {
+                    nutritionTypeButton.text = "Питание: Наращивание мышц";
+                    fit.showNotification("Питание изменены на Наращивание мышц");
+                } else {
+                    nutritionTypeButton.text = "Питание: Снижение веса";
+                    fit.showNotification("Питание изменены на Снижение веса");
+                }
+
+                save("fit_stingray", JSON.stringify(stingray));
+            }
         });
     }
 
@@ -293,8 +365,10 @@ Item {
     */
     function checkVkAndTelegram() {
         const stingray = JSON.parse(load("fit_stingray"));
-        settingPageItem.id = stingray.id;
+        integrateText.text = "ID " + stingray.id;
 
+        stingray.gender === "man" ? genderTypeButton.text = "Пол: Мужской" : genderTypeButton.text = "Пол: Женский"; 
+        stingray.meal ? nutritionTypeButton.text = "Питание: Наращивание мышц" : nutritionTypeButton.text = "Питание: Снижение веса";
         stingray.vkIntegrated ? vkIntegratedOrNot.text = "ВК интегрирован." : vkIntegratedOrNot.text = "ВК не интегрирован.";
         stingray.tgIntegrated ? tgIntegratedOrNot.text = "Телеграм интегрирован." : tgIntegratedOrNot.text = "Телеграм не интегрирован.";
     }

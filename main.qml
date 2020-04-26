@@ -334,7 +334,7 @@ Application {
         id: loadingCatalogSpinner;
         color: fit.isDark ? app.theme.dark.background : app.theme.light.background;
 
-        anchors.centerIn: mainView;
+        anchors.centerIn: fit;
 
         visible: fit.loading;
     }
@@ -397,8 +397,9 @@ Application {
     
             // save stingray
             save("fit_stingray", JSON.stringify(data));
-            // save("fit_integratedVk", data.vkIntegrated);
             fit.stingray = data;
+
+            fit.isDark = data.isDark;
 
             if (data.vkIntegrated) {
                 fit.showNotification("ВК успешно интегрирован!");

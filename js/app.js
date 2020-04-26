@@ -19,7 +19,8 @@ this.config = {
         addDeleteBookmark: server + "/bookmarks/addDelete",
         sendToSocial: server + "/social/send",
         themeChange: server + "/settings/themechange",
-        stats: server + "/stats"
+        stats: server + "/stats",
+        updateStingray: server + "/settings/update/stingray"
     },
     animationDuration: 150,
     inactiveOpacity: 0.6,
@@ -118,7 +119,7 @@ this.sizes = {
         height: 120
     },
     chips: {
-        width: 170,
+        width: 220,
         height: 100
     },
     exercise: {
@@ -148,7 +149,7 @@ this.texts = {
         "3. Изменить оформление. Это желтая кнопка на пульте."
     ],
 
-    doFullscreen: "-- Сделайте полный экран, чтобы посмотреть полную инструкцию упражнения ---"
+    doFullscreen: "-- Сделайте полный экран, чтобы посмотреть полную инструкцию и начать упражнения ---"
 };
 
 /**
@@ -165,12 +166,16 @@ this.formatParams = (url, params) => {
     params.token = this.config.token;
     params.stingray = stingray.id || "";
 
-    return url + "?" + Object
+    const final = url + "?" + Object
         .keys(params)
         .map(function (key) {
             return key + "=" + encodeURIComponent(params[key]);
         })
         .join("&");
+
+    log(final);
+
+    return final;
 };
 
 /**
@@ -182,10 +187,13 @@ this.formatParams = (url, params) => {
  * @return {Function} callback with result
  */
 this.httpServer = (url, method, params, functionName, callback) => {
-    const http = new XMLHttpRequest();
-    http.setRequestHeader("Content-Type", "application/json");
+    let http = new XMLHttpRequest();
+    http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     http.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     http.timeout = 10000;
+
+    http.open(method, this.formatParams(url, params), true);
+    http.send();
 
     http.onreadystatechange = () => {
         if (http.readyState === 4) {
@@ -202,9 +210,6 @@ this.httpServer = (url, method, params, functionName, callback) => {
         }
 
     };
-
-    http.open(method, this.formatParams(url, params), true);
-    http.send();
 };
 
 /**

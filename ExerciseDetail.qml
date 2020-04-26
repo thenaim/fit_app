@@ -58,7 +58,7 @@ Item {
         anchors.topMargin: !imagesGalary.zoom ? app.sizes.margin : 0;
 
         height: app.sizes.exercise.height + (fit.fullscreen ? 100 : 80);
-        spacing: 2;
+        spacing: 0;
 
         focus: true;
         clip: true;
@@ -92,7 +92,9 @@ Item {
         }
 
         onDownPressed: {
-            if (fit.fullscreen) return;
+            if (fit.fullscreen) {
+                return startButton.setFocus();
+            }
             vkButton.setFocus();
         }
     }
@@ -117,6 +119,206 @@ Item {
         font: secondaryFont;
     }
 
+    /**
+    * Exercise Start container
+    */
+    Item {
+        id: startExercises;
+        z: 3;
+        anchors.top: descriptionexerciseText.bottom;
+        anchors.left: exerciseDetail.left;
+        anchors.right: exerciseDetail.right;
+        anchors.bottom: exerciseDetail.bottom;
+        anchors.topMargin: -100;
+        anchors.horizontalCenter: exerciseDetail.horizontalCenter;
+
+        height: 150;
+        width: 300;
+        visible: fit.fullscreen;
+
+        /**
+        * Exercise rounds
+        */
+        Text {
+            id: exerciseRounds;
+            anchors.top: startExercises.top;
+            anchors.horizontalCenter: exerciseDetail.horizontalCenter;
+            anchors.bottomMargin: app.sizes.margin / 2.5;
+
+            color: imagesGalary.zoom ? app.theme.light.textColor : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+
+            text: exerciseTimer.rounds + "/3 " + "Круг (Повторяем 2-3 раза)";
+
+            font: Font {
+                family: "Proxima Nova Condensed";
+                pixelSize: 28;
+                black: true;
+            }
+        }
+
+        /**
+        * Exercise start button
+        */
+        Button {
+            id: startButton;
+
+            anchors.top: exerciseRounds.bottom;
+            anchors.horizontalCenter: parent.horizontalCenter;
+            anchors.topMargin: app.sizes.margin / 2;
+            anchors.bottomMargin: app.sizes.margin / 3;
+
+            color: activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+            text: exerciseTimer.running ? "Остановить" : "Начать";
+            radius: app.sizes.radius;
+            visible: true;
+            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+            font: Font {
+                pixelSize: 15;
+            }
+
+            onUpPressed: {
+                imagesGalary.setFocus();
+            }
+
+            onSelectPressed: {
+                if (exerciseTimer.running) {
+                    return exerciseTimer.stop();
+                }
+
+                fit.showNotification("Начали первый круг");
+                exerciseTimer.start();
+                // stats
+                app.httpServer(app.config.api.stats, "GET", { type: "exercise_play" }, "startButton", () => {});
+            }
+        }
+
+        /**
+        * Exercise time
+        */
+        Text {
+            id: exerciseTime;
+            anchors.top: startButton.top;
+            anchors.right: startButton.left;
+            anchors.rightMargin: app.sizes.margin / 2;
+            anchors.topMargin: startButton.height / 3;
+
+            color: imagesGalary.zoom ? app.theme.light.textColor : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+
+            text: "00:00:30";
+
+            font: Font {
+                family: "Proxima Nova Condensed";
+                pixelSize: exerciseTimer.running && exerciseTimer.exercise ? 35 : 30;
+                black: true;
+            }
+        }
+
+        /**
+        * Exercise relax time
+        */
+        Text {
+            id: relaxTime;
+            anchors.top: startButton.top;
+            anchors.left: startButton.right;
+            anchors.leftMargin: app.sizes.margin / 2;
+            anchors.topMargin: startButton.height / 3;
+
+            color: imagesGalary.zoom ? app.theme.light.textColor : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+
+            text: "00:00:15";
+
+            font: Font {
+                family: "Proxima Nova Condensed";
+                pixelSize: exerciseTimer.running && !exerciseTimer.exercise ? 35 : 30;
+                black: true;
+            }
+        }
+
+        /**
+        * Exercise start timer
+        */
+        Timer {
+            id: exerciseTimer;
+            property bool exercise: true;
+            property int timerExercise: 30000;
+            property int timerRelax: 15000;
+            property int rounds: 1;
+            interval: 1000;
+            repeat: true;
+            
+            onTriggered: {
+                // stop if fullscreen closed
+                if (!fit.fullscreen) {
+                    exerciseTimer.resetDataPlay();
+
+                    return fit.showNotification("Вы закрыли упражнения, чтобы начать заново сделайте полный экран");
+                }
+                // stop when 3 round finished
+                if (exerciseTimer.rounds === 4) {
+                    exerciseTimer.resetDataPlay();
+                    return fit.showNotification("Вы успешно закончили упражнение");
+                }
+                // time to do exercise
+                if (exerciseTimer.exercise) {
+                    exerciseTimer.timerExercise -= interval;
+                    if (exerciseTimer.timerExercise === 0) {
+                        exerciseTimer.exercise = false;
+                        exerciseTimer.timerExercise = 30000;
+                        if (exerciseTimer.rounds === 1) {
+                            fit.showNotification("Отдыхаем между кругами");
+                        }
+                    }
+                    exerciseTime.text = exerciseTimer.parseMillisecondsIntoReadableTime(exerciseTimer.timerExercise);
+                }
+                // time to relax
+                if (!exerciseTimer.exercise) {
+                    exerciseTimer.timerRelax -= interval;
+                    if (exerciseTimer.timerRelax === 0) {
+                        exerciseTimer.exercise = true;
+                        exerciseTimer.timerRelax = 15000;
+                        exerciseTimer.rounds += 1;
+                        if (exerciseTimer.rounds === 2) {
+                            fit.showNotification("Начали второй круг");
+                        }
+                        if (exerciseTimer.rounds === 3) {
+                            fit.showNotification("Начали третий круг");
+                        }
+                    }
+                    relaxTime.text = exerciseTimer.parseMillisecondsIntoReadableTime(exerciseTimer.timerRelax);
+                }
+            }
+
+            function resetDataPlay() {
+                exerciseTimer.rounds = 1;
+                exerciseTimer.timerExercise = 30000;
+                exerciseTimer.timerRelax = 15000;
+                exerciseTime.text = "00:00:30";
+                relaxTime.text = "00:00:15";
+                exerciseTimer.stop();
+            }
+
+            function parseMillisecondsIntoReadableTime(milliseconds){
+                //Get hours from milliseconds
+                var hours = milliseconds / (1000*60*60);
+                var absoluteHours = Math.floor(hours);
+                var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+
+                //Get remainder from hours and convert to minutes
+                var minutes = (hours - absoluteHours) * 60;
+                var absoluteMinutes = Math.floor(minutes);
+                var m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
+
+                //Get remainder from minutes and convert to seconds
+                var seconds = (minutes - absoluteMinutes) * 60;
+                var absoluteSeconds = Math.floor(seconds);
+                var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+
+
+                return h + ':' + m + ':' + s;
+            }
+
+        }
+    }
     /**
     * Exercise Social button
     */
@@ -177,9 +379,14 @@ Item {
     }
 
     onVisibleChanged: {
+        // stop play exercise
+        exerciseTimer.resetDataPlay();
+        // reset galary images and add new if exist
         imagesGalary.model.reset();
-        exerciseDetail.images.forEach((img) => {
+        exerciseDetail.images.forEach((img, index) => {
+            index += 1;
             imagesGalary.model.append({
+                id: index,
                 image: img
             });
         });
