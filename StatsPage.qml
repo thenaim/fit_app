@@ -22,7 +22,7 @@ Item {
 
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
-		text: "Статистика активности и баллы";
+		text: app.texts[fit.lang].statsTitile;
 
  		font: Font {
 			  family: "Proxima Nova Condensed";

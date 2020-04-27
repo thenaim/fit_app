@@ -23,6 +23,7 @@ Application {
     property var stingray: {};
 
     property bool isDark: true;
+    property string lang: "ru";
     property bool fullscreen: false;
     property bool loading: false;
 
@@ -397,15 +398,17 @@ Application {
     
             // save stingray
             save("fit_stingray", JSON.stringify(data));
-            fit.stingray = data;
+            fit.stingray = JSON.parse(load("fit_stingray"));
+            fit.stingray = JSON.parse(load("fit_stingray"));
 
             fit.isDark = data.isDark;
+            fit.lang = data.lang;
 
             if (data.vkIntegrated) {
-                fit.showNotification("ВК успешно интегрирован!");
+                fit.showNotification(app.texts[fit.lang].vkIntegrated);
             }
             if (data.tgIntegrated) {
-                fit.showNotification("Телеграм успешно интегрирован!");
+                fit.showNotification(app.texts[fit.lang].tgIntegrated);
             }
 
             callback(true);

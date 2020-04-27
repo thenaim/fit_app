@@ -40,7 +40,6 @@ Rectangle {
         id: contentNutritionItem;
         anchors.top: imageNutritionItem.bottom;
         anchors.left: imageNutritionItem.left;
-
         anchors.leftMargin: 10;
         anchors.rightMargin: 10;
         anchors.bottomMargin: 10;
@@ -72,11 +71,9 @@ Rectangle {
     Image {
         id: bookmarkImage;
         z: 2;
-        // anchors.top: exerciseText.bottom;
         anchors.left: nutritionDelegate.left;
         anchors.right: nutritionDelegate.right;
         anchors.bottom: nutritionDelegate.bottom;
-        // anchors.horizontalCenter: exerciseDelegate.horizontalCenter;
         anchors.margins: app.sizes.margin / 2;
 
         width: 20;

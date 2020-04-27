@@ -101,7 +101,7 @@ Item {
         anchors.topMargin: -app.sizes.margin;
 
         color: activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: "Отправить в социальные сети";
+        text: app.texts[fit.lang].sendToSocial;
         radius: app.sizes.radius;
         visible: true;
         opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;

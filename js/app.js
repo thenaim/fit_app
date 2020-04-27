@@ -32,37 +32,55 @@ this.config = {
  */
 this.tabs = [{
         id: "video",
-        title: "Видео",
+        title: {
+            ru: "Видео",
+            en: "Video"
+        },
         url: server + "/videos",
         badgeInt: 0
     },
     {
         id: "exercises",
-        title: "Упражнения",
+        title: {
+            ru: "Упражнения",
+            en: "Exercises"
+        },
         url: server + "/exercises",
         badgeInt: 0
     },
     {
         id: "nutrition",
-        title: "Питание",
+        title: {
+            ru: "Питание",
+            en: "Nutrition"
+        },
         url: server + "/nutritions",
         badgeInt: 0
     },
     {
         id: "bookmark",
-        title: "Закладки",
+        title: {
+            ru: "Закладки",
+            en: "Bookmarks"
+        },
         url: server + "/bookmarks",
         badgeInt: 0
     },
     {
         id: "stats",
-        title: "Статистика",
+        title: {
+            ru: "Статистика",
+            en: "Stats"
+        },
         url: server + "/stats",
         badgeInt: 0
     },
     {
         id: "setting",
-        title: "Настройки",
+        title: {
+            ru: "Настройки",
+            en: "Settings"
+        },
         url: server + "/settings",
         badgeInt: 0
     }
@@ -70,15 +88,24 @@ this.tabs = [{
 
 this.bookmarksTypes = [{
     type: "video",
-    title: "Видео",
+    title: {
+        ru: "Видео",
+        en: "Video"
+    },
     badgeInt: 0
 }, {
     type: "exercise",
-    title: "Упражнения",
+    title: {
+        ru: "Упражнения",
+        en: "Exercises"
+    },
     badgeInt: 0
 }, {
     type: "nutrition",
-    title: "Питание",
+    title: {
+        ru: "Питание",
+        en: "Nutrition"
+    },
     badgeInt: 0
 }];
 
@@ -136,20 +163,108 @@ this.sizes = {
  * App texts
  */
 this.texts = {
-    integrateSendVk: "Отправить упражнение в ВК",
-    notIntegrateSendVk: "Чтобы отправить интегрируйте приложение с ВК",
-    sended: "Отправлено!",
-    nutritionSended: "Ретцепт успешно отправлен!",
-    fullNutritionSend: "Отправить полный ретцепт в ВК",
-    checkIntegration: "Проверить интеграцию",
-    settingInfo: "Mожно отправлять упражнения, рецепты и много другое.\nБот ВК: https://vk.com/fit_smart_bot.\nБот Телеграм: https://t.me/fit_smart_bot.\nДля подключения нужно отправит ID приложения.",
-    appFunctions: [
-        "1. Добавить в закладки. Это краная кнопка на пульте.",
-        "2. Функция сделать полный экран. Это зеленая кнопка на пульте.",
-        "3. Изменить оформление. Это желтая кнопка на пульте."
-    ],
+    ru: {
+        language: "Язык: Русский",
+        languageChanged: "Вы изменили язык на русский",
 
-    doFullscreen: "-- Сделайте полный экран, чтобы посмотреть полную инструкцию и начать упражнения ---"
+        statsTitile: "Статистика активности и баллы",
+        instruction: "Инструкция",
+        activeThemeDark: "Оформление: Тёмная тема",
+        activeThemeLight: "Оформление: Светлая тема",
+        genderMale: "Пол: Мужской",
+        genderFemale: "Пол: Женский",
+        genderMaleChanged: "Вы изменили упражнения на мужской",
+        genderFemaleChanged: "Вы изменили упражнения на женский",
+        darkThemeActive: "Тёмная тема активирована",
+        lightThemeActive: "Светлая тема активирована",
+        nutritionMuscleBuilding: "Питание: Наращивание мышц",
+        nutritionMuscleBuildingChanged: "Питание изменены на Наращивание мышц",
+        nutritionWeightLoss: "Питание: Снижение веса",
+        nutritionWeightLossChanged: "Питание изменены на Снижение веса",
+        day: "День",
+        sendToVk: "Отправить в ВК",
+        sendToTg: "Отправить в Телеграм",
+        reloading: "Проверяем...",
+        cancel: "Отменить",
+        vkNotIntegrated: "ВК не интегрирован.",
+        tgNotIntegrated: "Телеграм не интегрирован.",
+        tgIntegrated: "Телеграм успешно интегрирован!",
+        vkIntegrated: "ВК успешно интегрирован!",
+        sendToSocial: "Отправить в социальные сети",
+        playExerciseClosed: "Вы закрыли упражнения, чтобы начать заново сделайте полный экран",
+        finishedExercise: "Вы успешно закончили упражнение",
+        relaxCircle: "Отдыхаем между кругами",
+        startThirdCircle: "Начали третий круг",
+        startSecondCircle: "Начали второй круг",
+        startFirstCircle: "Начали первый круг",
+        start: "Начать",
+        stop: "Остановить",
+        repetitionCircle: "Круг (Повторяем 2-3 раза)",
+        videoNotAdded: "Вы ещё не добавили Видео в закладки",
+        exersicesNotAdded: "Вы ещё не добавили Упражнения в закладки",
+        nutritionNotAdded: "Вы ещё не добавили Питание в закладки",
+        sended: "Отправлено!",
+        checkIntegration: "Проверить интеграцию",
+        settingInfo: "Mожно отправлять упражнения, рецепты и много другое.\nБот ВК: https://vk.com/fit_smart_bot.\nБот Телеграм: https://t.me/fit_smart_bot.\nДля подключения нужно отправит ID приложения.",
+        appFunctions: [
+            "1. Добавить в закладки. Это красная кнопка на пульте.",
+            "2. Функция сделать полный экран. Это зеленая кнопка на пульте.",
+            "3. Изменить оформление. Это желтая кнопка на пульте."
+        ],
+
+        doFullscreen: "-- Сделайте полный экран, чтобы посмотреть полную инструкцию и начать упражнения ---"
+    },
+    en: {
+        language: "Language: English",
+        languageChanged: "You changed the language to english",
+
+        statsTitile: "Activity Statistics and points",
+        instruction: "Instructions",
+        activeThemeDark: "Design: Dark theme",
+        activeThemeLight: "Design: Light theme",
+        genderMale: "Gender: Male",
+        genderFemale: "Gender: Female",
+        genderMaleChanged: "You changed the exercise to male",
+        genderFemaleChanged: "You changed the exercise to female",
+        darkThemeActive: "Dark theme activated",
+        lightThemeActive: "Light theme activated",
+        nutritionMuscleBuilding: "Nutrition: Muscle building",
+        nutritionMuscleBuildingChanged: "Nutrition changed to build muscle",
+        nutritionWeightLoss: "Nutrition: Weight loss",
+        nutritionWeightLossChanged: "Nutrition changed for weight Loss",
+        day: "Day",
+        sendToVk: "Send to VK",
+        sendToTg: "Send to Telegram",
+        reloading: "Checking...",
+        cancel: "Cancel",
+        vkNotIntegrated: "VK is not integrated.",
+        tgNotIntegrated: "Telegram is not integrated.",
+        tgIntegrated: "Telegram successfully integrated!",
+        vkIntegrated: "VK has been successfully integrated!",
+        sendToSocial: "Send to social networks",
+        playExerciseClosed: "You closed the exercise to start again make a full screen",
+        finishedExercise: "You completed the exercise successfully",
+        relaxCircle: "Resting between roundes",
+        startThirdCircle: "Started the third round",
+        startSecondCircle: "Started the second round",
+        startFirstCircle: "Started the first round",
+        start: "Start",
+        stop: "Stop",
+        repetitionCircle: "Round (Repeat 2-3 times)",
+        videoNotAdded: "You haven't added the Video to your bookmarks yet",
+        exersicesNotAdded: "You haven't added the Exercises to your bookmarks yet",
+        nutritionNotAdded: "You haven't added Food to your bookmarks yet",
+        sent: "Sent!",
+        checkIntegration: "Check integration",
+        settingInfo: "You can send exercises, recipes, and much more.\nBot VK: https://vk.com/fit_smart_bot.\nBot Telegram: https://t.me/fit_smart_bot.\nTo connect, you will need to send the app ID.",
+        appFunctions: [
+            "1. Add to bookmarks. This is the red button on the remote.",
+            "2. A function to make it full screen. This is the green button on the remote.",
+            "3. Change the design. This is the yellow button on the remote."
+        ],
+
+        doFullscreen: "--- Make a full screen to view the full instructions and start the exercise ---"
+    }
 };
 
 /**

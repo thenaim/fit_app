@@ -147,7 +147,7 @@ Item {
 
             color: imagesGalary.zoom ? app.theme.light.textColor : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
-            text: exerciseTimer.rounds + "/3 " + "Круг (Повторяем 2-3 раза)";
+            text: exerciseTimer.rounds + "/3 " + app.texts[fit.lang].repetitionCircle;
 
             font: Font {
                 family: "Proxima Nova Condensed";
@@ -168,7 +168,7 @@ Item {
             anchors.bottomMargin: app.sizes.margin / 3;
 
             color: activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-            text: exerciseTimer.running ? "Остановить" : "Начать";
+            text: exerciseTimer.running ? app.texts[fit.lang].stop : app.texts[fit.lang].start;
             radius: app.sizes.radius;
             visible: true;
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
@@ -182,10 +182,11 @@ Item {
 
             onSelectPressed: {
                 if (exerciseTimer.running) {
-                    return exerciseTimer.stop();
+                    // stop play exercise
+                    return exerciseTimer.resetDataPlay();
                 }
 
-                fit.showNotification("Начали первый круг");
+                fit.showNotification(app.texts[fit.lang].startFirstCircle);
                 exerciseTimer.start();
                 // stats
                 app.httpServer(app.config.api.stats, "GET", { type: "exercise_play" }, "startButton", () => {});
@@ -251,12 +252,12 @@ Item {
                 if (!fit.fullscreen) {
                     exerciseTimer.resetDataPlay();
 
-                    return fit.showNotification("Вы закрыли упражнения, чтобы начать заново сделайте полный экран");
+                    return fit.showNotification(app.texts[fit.lang].playExerciseClosed);
                 }
                 // stop when 3 round finished
                 if (exerciseTimer.rounds === 4) {
                     exerciseTimer.resetDataPlay();
-                    return fit.showNotification("Вы успешно закончили упражнение");
+                    return fit.showNotification(app.texts[fit.lang].finishedExercise);
                 }
                 // time to do exercise
                 if (exerciseTimer.exercise) {
@@ -265,7 +266,7 @@ Item {
                         exerciseTimer.exercise = false;
                         exerciseTimer.timerExercise = 30000;
                         if (exerciseTimer.rounds === 1) {
-                            fit.showNotification("Отдыхаем между кругами");
+                            fit.showNotification(app.texts[fit.lang].relaxCircle);
                         }
                     }
                     exerciseTime.text = exerciseTimer.parseMillisecondsIntoReadableTime(exerciseTimer.timerExercise);
@@ -278,10 +279,10 @@ Item {
                         exerciseTimer.timerRelax = 15000;
                         exerciseTimer.rounds += 1;
                         if (exerciseTimer.rounds === 2) {
-                            fit.showNotification("Начали второй круг");
+                            fit.showNotification(app.texts[fit.lang].startSecondCircle);
                         }
                         if (exerciseTimer.rounds === 3) {
-                            fit.showNotification("Начали третий круг");
+                            fit.showNotification(app.texts[fit.lang].startThirdCircle);
                         }
                     }
                     relaxTime.text = exerciseTimer.parseMillisecondsIntoReadableTime(exerciseTimer.timerRelax);
@@ -340,7 +341,7 @@ Item {
             anchors.topMargin: app.sizes.margin / 2;
 
             color: activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-            text: "Отправить в социальные сети";
+            text: app.texts[fit.lang].sendToSocial;
             radius: app.sizes.radius;
             visible: true;
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
@@ -368,7 +369,7 @@ Item {
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
             visible: !fit.fullscreen;
-            text: app.texts.doFullscreen;
+            text: app.texts[fit.lang].doFullscreen;
 
             font: Font {
                 family: "Proxima Nova Condensed";

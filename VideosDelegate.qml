@@ -71,30 +71,6 @@ Rectangle {
         }
     }
 
-    /*
-    Text {
-        id: videoText;
-        z: 2;
-        anchors.top: imageVideoItem.bottom;
-        anchors.left: imageVideoItem.left;
-        anchors.right: imageVideoItem.right;
-        anchors.margins: app.sizes.margin / 2;
-
-        width: app.sizes.poster.width - 5;
-        height: app.sizes.poster.height - 19;
-
-        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-        text: app.wrapText(model.title, 35);
-        wrapMode: Text.WordWrap;
-
-        font: Font {
-            family: "Proxima Nova Condensed";
-            pixelSize: videosDelegate.activeFocus ? 22 : 20;
-            black: true;
-        }
-    }
-    */
-
     Image {
         id: bookmarkImage;
         z: 2;

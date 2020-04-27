@@ -47,7 +47,7 @@ Rectangle {
 		SendSocialItem {
 			id: vkSendButton;
 
-			menuText: "Отправить в ВК";
+			menuText: app.texts[fit.lang].sendToVk;
 
 			onSelectPressed: {
 				const stingray = JSON.parse(load("fit_stingray"));
@@ -61,13 +61,13 @@ Rectangle {
 					}, "vkButton", (ok) => {
 
 						if (ok.sended) {
-							vkSendButton.menuText = app.texts.sended;
+							vkSendButton.menuText = app.texts[fit.lang].sended;
 							timerSend.start();
 							fit.showNotification(sendSocialContainer.type === "nutrition" ? "Рецепт успешно отправлен!" : "Упражнения успешно отправлен!");
 						};
 					});
 				} else {
-					fit.showNotification("ВК не интегрирован.");
+					fit.showNotification(app.texts[fit.lang].vkNotIntegrated);
 				}
 			}
 		}
@@ -75,7 +75,7 @@ Rectangle {
 		SendSocialItem {
 			id: tgSendButton;
 
-			menuText: "Отправить в Телеграм";
+			menuText: app.texts[fit.lang].sendToTg;
 
 			onSelectPressed: {
 				const stingray = JSON.parse(load("fit_stingray"));
@@ -89,13 +89,13 @@ Rectangle {
 					}, "vkButton", (ok) => {
 
 						if (ok.sended) {
-							tgSendButton.menuText = app.texts.sended;
+							tgSendButton.menuText = app.texts[fit.lang].sended;
 							timerSend.start();
 							fit.showNotification(sendSocialContainer.type === "nutrition" ? "Рецепт успешно отправлен!" : "Упражнения успешно отправлен!");
 						}
 					});
 				} else {
-					fit.showNotification("Телеграм не интегрирован.");
+					fit.showNotification(app.texts[fit.lang].tgNotIntegrated);
 				}
 			}
 		}
@@ -103,7 +103,7 @@ Rectangle {
 		SendSocialItem {
 			id: cancelSend;
 
-			menuText: "Отменить";
+			menuText: app.texts[fit.lang].cancel;
 
 			onSelectPressed: { 
 				sendSocialContainer.visible = false;
@@ -122,11 +122,11 @@ Rectangle {
 
 				if (ok.sended) {
 					if (social === "vk") {
-						vkSendButton.menuText = app.texts.sended;
+						vkSendButton.menuText = app.texts[fit.lang].sended;
 						timerSend.start();
 					}
 					if (social === "tg") {
-						tgSendButton.menuText = app.texts.sended;
+						tgSendButton.menuText = app.texts[fit.lang].sended;
 						timerSend.start();
 					}
 				};
@@ -149,8 +149,8 @@ Rectangle {
 		
 		onTriggered: {
             this.stop();
-			vkSendButton.menuText = "Отправить в ВК";
-			tgSendButton.menuText = "Отправить в Телеграм";
+			vkSendButton.menuText = app.texts[fit.lang].sendToVk;
+			tgSendButton.menuText = app.texts[fit.lang].sendToTg;
 		}
 	}
 

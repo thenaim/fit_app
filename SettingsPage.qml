@@ -60,7 +60,7 @@ Item {
             opacity: 1;
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: "ВК не интегрирован.";
+            text: fit.stingray["vkIntegrated"] ? app.texts[fit.lang].vkIntegrated : app.texts[fit.lang].vkNotIntegrated;
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -79,7 +79,7 @@ Item {
             opacity: 1;
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: "Телеграм не интегрирован.";
+            text: fit.stingray["tgIntegrated"] ? app.texts[fit.lang].tgIntegrated : app.texts[fit.lang].tgNotIntegrated;
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -99,7 +99,7 @@ Item {
             opacity: 1;
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: app.texts.settingInfo;
+            text: app.texts[fit.lang].settingInfo;
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -119,7 +119,7 @@ Item {
             opacity: 1;
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: "Инструкция:";
+            text: app.texts[fit.lang].instruction + ":";
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -139,7 +139,7 @@ Item {
             opacity: 1;
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: app.texts.appFunctions.join("\r\n");
+            text: app.texts[fit.lang].appFunctions.join("\r\n");
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -161,7 +161,7 @@ Item {
 
         opacity: themeChanger.activeFocus ? 1.0 : app.config.inactiveOpacity;
         color: themeChanger.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: fit.isDark ? "Оформление: Тёмная тема" : "Оформление: Светлая тема";
+        text: fit.isDark ? app.texts[fit.lang].activeThemeDark : app.texts[fit.lang].activeThemeLight;
         radius: app.sizes.radius;
         width: 400;
         onUpPressed: {
@@ -191,7 +191,7 @@ Item {
 
         opacity: nutritionTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
         color: nutritionTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: "Питание: Наращивание мышц";
+        text: fit.stingray["meal"] ? app.texts[fit.lang].nutritionMuscleBuilding : app.texts[fit.lang].nutritionWeightLoss;
         radius: app.sizes.radius;
         width: 400;
 
@@ -204,22 +204,21 @@ Item {
         }
 
         onSelectPressed: {
-        let stingray = JSON.parse(load("fit_stingray"));
+            let stingray = JSON.parse(load("fit_stingray"));
 
-        app.httpServer(app.config.api.updateStingray, "GET", { meal: !stingray.meal }, "nutrition_type", (res) => {
-            if (res.updated) {
-                stingray.meal = !stingray.meal;
-                if (stingray.meal) {
-                    nutritionTypeButton.text = "Питание: Наращивание мышц";
-                    fit.showNotification("Питание изменены на Наращивание мышц");
-                } else {
-                    nutritionTypeButton.text = "Питание: Снижение веса";
-                    fit.showNotification("Питание изменены на Снижение веса");
+            app.httpServer(app.config.api.updateStingray, "GET", { meal: !stingray.meal }, "nutrition_type", (res) => {
+                if (res.updated) {
+                    stingray.meal = !stingray.meal;
+                    if (stingray.meal) {
+                        fit.showNotification(app.texts[fit.lang].nutritionMuscleBuildingChanged);
+                    } else {
+                        fit.showNotification(app.texts[fit.lang].nutritionWeightLossChanged);
+                    }
+
+                    save("fit_stingray", JSON.stringify(stingray));
+                    fit.stingray = JSON.parse(load("fit_stingray"));
                 }
-
-                save("fit_stingray", JSON.stringify(stingray));
-            }
-        });
+            });
         }
     }
 
@@ -236,7 +235,7 @@ Item {
 
         opacity: genderTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
         color: genderTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: "Пол: Женский";
+        text: fit.stingray["gender"] !== "man" ? app.texts[fit.lang].genderFemale : app.texts[fit.lang].genderMale;
         radius: app.sizes.radius;
         width: 400;
 
@@ -245,7 +244,7 @@ Item {
         }
 
         onDownPressed: {
-            reloadIntegrated.setFocus();
+            languageTypeButton.setFocus();
         }
 
         onSelectPressed: {
@@ -255,15 +254,61 @@ Item {
                 if (res.updated) {
                     if (stingray.gender === "woman") {
                         stingray.gender = "man";
-                        genderTypeButton.text = "Пол: Мужской";
-                        fit.showNotification("Вы изменили упражнения на мужской");
+                        fit.showNotification(app.texts[fit.lang].genderMaleChanged);
                     } else {
                         stingray.gender = "woman";
-                        genderTypeButton.text = "Пол: Женский";
-                        fit.showNotification("Вы изменили упражнения на женский");
+                        fit.showNotification(app.texts[fit.lang].genderFemaleChanged);
                     }
 
                     save("fit_stingray", JSON.stringify(stingray));
+                    fit.stingray = JSON.parse(load("fit_stingray"));
+                }
+            });
+        }
+    }
+
+    /**
+    * Language type
+    */
+    Button {
+        id: languageTypeButton;
+        z: 1;
+
+        anchors.top: genderTypeButton.bottom;
+        anchors.right: settingPageItem.right;
+        anchors.topMargin: app.sizes.margin;
+
+        opacity: languageTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
+        color: languageTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+        text: app.texts[fit.lang].language;
+        radius: app.sizes.radius;
+        width: 400;
+
+        onUpPressed: {
+            genderTypeButton.setFocus();
+        }
+
+        onDownPressed: {
+            reloadIntegrated.setFocus();
+        }
+
+        onSelectPressed: {
+            let stingray = JSON.parse(load("fit_stingray"));
+
+            app.httpServer(app.config.api.updateStingray, "GET", { lang: stingray.lang === "ru" ? "en" : "ru" }, "languageTypeButton", (res) => {
+                if (res.updated) {
+                    if (stingray.lang === "ru") {
+                        stingray.lang = "en";
+                        fit.lang = "en";
+                        fit.showNotification(app.texts[fit.lang].languageChanged);
+                    } else {
+                        stingray.lang = "ru";
+                        fit.lang = "ru";
+                        fit.showNotification(app.texts[fit.lang].languageChanged);
+                    }
+
+                    save("fit_stingray", JSON.stringify(stingray));
+                    fit.stingray = JSON.parse(load("fit_stingray"));
                 }
             });
         }
@@ -276,22 +321,26 @@ Item {
         id: reloadIntegrated;
         z: 1;
 
-        anchors.top: genderTypeButton.bottom;
+        anchors.top: languageTypeButton.bottom;
         anchors.right: settingPageItem.right;
-        anchors.topMargin: app.sizes.margin * 2;
+        anchors.topMargin: app.sizes.margin;
 
         opacity: reloadIntegrated.activeFocus ? 1.0 : app.config.inactiveOpacity;
         color: reloadIntegrated.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: "Проверить интеграцию";
+        text: app.texts[fit.lang].checkIntegration;
         radius: app.sizes.radius;
         width: 400;
 
         onUpPressed: {
-            genderTypeButton.setFocus();
+            languageTypeButton.setFocus();
+        }
+
+        onDownPressed: {
+            themeChanger.setFocus();
         }
 
         onSelectPressed: {
-            reloadIntegrated.text = "Обновляем...";
+            reloadIntegrated.text = app.texts[fit.lang].reloading;
             reloadingTimer.start();
             fit.loading = true;
 
@@ -311,7 +360,7 @@ Item {
 		running: false;
 
 		onTriggered: {
-            reloadIntegrated.text = "Проверить интеграцию";
+            reloadIntegrated.text = app.texts[fit.lang].checkIntegration;
 			this.stop();
 		}
 	}
@@ -327,9 +376,9 @@ Item {
                 fit.isDark = isDark;
 
                 if (isDark) {
-                    fit.showNotification("Тёмная тема активирована");
+                    fit.showNotification(app.texts[fit.lang].darkThemeActive);
                 } else {
-                    fit.showNotification("Светлая тема активирована");
+                    fit.showNotification(app.texts[fit.lang].lightThemeActive);
                 }
             }
 
@@ -348,11 +397,11 @@ Item {
             if (res.updated) {
                 stingray.meal = !stingray.meal;
                 if (stingray.meal) {
-                    nutritionTypeButton.text = "Питание: Наращивание мышц";
-                    fit.showNotification("Питание изменены на Наращивание мышц");
+                    nutritionTypeButton.text = app.texts[fit.lang].nutritionMuscleBuilding;
+                    fit.showNotification(app.texts[fit.lang].nutritionMuscleBuildingChanged);
                 } else {
-                    nutritionTypeButton.text = "Питание: Снижение веса";
-                    fit.showNotification("Питание изменены на Снижение веса");
+                    nutritionTypeButton.text = app.texts[fit.lang].nutritionWeightLoss;
+                    fit.showNotification(app.texts[fit.lang].nutritionWeightLossChanged);
                 }
 
                 save("fit_stingray", JSON.stringify(stingray));
@@ -365,12 +414,12 @@ Item {
     */
     function checkVkAndTelegram() {
         const stingray = JSON.parse(load("fit_stingray"));
-        integrateText.text = "ID " + stingray.id;
+        integrateText.text = "ID: " + stingray.id;
 
-        stingray.gender === "man" ? genderTypeButton.text = "Пол: Мужской" : genderTypeButton.text = "Пол: Женский"; 
-        stingray.meal ? nutritionTypeButton.text = "Питание: Наращивание мышц" : nutritionTypeButton.text = "Питание: Снижение веса";
-        stingray.vkIntegrated ? vkIntegratedOrNot.text = "ВК интегрирован." : vkIntegratedOrNot.text = "ВК не интегрирован.";
-        stingray.tgIntegrated ? tgIntegratedOrNot.text = "Телеграм интегрирован." : tgIntegratedOrNot.text = "Телеграм не интегрирован.";
+        // stingray.gender === "man" ? genderTypeButton.text = app.texts[fit.lang].genderMale : genderTypeButton.text = app.texts[fit.lang].genderFemale; 
+        // stingray.meal ? nutritionTypeButton.text = app.texts[fit.lang].nutritionMuscleBuilding : nutritionTypeButton.text = app.texts[fit.lang].nutritionWeightLoss;
+        // stingray.vkIntegrated ? vkIntegratedOrNot.text = app.texts[fit.lang].vkIntegrated : vkIntegratedOrNot.text = app.texts[fit.lang].vkNotIntegrated;
+        // stingray.tgIntegrated ? tgIntegratedOrNot.text = app.texts[fit.lang].tgIntegrated : tgIntegratedOrNot.text = app.texts[fit.lang].tgNotIntegrated;
     }
 
     onVisibleChanged: {

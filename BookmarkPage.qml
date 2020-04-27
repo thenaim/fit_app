@@ -31,7 +31,7 @@ Item {
         orientation: mainWindow.horizontal;
         opacity: 1.0;
 
-        height: 50;
+        height: fit.fullscreen ? 70 : 50;
         width: typesCardWidth;
         focus: true;
         clip: true;
@@ -622,13 +622,13 @@ Item {
         // if condition true, then show no text
         text: !fit.loading && bookmarkVideoItemsList.visible
                 && !bookmarkVideoItemsList.bookmarkVideoModel.count
-                ? "Вы ещё не добавили Видео в закладки"
+                ? app.texts[fit.lang].videoNotAdded
                 : !fit.loading && bookmarkExerciseItemsList.visible
                 && !bookmarkExerciseItemsList.bookmarkExerciseItemModel.count
-                ? "Вы ещё не добавили Упражнения в закладки"
+                ? app.texts[fit.lang].exersicesNotAdded
                 : !fit.loading && bookmarkNutritionItemsList.visible
                 && !bookmarkNutritionItemsList.bookmarkNutritionModel.count
-                ? "Вы ещё не добавили Питание в закладки"
+                ? app.texts[fit.lang].nutritionNotAdded
                 : "";
 
         font: Font {

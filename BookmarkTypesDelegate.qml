@@ -4,7 +4,7 @@ import "Badge.qml";
 Rectangle {
     id: typesDelegate;
     z: 1;
-    height: 50;
+    height: parent.height;
     width: parent.typesCardWidth;
     opacity: 1.0;
     color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
@@ -18,11 +18,11 @@ Rectangle {
 
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
-		text: model.title;
+		text: model.title[fit.lang];
 
  		font: Font {
 			  family: "Proxima Nova Condensed";
-			  pixelSize: 28;
+			  pixelSize: fit.fullscreen ? 34 : 28;
               black: true;
 		}
 	}

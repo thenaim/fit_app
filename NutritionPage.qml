@@ -29,7 +29,7 @@ Item {
         orientation: mainWindow.horizontal;
         opacity: 1.0;
 
-        height: 50;
+        height: fit.fullscreen ? 70 : 50;
         width: daysCardWidth;
         focus: true;
         clip: true;
@@ -40,7 +40,7 @@ Item {
 
         onCompleted: {
             for (let day = 1; day <= 7; day++) {
-                model.append( { day: day, title: "День " + day });
+                model.append( { day: day, title: day });
             }
         }
 
