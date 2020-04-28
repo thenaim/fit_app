@@ -2,7 +2,7 @@
  * Server adress with IPv4 (for local tests)
  */
 
-const server = "http://192.168.1.70:8080";
+const server = "http://192.168.1.73:8080";
 
 /**
  * App config
@@ -167,6 +167,9 @@ this.texts = {
         language: "Язык: Русский",
         languageChanged: "Вы изменили язык на русский",
 
+        nutritionSended: "Рецепт успешно отправлен!",
+        exerciseSended: "Упражнения успешно отправлен!",
+        selectSocial: "Отправьте в ВК или Телеграм",
         statsTitile: "Статистика активности и баллы",
         instruction: "Инструкция",
         activeThemeDark: "Оформление: Тёмная тема",
@@ -218,6 +221,9 @@ this.texts = {
         language: "Language: English",
         languageChanged: "You changed the language to english",
 
+        nutritionSended: "Recipe sent successfully!",
+        exerciseSended: "Exercise sent successfully!",
+        selectSocial: "Send to VK or Telegram",
         statsTitile: "Activity Statistics and points",
         instruction: "Instructions",
         activeThemeDark: "Design: Dark theme",
@@ -289,7 +295,6 @@ this.formatParams = (url, params) => {
         .join("&");
 
     log(final);
-
     return final;
 };
 
@@ -315,12 +320,12 @@ this.httpServer = (url, method, params, functionName, callback) => {
             if (http.status === 200) {
                 return callback(JSON.parse(http.responseText));
             }
-            log("\n----",
-                "\nError http server status:", http.status,
-                "\nFunction name:", functionName,
-                "\nError url:", this.formatParams(url, params),
-                "\nText response:", http.responseText ? http.responseText : null,
-                "\n----");
+            log("----");
+            log("Error http server status:", http.status);
+            log("Function name:", functionName);
+            log("Error url:", this.formatParams(url, params));
+            log("Text response:", http.responseText ? http.responseText : null);
+            log("----");
             return callback(false);
         }
 
@@ -386,7 +391,7 @@ this.onTabChange = () => {
         case "nutrition":
             nutritionPageContainer.visible = true;
             nutritionItemsList.setFocus();
-            nutritionItemsList.getNutritions();
+            nutritionItemsList.getNutritions(nutritionDays.model.get(nutritionDays.currentIndex).day);
             break;
         case "bookmark":
             bookmarkPageContainer.visible = true;

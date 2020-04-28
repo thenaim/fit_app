@@ -25,8 +25,8 @@ GridView {
         fit.loading = true;
         app.httpServer(app.tabs[2].url, "GET", { type: stingray.meal ? "muscle_building" : "weight_loss", day: day || 1 }, "getNutritions", (nutritions) => {
             nutritionItemsList.nutritionModel.reset();
-            if (nutritions.data.length) {
-                nutritions.data.forEach((nut) => {
+            if (nutritions.length) {
+                nutritions.forEach((nut) => {
                     nutritionItemsList.nutritionModel.append({
                         id: nut["id"],
                         name: nut["name"],

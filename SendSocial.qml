@@ -24,7 +24,7 @@ Rectangle {
 
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
-		text: "Отправьте в ВК или Телеграм";
+		text: app.texts[fit.lang].selectSocial;
 
  		font: Font {
 			  family: "Proxima Nova Condensed";
@@ -47,7 +47,7 @@ Rectangle {
 		SendSocialItem {
 			id: vkSendButton;
 
-			menuText: app.texts[fit.lang].sendToVk;
+			menuText: "";
 
 			onSelectPressed: {
 				const stingray = JSON.parse(load("fit_stingray"));
@@ -63,7 +63,12 @@ Rectangle {
 						if (ok.sended) {
 							vkSendButton.menuText = app.texts[fit.lang].sended;
 							timerSend.start();
-							fit.showNotification(sendSocialContainer.type === "nutrition" ? "Рецепт успешно отправлен!" : "Упражнения успешно отправлен!");
+							if (sendSocialContainer.type === "nutrition") {
+								fit.showNotification(app.texts[fit.lang].nutritionSended);
+							}
+							if (sendSocialContainer.type === "exercise") {
+								fit.showNotification(app.texts[fit.lang].exerciseSended);
+							}
 						};
 					});
 				} else {
@@ -75,7 +80,7 @@ Rectangle {
 		SendSocialItem {
 			id: tgSendButton;
 
-			menuText: app.texts[fit.lang].sendToTg;
+			menuText: "";
 
 			onSelectPressed: {
 				const stingray = JSON.parse(load("fit_stingray"));
@@ -103,7 +108,7 @@ Rectangle {
 		SendSocialItem {
 			id: cancelSend;
 
-			menuText: app.texts[fit.lang].cancel;
+			menuText: "";
 
 			onSelectPressed: { 
 				sendSocialContainer.visible = false;
@@ -148,9 +153,9 @@ Rectangle {
 		repeat: false;
 		
 		onTriggered: {
-            this.stop();
 			vkSendButton.menuText = app.texts[fit.lang].sendToVk;
 			tgSendButton.menuText = app.texts[fit.lang].sendToTg;
+            this.stop();
 		}
 	}
 
@@ -159,5 +164,9 @@ Rectangle {
 		vkButton.setFocus();
     }
 
-	onKeyPressed: {}
+	onVisibleChanged: {
+		vkSendButton.menuText = app.texts[fit.lang].sendToVk;
+		tgSendButton.menuText = app.texts[fit.lang].sendToTg;
+		cancelSend.menuText = app.texts[fit.lang].cancel;
+	}
 }

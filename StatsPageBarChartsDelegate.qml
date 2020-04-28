@@ -40,7 +40,7 @@ Rectangle {
 
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
-		text: model.name["ru"];
+		text: model.name[fit.lang];
 
  		font: Font {
 			  family: "Proxima Nova Condensed";
