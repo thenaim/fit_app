@@ -119,7 +119,6 @@ Item {
     onCompleted: {}
 
     function getChipsAndExercises() {
-        fit.loading = true;
         chipItems.getChips(app.config.api.exercisesCategories, (callback) => {
             if (callback) {
                 exerciseItemsList.getExercises(chipItems.model.get(chipItems.currentIndex).id_type);

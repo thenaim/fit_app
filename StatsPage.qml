@@ -122,6 +122,7 @@ Item {
     }
 
     function getStats() {
+        fit.loading = true;
         app.httpServer(app.config.api.stingray, "GET", {}, "appInit", (data) => {
             if (!data.id) return callback(false);
 
@@ -133,6 +134,7 @@ Item {
                 });
                 barCharts.setFocus();
             }
+            fit.loading = false;
         });
     }
 

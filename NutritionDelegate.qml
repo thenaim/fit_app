@@ -21,9 +21,26 @@ Rectangle {
         height: 185;
 
         Image {
-            id: imageNutrition;
+            id: imageNutritionDefault;
             anchors.top: imageNutritionItem.top;
             opacity: nutritionDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
+
+            width: app.sizes.nutrition.width - 5;
+            height: 185;
+            
+            visible: imageNutrition.status !== ui.Image.Ready;
+            opacity: imageNutrition.status !== ui.Image.Ready ? 1.0 : app.config.inactiveOpacity;
+            registerInCacheSystem: false;
+            
+            source: "apps/fit_app/res/default_nutrition.png";
+
+            fillMode: PreserveAspectFit;
+        }
+
+        Image {
+            id: imageNutrition;
+            anchors.top: imageNutritionItem.top;
+            opacity: nutritionDelegate.activeFocus ? 1.0 : 0.8;
 
             width: app.sizes.nutrition.width - 5;
             height: 185;

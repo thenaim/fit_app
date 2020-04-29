@@ -6,12 +6,8 @@ GridView {
     id: videoItemsList;
 	z: 1;
 
-    property bool loading: false;
-
     cellWidth: app.sizes.poster.width + 5;
     cellHeight: (app.sizes.poster.height * 2) + 5;
-
-    visible: !loading;
 
     focus: true;
     clip: true;
@@ -21,8 +17,6 @@ GridView {
     model: ListModel { id: videoModel; }
 
     function getVideos(url) {
-        fit.loading = true;
-
         app.httpServer(url, "GET", {}, "getVideos", (videos) => {
         	videoItemsList.videoModel.reset();
             if (videos.length) {

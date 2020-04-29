@@ -18,6 +18,7 @@ ListView {
 	model: ListModel { id: exerciseItemModel; }
 
 	function getExercises(id_type) {
+		fit.loading = true;
         app.httpServer(app.config.api.exercises, "GET", { id_type: id_type }, "getExercises", (exercise) => {
             // reset model
             exerciseItemsList.exerciseItemModel.reset();
@@ -33,7 +34,9 @@ ListView {
                         images: vid["images"]
                     });
                 });
-            };
+            }
+
+    		fit.loading = false;
         });
     }
 

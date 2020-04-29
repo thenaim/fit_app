@@ -319,12 +319,12 @@ this.httpServer = (url, method, params, functionName, callback) => {
             if (http.status === 200) {
                 return callback(JSON.parse(http.responseText));
             }
-            log("----");
-            log("Error http server status:", http.status);
-            log("Function name:", functionName);
-            log("Error url:", this.formatParams(url, params));
-            log("Text response:", http.responseText ? http.responseText : null);
-            log("----");
+            log("\n----",
+                "\nError http server status:", http.status,
+                "\nFunction name:", functionName,
+                "\nError url:", url,
+                "\nText response:", http.responseText ? http.responseText : null,
+                "\n----");
             return callback(false);
         }
 

@@ -410,6 +410,8 @@ Item {
 
     onVisibleChanged: {
         themeChanger.setFocus();
-        fit.appInit((callback) => {});
+        fit.appInit((callback) => {
+            fit.loading = false;
+        });
     }
 }

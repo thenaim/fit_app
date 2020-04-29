@@ -43,6 +43,25 @@ Item {
     }
 
     Image {
+        id: imageNutritionDefault;
+        anchors.top: nameText.bottom;
+        anchors.left: nutritionDetail.left;
+        anchors.topMargin: app.sizes.margin / 2;
+        opacity: 1.0;
+
+        width: 350;
+        height: 230;
+        
+        visible: imageNutrition.status !== ui.Image.Ready;
+        opacity: imageNutrition.status !== ui.Image.Ready ? 1.0 : app.config.inactiveOpacity;
+        registerInCacheSystem: false;
+        
+        source: "apps/fit_app/res/default_nutrition.png";
+
+        fillMode: PreserveAspectFit;
+    }
+
+    Image {
         id: imageNutrition;
         anchors.top: nameText.bottom;
         anchors.left: nutritionDetail.left;

@@ -292,9 +292,9 @@ Application {
     * Spinner loading
     */
     Spinner {
-        id: loadingCatalogSpinner;
-        color: fit.isDark ? app.theme.dark.background : app.theme.light.background;
-        anchors.centerIn: fit;
+        id: loadingSpinner;
+        anchors.centerIn: mainView;
+        z: 3;
         visible: fit.loading;
     }
 
@@ -432,6 +432,7 @@ Application {
     }
 
     onCompleted: {
+        fit.loading = true;
         tab.currentIndex = 1;
         tab.currentIndex = 0;
 
@@ -445,6 +446,10 @@ Application {
     }
 
     onBackPressed: {
+        if (fit.fullscreen) {
+            fit.fullscreen = false;
+            return;
+        }
         viewsFinder.closeApp();
     }
 

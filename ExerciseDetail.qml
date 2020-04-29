@@ -129,7 +129,7 @@ Item {
         anchors.left: exerciseDetail.left;
         anchors.right: exerciseDetail.right;
         anchors.bottom: exerciseDetail.bottom;
-        anchors.topMargin: -100;
+        anchors.topMargin: -80;
         anchors.horizontalCenter: exerciseDetail.horizontalCenter;
 
         height: 150;
@@ -143,7 +143,7 @@ Item {
             id: exerciseRounds;
             anchors.top: startExercises.top;
             anchors.horizontalCenter: exerciseDetail.horizontalCenter;
-            anchors.bottomMargin: app.sizes.margin / 2.5;
+            anchors.bottomMargin: app.sizes.margin / 2.8;
 
             color: imagesGalary.zoom ? app.theme.light.textColor : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
@@ -151,7 +151,7 @@ Item {
 
             font: Font {
                 family: "Proxima Nova Condensed";
-                pixelSize: 28;
+                pixelSize: 26;
                 black: true;
             }
         }
