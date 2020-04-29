@@ -40,7 +40,7 @@ Item {
             opacity: 1;
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: "ID: ";
+            text: "ID: " + fit.stingray["id"];
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -346,7 +346,6 @@ Item {
 
             fit.appInit((callback) => {
                 if (callback) {
-                    settingPageItem.checkVkAndTelegram();
                     fit.loading = false;
                 }
             });
@@ -409,21 +408,8 @@ Item {
         });
     }
 
-    /**
-    * Get App settings
-    */
-    function checkVkAndTelegram() {
-        const stingray = JSON.parse(load("fit_stingray"));
-        integrateText.text = "ID: " + stingray.id;
-
-        // stingray.gender === "man" ? genderTypeButton.text = app.texts[fit.lang].genderMale : genderTypeButton.text = app.texts[fit.lang].genderFemale; 
-        // stingray.meal ? nutritionTypeButton.text = app.texts[fit.lang].nutritionMuscleBuilding : nutritionTypeButton.text = app.texts[fit.lang].nutritionWeightLoss;
-        // stingray.vkIntegrated ? vkIntegratedOrNot.text = app.texts[fit.lang].vkIntegrated : vkIntegratedOrNot.text = app.texts[fit.lang].vkNotIntegrated;
-        // stingray.tgIntegrated ? tgIntegratedOrNot.text = app.texts[fit.lang].tgIntegrated : tgIntegratedOrNot.text = app.texts[fit.lang].tgNotIntegrated;
-    }
-
     onVisibleChanged: {
-        settingPageItem.checkVkAndTelegram();
         themeChanger.setFocus();
+        fit.appInit((callback) => {});
     }
 }

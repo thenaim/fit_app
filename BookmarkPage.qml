@@ -193,7 +193,9 @@ Item {
                 let current = model.get(bookmarkVideoItemsList.currentIndex);
                 app.addToBookmark(current, "video", "bookmark");
             } else if (key === "Select") {
-                bookmarkPage.openVideoPlay();
+                const video = bookmarkVideoItemsList.model.get(bookmarkVideoItemsList.currentIndex);
+                const url = app.config.main + "/videos/" + video.videoId + ".mp4";
+                videoItems.playVideo(video.title, url, "bookmark");
             }
         }
 
@@ -636,24 +638,6 @@ Item {
             pixelSize: 28;
             black: true;
         }
-    }
-
-    /**
-    * Open Video Detail
-    */
-    function openVideoPlay() {
-        const video = bookmarkVideoItemsList.model.get(bookmarkVideoItemsList.currentIndex);
-
-        // Hide main elements
-        tab.visible = false;
-        mainView.visible = false;
-
-        fitSmartPlayer.page = "bookmark";
-    
-        // Show player element and play url
-        fitSmartPlayer.title = video.title;
-        fitSmartPlayer.visible = true;
-        fitSmartPlayer.playVideos(app.formatParams(app.config.api.watch + "/" + video.videoId, {}));
     }
 
     /**

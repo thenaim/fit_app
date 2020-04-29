@@ -11,7 +11,7 @@ import "BookmarkPage.qml";
 import "StatsPage.qml";
 import "SettingsPage.qml";
 import "SendSocial.qml";
-import "FitSmartPlayer.qml";
+import "FitPlayer.qml";
 
 import controls.Spinner;
 
@@ -99,7 +99,10 @@ Application {
             }
 
             onSelectPressed: {
-                videoItems.openVideoPlay("main");
+                const video = videoItems.model.get(videoItems.currentIndex);
+                const url = app.config.main + "/videos/" + video.videoId + ".mp4";
+
+                videoItems.playVideo(video.title, url, "main");
             }
 
             onUpPressed: {
@@ -107,21 +110,20 @@ Application {
             }
 
             /**
-            * Play Video function
+            * Play video on select
+            * @param {String} title video title
+            * @param {String} url video url
             */
-            function openVideoPlay(page) {
-                const video = videoItems.model.get(videoItems.currentIndex);
-
+            function playVideo(title, url, page) {
                 // Hide elements
                 tab.visible = false;
                 mainView.visible = false;
 
-                fitSmartPlayer.page = "main";
-
                 // Show player element and play url
-                fitSmartPlayer.title = video.title;
-                fitSmartPlayer.visible = true;
-                fitSmartPlayer.playVideos(app.formatParams(app.config.api.watch + "/" + video.videoId, {}));
+                fitPlayer.visible = true;
+                fitPlayer.title = title;
+                fitPlayer.page = page;
+                fitPlayer.playVideoByUrl(url);
             }
         }
 
@@ -287,56 +289,12 @@ Application {
     }
 
     /**
-    * FitSmart Player
-    */
-    FitSmartPlayer {
-        id: fitSmartPlayer;
-        property string page;
-        z: 5;
-        anchors.fill: mainWindow;
-
-        visible: false;
-
-        onBackPressed: {
-            fitSmartPlayer.hideFitSmartPlayer(fitSmartPlayer.page);
-        }
-
-        onFinished: {
-            fitSmartPlayer.hideFitSmartPlayer(fitSmartPlayer.page);
-        }
-
-        /**
-        * Hide player function
-        * @param {String} page main|bookmark
-        * page param for setting focus, after close player
-        */
-        function hideFitSmartPlayer(page) {
-            // Show (main) elements
-            tab.visible = true;
-            mainView.visible = true;
-
-            // Hide player
-            fitSmartPlayer.visible = false;
-            fitSmartPlayer.abort();
-
-            // Set focus
-            if (page === "main") {
-                videoItems.setFocus();
-            } else if (page === "bookmark") {
-                bookmarkVideoItemsList.setFocus();
-            }
-        }
-    }
-
-    /**
     * Spinner loading
     */
     Spinner {
         id: loadingCatalogSpinner;
         color: fit.isDark ? app.theme.dark.background : app.theme.light.background;
-
         anchors.centerIn: fit;
-
         visible: fit.loading;
     }
 
@@ -346,6 +304,64 @@ Application {
     NotificatorManager {
         id: notificatorManager;
         text: "";
+    }
+
+    /**
+    * VirtualKeyboard
+    */
+    VirtualKeyboard {
+        id: keyboard;
+        anchors.fill: mainWindow;
+
+        onRefused: {}
+    }
+
+    /**
+    * FitSmart Player
+    */
+    FitPlayer {
+        id: fitPlayer;
+        property string page: "main";
+
+        anchors.fill: mainWindow;
+        visible: false;
+
+        onBackPressed: {
+            fit.hideFitPlayer(page);
+        }
+
+        onFinished: {
+            fit.hideFitPlayer(page);
+        }
+    }
+
+    /**
+    * Hide player function
+    * @param {String} page main|bookmark
+    * page param for setting focus, after close player
+    */
+    function hideFitPlayer(page) {
+        // Show (main) elements
+        tab.visible = true;
+        mainView.visible = true;
+
+        // Hide player
+        fitPlayer.visible = false;
+
+        // Set focus
+        if (page === "main") {
+            videoItems.setFocus();
+        } else if (page === "bookmark") {
+            bookmarkVideoItemsList.setFocus();
+        }
+    }
+
+    /**
+    * Show Notification
+    */
+    function showNotification(text) {
+        notificatorManager.text = text;
+        notificatorManager.addNotify();
     }
 
     /**
@@ -380,14 +396,6 @@ Application {
     }
 
     /**
-    * Show Notification
-    */
-    function showNotification(text) {
-        notificatorManager.text = text;
-        notificatorManager.addNotify();
-    }
-
-    /**
     * App init
     * On first lunch - load & check stingray token and settings
     * @return {Object} Id, isDark, vkIntegrated
@@ -398,7 +406,6 @@ Application {
     
             // save stingray
             save("fit_stingray", JSON.stringify(data));
-            fit.stingray = JSON.parse(load("fit_stingray"));
             fit.stingray = JSON.parse(load("fit_stingray"));
 
             fit.isDark = data.isDark;
@@ -424,10 +431,6 @@ Application {
         }
     }
 
-    onBackPressed: {
-        viewsFinder.closeApp();
-    }
-
     onCompleted: {
         tab.currentIndex = 1;
         tab.currentIndex = 0;
@@ -439,14 +442,17 @@ Application {
                 videoItems.setFocus();
             }
         });
+    }
 
-        // default nutrition type
-        save("nutrition_type", "muscle_building");
+    onBackPressed: {
+        viewsFinder.closeApp();
     }
 
     onVisibleChanged: {
         viewsFinder.ignoreScreenSaverForApp("fit", this.visible);
-        fitSmartPlayer.abort();
-        if (fitSmartPlayer.visible) fit.hideFitSmartPlayer();
+        fitPlayer.abort();
+        if (fitPlayer.visible) {
+            fit.hideFitPlayer();
+        }
     }
 }

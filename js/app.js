@@ -9,10 +9,10 @@ const server = "http://192.168.1.73:8080";
  */
 this.config = {
     token: "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4",
+    main: server,
     static: server + "/static",
     api: {
         stingray: server + "/stingray",
-        watch: server + "/videos/watch",
         exercises: server + "/exercises",
         exercisesCategories: server + "/exercise/categories",
         getBookmarks: server + "/bookmarks",
@@ -294,7 +294,6 @@ this.formatParams = (url, params) => {
         })
         .join("&");
 
-    log(final);
     return final;
 };
 
@@ -405,11 +404,7 @@ this.onTabChange = () => {
             break;
         case "setting":
             settingPage.visible = true;
-            fit.appInit((callback) => {
-                if (callback) {
-                    settingPage.setFocus();
-                }
-            });
+            settingPage.setFocus();
             break;
         default:
             break;
