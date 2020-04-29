@@ -2,7 +2,7 @@
  * Server adress with IPv4 (for local tests)
  */
 
-const server = "http://192.168.1.73:8080";
+const server = "http://ec2-52-15-73-251.us-east-2.compute.amazonaws.com:8080";
 
 /**
  * App config

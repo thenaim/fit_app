@@ -4,52 +4,24 @@ Home Fitness App for [StingrayTv]
 
 ## Installation
 
-**Step 1.** Install NodeJs server [fit_server](https://github.com/thenaim/fit_server)
-```sh
-git clone https://github.com/thenaim/fit_server
-```
-
-**Step 2.** Install packages.
-```sh
-cd fit_server
-```
-```sh
-npm install
-```
-**Step 3.** Install [StingrayTv Emulator]
-
-Create new directory and install
+**Step 1.** Install [StingrayTv Emulator]
 
 Documentation [StingrayTv Emulator](https://devstingray.gs-labs.tv/emulator)
 
-**Step 4.** Clone StingrayTv App
+**Step 2.** Clone StingrayTv App
 
 Clone app to [StingrayTv Emulator] directory
 
 ```sh
 git clone https://github.com/thenaim/fit_app
 ```
-**Step 5.** Install app to [StingrayTv Emulator]
+**Step 3.** Install app to [StingrayTv Emulator]
 
 ```sh
 ./install_app ./fit_app
 ```
-**Step 6.** Install IPv4 for server and app (for local work)
 
-On Server project set IPv4 and port on `.evn` file.
-
-On App project [StingrayTv] set IPv4 and port on `js/app.js`. In line 5.
-
-**Step 7.** Run server
-```sh
-cd fit_server
-```
-```sh
-node app.js
-```
-Ps: If everything is ok, then you see like: `FitSmart server is running at http://192.168.1.64:8080` 
-
-**Step 8.** Run [StingrayTv Emulator]
+**Step 4.** Run [StingrayTv Emulator]
 
 Go to StingrayTv Emulator directory (where you install) and run command
 ```sh
@@ -60,6 +32,12 @@ Go to StingrayTv Emulator directory (where you install) and run command
 **Step 9.** DONE!!
 
 If you have any questions or app is not running, please let me know.
+
+## Server
+
+NodeJs server
+
+[fit_server](https://github.com/thenaim/fit_server)
 
 ## Logo
 
