@@ -37,7 +37,7 @@ Rectangle {
         id: galaryItemsIndex;
         z: 3;
         anchors.top: galaryItems.top;
-        anchors.left: galaryItems.left;
+        anchors.horizontalCenter: galaryItems.horizontalCenter;
         anchors.margins: app.sizes.margin / 2;
         radius: 10;
         width: 25;

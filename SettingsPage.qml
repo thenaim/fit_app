@@ -173,8 +173,25 @@ Item {
         }
 
         onSelectPressed: {
-            fit.stingray.isDark = !fit.stingray.isDark;
-            settingPageItem.updateTheme(fit.stingray.isDark);
+            let stingray = JSON.parse(load("fit_stingray"));
+
+            fit.loading = true;
+            app.httpServer(app.config.api.updateStingray, "GET", { isDark: !fit.isDark }, "themeChanger", (theme) => {
+                if (theme.updated) {
+                    stingray.isDark = !fit.isDark;
+                    fit.isDark = !fit.isDark;
+
+                    if (fit.isDark) {
+                        fit.showNotification(app.texts[fit.lang].darkThemeActive);
+                    } else {
+                        fit.showNotification(app.texts[fit.lang].lightThemeActive);
+                    }
+    
+                    save("fit_stingray", JSON.stringify(stingray));
+                }
+
+                fit.loading = false;
+            });
         }
     }
 

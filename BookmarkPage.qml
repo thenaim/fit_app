@@ -323,6 +323,9 @@ Item {
         onKeyPressed: {
             if (key === "Up") {
                 bookmarkTypes.setFocus();
+            } else if (key === "Red") {
+                let current = model.get(bookmarkExerciseItemsList.currentIndex);
+                app.addToBookmark(current, "exercise", "bookmark");
             } else if (key === "Select") {
                 bookmarkPage.openExerciseDetailPage();
             }
@@ -450,6 +453,9 @@ Item {
         onKeyPressed: {
             if (key === "Up") {
                 bookmarkTypes.setFocus();
+            } else if (key === "Red") {
+                let current = model.get(bookmarkNutritionItemsList.currentIndex);
+                app.addToBookmark(current, "nutrition", "bookmark");
             } else if (key === "Select") {
                 bookmarkPage.openNutritionDetailPage();
             }

@@ -260,7 +260,7 @@ this.texts = {
         videoNotAdded: "You haven't added the Video to your bookmarks yet",
         exersicesNotAdded: "You haven't added the Exercises to your bookmarks yet",
         nutritionNotAdded: "You haven't added Food to your bookmarks yet",
-        sent: "Sent!",
+        sended: "Sent!",
         checkIntegration: "Check integration",
         settingInfo: "You can send exercises, recipes, and much more.\nBot VK: https://vk.com/fit_smart_bot.\nBot Telegram: https://t.me/fit_smart_bot.\nTo connect, you will need to send the app ID.",
         appFunctions: [
@@ -277,24 +277,21 @@ this.texts = {
  * Format params
  * Set auth token and stingray id
  * 
- * @param  {String} url
  * @param  {Object} params
- * @return {String} formated params like "http://example.example?a=1&b=2&c=3"
+ * @return {String} formated params like "?a=1&b=2&c=3"
  */
-this.formatParams = (url, params) => {
+this.formatParams = (params) => {
     let stingray = JSON.parse(load("fit_stingray") || "{}");
 
     params.token = this.config.token;
     params.stingray = stingray.id || "";
 
-    const final = url + "?" + Object
+    return "?" + Object
         .keys(params)
         .map(function (key) {
             return key + "=" + encodeURIComponent(params[key]);
         })
         .join("&");
-
-    return final;
 };
 
 /**
@@ -306,12 +303,14 @@ this.formatParams = (url, params) => {
  * @return {Function} callback with result
  */
 this.httpServer = (url, method, params, functionName, callback) => {
+    url = url + this.formatParams(params);
+
     let http = new XMLHttpRequest();
     http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     http.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     http.timeout = 10000;
 
-    http.open(method, this.formatParams(url, params), true);
+    http.open(method, url, true);
     http.send();
 
     http.onreadystatechange = () => {
@@ -435,13 +434,25 @@ this.addToBookmark = (current, type, page) => {
             fit.showNotification("Успешно удалено из закладки");
         }
 
-        // check page type and update item
-        if (type === "video") {
-            videoItems.model.set(videoItems.currentIndex, current);
-        } else if (type === "exercise") {
-            exerciseItemsList.model.set(exerciseItemsList.currentIndex, current);
-        } else if (type === "nutrition") {
-            nutritionItems.model.set(nutritionItems.currentIndex, current);
+        // check page, type and update item
+        if (page === "main") {
+            if (type === "video") {
+                videoItems.model.set(videoItems.currentIndex, current);
+            } else if (type === "exercise") {
+                exerciseItemsList.model.set(exerciseItemsList.currentIndex, current);
+            } else if (type === "nutrition") {
+                nutritionItems.model.set(nutritionItems.currentIndex, current);
+            }
+        }
+
+        if (page === "bookmark") {
+            if (type === "video") {
+                bookmarkVideoItemsList.model.remove(bookmarkVideoItemsList.currentIndex, 1);
+            } else if (type === "exercise") {
+                bookmarkExerciseItemsList.model.remove(bookmarkExerciseItemsList.currentIndex, 1);
+            } else if (type === "nutrition") {
+                bookmarkNutritionItemsList.model.remove(bookmarkNutritionItemsList.currentIndex, 1);
+            }
         }
 
         fit.loading = false;

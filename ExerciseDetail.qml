@@ -58,7 +58,7 @@ Item {
         anchors.topMargin: !imagesGalary.zoom ? app.sizes.margin : 0;
 
         height: app.sizes.exercise.height + (fit.fullscreen ? 100 : 80);
-        spacing: 0;
+        spacing: 1;
 
         focus: true;
         clip: true;
@@ -384,6 +384,7 @@ Item {
         exerciseTimer.resetDataPlay();
         // reset galary images and add new if exist
         imagesGalary.model.reset();
+        imagesGalary.zoom = false;
         exerciseDetail.images.forEach((img, index) => {
             index += 1;
             imagesGalary.model.append({
