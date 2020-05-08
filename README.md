@@ -1,33 +1,32 @@
 # FitSmart App
 
-Home Fitness App for [StingrayTv]
+Home Fitness App for StingrayTv.
 
 ## Installation
 
-**Step 1.** Install [StingrayTv Emulator]
+**Step 1.** Install StingrayTv Emulator.
 
 Documentation [StingrayTv Emulator](https://devstingray.gs-labs.tv/emulator)
 
-**Step 2.** Clone StingrayTv App
+**Step 2.** Clone App.
 
-Clone app to [StingrayTv Emulator] directory
+Clone app to StingrayTv Emulator directory.
 
 ```sh
 git clone https://github.com/thenaim/fit_app
 ```
-**Step 3.** Install app to [StingrayTv Emulator]
+**Step 3.** Install app to StingrayTv Emulator.
 
 ```sh
 ./install_app ./fit_app
 ```
 
-**Step 4.** Run [StingrayTv Emulator]
+**Step 4.** Run StingrayTv Emulator.
 
-Go to StingrayTv Emulator directory (where you install) and run command
 ```sh
 ./run_emu --audiocard-number=0 --audiodevice-number=1
 ```
-`Warning!` If your have 2 or more audio cards in your host machine you must specify configured audio card and audio device manually in script arguments. From: [StingrayTv Emulator Docs](https://devstingray.gs-labs.tv/emulator)
+`Warning!` If your have 2 or more audio cards in your host machine you must specify configured audio card and audio device manually in script arguments. Docs: [StingrayTv Emulator Docs](https://devstingray.gs-labs.tv/emulator)
 
 ## Server
 

@@ -2,6 +2,7 @@ import "ImagesGalaryDelegate.qml";
 
 import controls.Button;
 import "js/app.js" as app;
+import "js/languages.js" as appLangs;
 
 Item {
     id: exerciseDetail;
@@ -87,6 +88,9 @@ Item {
                 exercisesPageContainer.visible = true;
             } else if (exerciseDetail.page === "bookmark") {
                 bookmarkPage.visible = true;
+            } else if (exerciseDetail.page === "workout") {
+                workoutsPage.visible = true;
+                workoutItems.setFocus();
             }
             tab.setFocus();
         }
@@ -95,7 +99,7 @@ Item {
             if (fit.fullscreen) {
                 return startButton.setFocus();
             }
-            vkButton.setFocus();
+            sendSocialButton.setFocus();
         }
     }
 
@@ -147,7 +151,7 @@ Item {
 
             color: imagesGalary.zoom ? app.theme.light.textColor : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
-            text: exerciseTimer.rounds + "/3 " + app.texts[fit.lang].repetitionCircle;
+            text: exerciseTimer.rounds + "/3 " + appLangs.texts[fit.lang].repetitionCircle;
 
             font: Font {
                 family: "Proxima Nova Condensed";
@@ -168,7 +172,7 @@ Item {
             anchors.bottomMargin: app.sizes.margin / 3;
 
             color: activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-            text: exerciseTimer.running ? app.texts[fit.lang].stop : app.texts[fit.lang].start;
+            text: exerciseTimer.running ? appLangs.texts[fit.lang].stop : appLangs.texts[fit.lang].start;
             radius: app.sizes.radius;
             visible: true;
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
@@ -186,7 +190,7 @@ Item {
                     return exerciseTimer.resetDataPlay();
                 }
 
-                fit.showNotification(app.texts[fit.lang].startFirstCircle);
+                fit.showNotification(appLangs.texts[fit.lang].startFirstCircle);
                 exerciseTimer.start();
                 // stats
                 app.httpServer(app.config.api.stats, "GET", { type: "exercise_play" }, "startButton", () => {});
@@ -252,12 +256,12 @@ Item {
                 if (!fit.fullscreen) {
                     exerciseTimer.resetDataPlay();
 
-                    return fit.showNotification(app.texts[fit.lang].playExerciseClosed);
+                    return fit.showNotification(appLangs.texts[fit.lang].playExerciseClosed);
                 }
                 // stop when 3 round finished
                 if (exerciseTimer.rounds === 4) {
                     exerciseTimer.resetDataPlay();
-                    return fit.showNotification(app.texts[fit.lang].finishedExercise);
+                    return fit.showNotification(appLangs.texts[fit.lang].finishedExercise);
                 }
                 // time to do exercise
                 if (exerciseTimer.exercise) {
@@ -266,7 +270,7 @@ Item {
                         exerciseTimer.exercise = false;
                         exerciseTimer.timerExercise = 30000;
                         if (exerciseTimer.rounds === 1) {
-                            fit.showNotification(app.texts[fit.lang].relaxCircle);
+                            fit.showNotification(appLangs.texts[fit.lang].relaxCircle);
                         }
                     }
                     exerciseTime.text = exerciseTimer.parseMillisecondsIntoReadableTime(exerciseTimer.timerExercise);
@@ -279,10 +283,10 @@ Item {
                         exerciseTimer.timerRelax = 15000;
                         exerciseTimer.rounds += 1;
                         if (exerciseTimer.rounds === 2) {
-                            fit.showNotification(app.texts[fit.lang].startSecondCircle);
+                            fit.showNotification(appLangs.texts[fit.lang].startSecondCircle);
                         }
                         if (exerciseTimer.rounds === 3) {
-                            fit.showNotification(app.texts[fit.lang].startThirdCircle);
+                            fit.showNotification(appLangs.texts[fit.lang].startThirdCircle);
                         }
                     }
                     relaxTime.text = exerciseTimer.parseMillisecondsIntoReadableTime(exerciseTimer.timerRelax);
@@ -334,14 +338,14 @@ Item {
         visible: !fit.fullscreen && !imagesGalary.zoom;
 
         Button {
-            id: vkButton;
+            id: sendSocialButton;
 
             anchors.top: descriptionAndButton.top;
             anchors.horizontalCenter: exerciseDetail.horizontalCenter;
             anchors.topMargin: app.sizes.margin / 2;
 
             color: activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-            text: app.texts[fit.lang].sendToSocial;
+            text: appLangs.texts[fit.lang].sendToSocial;
             radius: app.sizes.radius;
             visible: true;
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
@@ -355,8 +359,11 @@ Item {
             }
 
             onSelectPressed: {
-                sendSocial.visible = true;
-                sendSocial.showSendSocial("exercise", exerciseDetail.id);
+                let socials = [];
+                app.social.forEach(element => {
+                    socials.push({ id: element.id, data: element.data[fit.lang]})
+                });
+                fit.modalController.openModal(socials, "exercise", exerciseDetail.id);
             }
         }
 
@@ -369,7 +376,7 @@ Item {
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
             visible: !fit.fullscreen;
-            text: app.texts[fit.lang].doFullscreen;
+            text: appLangs.texts[fit.lang].doFullscreen;
 
             font: Font {
                 family: "Proxima Nova Condensed";
@@ -403,6 +410,9 @@ Item {
         } else if (exerciseDetail.page === "bookmark") {
             bookmarkPage.visible = true;
             bookmarkExerciseItemsList.setFocus();
+        } else if (exerciseDetail.page === "workout") {
+            workoutsPage.visible = true;
+            workoutItems.setFocus();
         }
     }
 }

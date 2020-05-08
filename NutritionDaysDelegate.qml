@@ -1,4 +1,5 @@
 import "js/app.js" as app;
+import "js/languages.js" as appLangs;
 
 Rectangle {
     id: daysDelegate;
@@ -17,7 +18,7 @@ Rectangle {
 
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
-		text: app.texts[fit.lang].day + " " + model.title;
+		text: appLangs.texts[fit.lang].day + " " + model.title;
 
  		font: Font {
 			  family: "Proxima Nova Condensed";

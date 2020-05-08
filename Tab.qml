@@ -6,10 +6,12 @@ ListView {
     id: tabList;
     z: 1;
     orientation: mainWindow.horizontal;
-
+	anchors.horizontalCenter: parent.horizontalCenter;
+	width: app.sizes.tabCards.width * app.tabs.length;
     height: app.sizes.tabCards.height;
 	focus: true;
 	clip: true;
+	spacing: 12;
 
     delegate: TabDelegate {}
     model: ListModel { }
@@ -23,7 +25,7 @@ ListView {
    /**
     * ListView tabHighlight
     */
-    property int hlWidth: app.sizes.tabCards.width - 21;
+    property int hlWidth: app.sizes.tabCards.width;
 	property int hlHeight: 4;
 	property Color highlightColor: app.theme.light.background;
 
@@ -34,7 +36,7 @@ ListView {
         // anchors.left: tabList.left;
 		visible: tabList.count;
         z: 1;
-        opacity: 1;
+        opacity: tabList.activeFocus ? 1 : 0.6;
         radius: app.sizes.radius;
 
 		doHighlight: {

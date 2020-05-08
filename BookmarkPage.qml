@@ -1,4 +1,6 @@
 import "js/app.js" as app;
+import "js/languages.js" as appLangs;
+
 import "BookmarkTypesDelegate.qml";
 import "VideosDelegate.qml";
 import "ExerciseDelegate.qml";
@@ -630,13 +632,13 @@ Item {
         // if condition true, then show no text
         text: !fit.loading && bookmarkVideoItemsList.visible
                 && !bookmarkVideoItemsList.bookmarkVideoModel.count
-                ? app.texts[fit.lang].videoNotAdded
+                ? appLangs.texts[fit.lang].videoNotAdded
                 : !fit.loading && bookmarkExerciseItemsList.visible
                 && !bookmarkExerciseItemsList.bookmarkExerciseItemModel.count
-                ? app.texts[fit.lang].exersicesNotAdded
+                ? appLangs.texts[fit.lang].exersicesNotAdded
                 : !fit.loading && bookmarkNutritionItemsList.visible
                 && !bookmarkNutritionItemsList.bookmarkNutritionModel.count
-                ? app.texts[fit.lang].nutritionNotAdded
+                ? appLangs.texts[fit.lang].nutritionNotAdded
                 : "";
 
         font: Font {

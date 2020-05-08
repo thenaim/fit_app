@@ -15,6 +15,9 @@ this.config = {
         stingray: server + "/stingray",
         exercises: server + "/exercises",
         exercisesCategories: server + "/exercise/categories",
+        workouts: server + "/workouts",
+        workoutsCategory: server + "/workouts/category",
+        workoutsDays: server + "/workouts/days",
         getBookmarks: server + "/bookmarks",
         addDeleteBookmark: server + "/bookmarks/addDelete",
         sendToSocial: server + "/social/send",
@@ -31,7 +34,7 @@ this.config = {
  * App tabs
  */
 this.tabs = [{
-        id: "video",
+        id: "videos",
         title: {
             ru: "Видео",
             en: "Video"
@@ -49,7 +52,16 @@ this.tabs = [{
         badgeInt: 0
     },
     {
-        id: "nutrition",
+        id: "workouts",
+        title: {
+            ru: "Тренировки",
+            en: "Workouts"
+        },
+        url: server + "/workouts",
+        badgeInt: 0
+    },
+    {
+        id: "nutritions",
         title: {
             ru: "Питание",
             en: "Nutrition"
@@ -58,7 +70,7 @@ this.tabs = [{
         badgeInt: 0
     },
     {
-        id: "bookmark",
+        id: "bookmarks",
         title: {
             ru: "Закладки",
             en: "Bookmarks"
@@ -76,7 +88,7 @@ this.tabs = [{
         badgeInt: 0
     },
     {
-        id: "setting",
+        id: "settings",
         title: {
             ru: "Настройки",
             en: "Settings"
@@ -130,6 +142,22 @@ this.theme = {
     }
 };
 
+this.themesList = [{
+        "id": "0",
+        "data": {
+            "ru": "Светлая тема",
+            "en": "Light theme"
+        }
+    },
+    {
+        "id": "1",
+        "data": {
+            "ru": "Тёмная тема",
+            "en": "Dark theme"
+        }
+    }
+];
+
 /**
  * App sizes
  */
@@ -142,7 +170,7 @@ this.sizes = {
         height: 166
     },
     tabCards: {
-        width: 180,
+        width: 150,
         height: 120
     },
     chips: {
@@ -160,118 +188,55 @@ this.sizes = {
 };
 
 /**
- * App texts
+ * Social
  */
-this.texts = {
-    ru: {
-        language: "Язык: Русский",
-        languageChanged: "Вы изменили язык на русский",
-
-        nutritionSended: "Рецепт успешно отправлен!",
-        exerciseSended: "Упражнения успешно отправлен!",
-        selectSocial: "Отправьте в ВК или Телеграм",
-        statsTitile: "Статистика активности и баллы",
-        instruction: "Инструкция",
-        activeThemeDark: "Оформление: Тёмная тема",
-        activeThemeLight: "Оформление: Светлая тема",
-        genderMale: "Пол: Мужской",
-        genderFemale: "Пол: Женский",
-        genderMaleChanged: "Вы изменили упражнения на мужской",
-        genderFemaleChanged: "Вы изменили упражнения на женский",
-        darkThemeActive: "Тёмная тема активирована",
-        lightThemeActive: "Светлая тема активирована",
-        nutritionMuscleBuilding: "Питание: Наращивание мышц",
-        nutritionMuscleBuildingChanged: "Питание изменены на Наращивание мышц",
-        nutritionWeightLoss: "Питание: Снижение веса",
-        nutritionWeightLossChanged: "Питание изменены на Снижение веса",
-        day: "День",
-        sendToVk: "Отправить в ВК",
-        sendToTg: "Отправить в Телеграм",
-        reloading: "Проверяем...",
-        cancel: "Отменить",
-        vkNotIntegrated: "ВК не интегрирован.",
-        tgNotIntegrated: "Телеграм не интегрирован.",
-        tgIntegrated: "Телеграм успешно интегрирован!",
-        vkIntegrated: "ВК успешно интегрирован!",
-        sendToSocial: "Отправить в социальные сети",
-        playExerciseClosed: "Вы закрыли упражнения, чтобы начать заново сделайте полный экран",
-        finishedExercise: "Вы успешно закончили упражнение",
-        relaxCircle: "Отдыхаем между кругами",
-        startThirdCircle: "Начали третий круг",
-        startSecondCircle: "Начали второй круг",
-        startFirstCircle: "Начали первый круг",
-        start: "Начать",
-        stop: "Остановить",
-        repetitionCircle: "Круг (Повторяем 2-3 раза)",
-        videoNotAdded: "Вы ещё не добавили Видео в закладки",
-        exersicesNotAdded: "Вы ещё не добавили Упражнения в закладки",
-        nutritionNotAdded: "Вы ещё не добавили Питание в закладки",
-        sended: "Отправлено!",
-        checkIntegration: "Проверить интеграцию",
-        settingInfo: "Mожно отправлять упражнения, рецепты и много другое.\nБот ВК: https://vk.com/fit_smart_bot.\nБот Телеграм: https://t.me/fit_smart_bot.\nДля подключения нужно отправит ID приложения.",
-        appFunctions: [
-            "1. Добавить в закладки. Это красная кнопка на пульте.",
-            "2. Функция сделать полный экран. Это зеленая кнопка на пульте.",
-            "3. Изменить оформление. Это желтая кнопка на пульте."
-        ],
-
-        doFullscreen: "-- Сделайте полный экран, чтобы посмотреть полную инструкцию и начать упражнения ---"
-    },
-    en: {
-        language: "Language: English",
-        languageChanged: "You changed the language to english",
-
-        nutritionSended: "Recipe sent successfully!",
-        exerciseSended: "Exercise sent successfully!",
-        selectSocial: "Send to VK or Telegram",
-        statsTitile: "Activity Statistics and points",
-        instruction: "Instructions",
-        activeThemeDark: "Design: Dark theme",
-        activeThemeLight: "Design: Light theme",
-        genderMale: "Gender: Male",
-        genderFemale: "Gender: Female",
-        genderMaleChanged: "You changed the exercise to male",
-        genderFemaleChanged: "You changed the exercise to female",
-        darkThemeActive: "Dark theme activated",
-        lightThemeActive: "Light theme activated",
-        nutritionMuscleBuilding: "Nutrition: Muscle building",
-        nutritionMuscleBuildingChanged: "Nutrition changed to build muscle",
-        nutritionWeightLoss: "Nutrition: Weight loss",
-        nutritionWeightLossChanged: "Nutrition changed for weight Loss",
-        day: "Day",
-        sendToVk: "Send to VK",
-        sendToTg: "Send to Telegram",
-        reloading: "Checking...",
-        cancel: "Cancel",
-        vkNotIntegrated: "VK is not integrated.",
-        tgNotIntegrated: "Telegram is not integrated.",
-        tgIntegrated: "Telegram successfully integrated!",
-        vkIntegrated: "VK has been successfully integrated!",
-        sendToSocial: "Send to social networks",
-        playExerciseClosed: "You closed the exercise to start again make a full screen",
-        finishedExercise: "You completed the exercise successfully",
-        relaxCircle: "Resting between roundes",
-        startThirdCircle: "Started the third round",
-        startSecondCircle: "Started the second round",
-        startFirstCircle: "Started the first round",
-        start: "Start",
-        stop: "Stop",
-        repetitionCircle: "Round (Repeat 2-3 times)",
-        videoNotAdded: "You haven't added the Video to your bookmarks yet",
-        exersicesNotAdded: "You haven't added the Exercises to your bookmarks yet",
-        nutritionNotAdded: "You haven't added Food to your bookmarks yet",
-        sended: "Sent!",
-        checkIntegration: "Check integration",
-        settingInfo: "You can send exercises, recipes, and much more.\nBot VK: https://vk.com/fit_smart_bot.\nBot Telegram: https://t.me/fit_smart_bot.\nTo connect, you will need to send the app ID.",
-        appFunctions: [
-            "1. Add to bookmarks. This is the red button on the remote.",
-            "2. A function to make it full screen. This is the green button on the remote.",
-            "3. Change the design. This is the yellow button on the remote."
-        ],
-
-        doFullscreen: "--- Make a full screen to view the full instructions and start the exercise ---"
+this.social = [{
+    "id": "vk",
+    "data": {
+        "ru": "Вконтакте",
+        "en": "VK"
     }
-};
+}, {
+    "id": "tg",
+    "data": {
+        "ru": "Телеграм",
+        "en": "Telegram"
+    }
+}];
+
+/**
+ * Gender
+ */
+this.gender = [{
+    "id": "man",
+    "data": {
+        "ru": "Мужской",
+        "en": "Male"
+    }
+}, {
+    "id": "woman",
+    "data": {
+        "ru": "Женский",
+        "en": "Female"
+    }
+}];
+
+/**
+ * Nutrition type
+ */
+this.nutritionTypes = [{
+    "id": "1",
+    "data": {
+        "ru": "Наращивание мышц",
+        "en": "Muscle building"
+    }
+}, {
+    "id": "0",
+    "data": {
+        "ru": "Снижение веса",
+        "en": "Weight loss"
+    }
+}];
 
 /**
  * Format params
@@ -363,6 +328,7 @@ this.onTabChange = () => {
     // Hide all tab pages
     videoItems.visible = false;
     exercisesPageContainer.visible = false;
+    workoutsPageContainer.visible = false;
     nutritionPageContainer.visible = false;
     bookmarkPageContainer.visible = false;
     statsPage.visible = false;
@@ -376,7 +342,7 @@ this.onTabChange = () => {
 
     // check tab id and active page
     switch (tabCurrent.data.id) {
-        case "video":
+        case "videos":
             videoItems.visible = true;
             videoItems.setFocus();
             videoItems.getVideos(tabCurrent.data.url);
@@ -386,12 +352,17 @@ this.onTabChange = () => {
             exercisesPageContainer.setFocus();
             exercisesPageContainer.getChipsAndExercises();
             break;
-        case "nutrition":
+        case "workouts":
+            workoutsPageContainer.visible = true;
+            workoutsPageContainer.setFocus();
+            workoutsPageContainer.getWorkoutsCategory();
+            break;
+        case "nutritions":
             nutritionPageContainer.visible = true;
             nutritionItemsList.setFocus();
             nutritionItemsList.getNutritions(nutritionDays.model.get(nutritionDays.currentIndex).day);
             break;
-        case "bookmark":
+        case "bookmarks":
             bookmarkPageContainer.visible = true;
             bookmarkPageContainer.setFocus();
             bookmarkPageContainer.getBookmarks(bookmarkTypes.model.get(bookmarkTypes.currentIndex).type);
@@ -401,7 +372,7 @@ this.onTabChange = () => {
             statsPage.getStats();
             barCharts.setFocus();
             break;
-        case "setting":
+        case "settings":
             settingPage.visible = true;
             settingPage.setFocus();
             break;
@@ -453,6 +424,10 @@ this.addToBookmark = (current, type, page) => {
             } else if (type === "nutrition") {
                 bookmarkNutritionItemsList.model.remove(bookmarkNutritionItemsList.currentIndex, 1);
             }
+        }
+
+        if (page === "workout") {
+            workoutItems.model.set(workoutItems.currentIndex, current);
         }
 
         fit.loading = false;

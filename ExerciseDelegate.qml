@@ -16,7 +16,7 @@ Rectangle {
         z: 1;
         anchors.top: exerciseDelegate.top;
         color: "#ffffff";
-        opacity: 1.0;
+        opacity: 1;
 
         width: app.sizes.exercise.width;
         height: app.sizes.exercise.height;
@@ -25,14 +25,13 @@ Rectangle {
             id: imageCard;
             z: 2;
             anchors.top: imageExerciseItem.top;
+            opacity: 1;
 
             width: app.sizes.exercise.width;
             height: app.sizes.exercise.height;
 
             registerInCacheSystem: false;
-
             source: app.config.static + "/images/img/" + model.images[0];
-
             fillMode: PreserveAspectFit;
         }
     }
@@ -42,8 +41,8 @@ Rectangle {
         anchors.top: imageExerciseItem.bottom;
         anchors.left: imageExerciseItem.left;
         anchors.right: imageExerciseItem.right;
-
         anchors.margins: app.sizes.margin / 2;
+        opacity: exerciseDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
 
         width: app.sizes.exercise.width;
         height: (app.sizes.exercise.height / 2) + 30;
@@ -57,7 +56,6 @@ Rectangle {
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
             text: app.wrapText(model.title, 28);
             wrapMode: Text.WordWrap;
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 26;
@@ -68,22 +66,50 @@ Rectangle {
         Image {
             id: bookmarkImage;
             z: 2;
-            // anchors.top: exerciseText.bottom;
             anchors.left: exerciseDelegate.left;
             anchors.right: exerciseDelegate.right;
             anchors.bottom: exerciseDelegate.bottom;
-            // anchors.horizontalCenter: exerciseDelegate.horizontalCenter;
             anchors.margins: app.sizes.margin / 2;
 
             width: 20;
             height: 20;
-
             visible: true;
             registerInCacheSystem: false;
-
             source: model.bookmark ? "apps/fit_app/res/heart_added.png" : "apps/fit_app/res/heart_add.png";
-
             fillMode: PreserveAspectFit;
+        }
+    }
+
+    Rectangle {
+        id: dayItemsIndex;
+        z: 3;
+        anchors.top: contentExerciseItem.top;
+        anchors.horizontalCenter: exerciseDelegate.horizontalCenter;
+        anchors.topMargin: -(app.sizes.margin * 2);
+        radius: 10;
+        width: indexTxt.width + app.sizes.margin;
+        height: 25;
+        visible: model.day;
+
+        opacity: exerciseDelegate.activeFocus ? 1.0 : 0.8;
+        color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
+        focus: true;
+
+        Text {
+            id: indexTxt;
+            opacity: exerciseDelegate.activeFocus ? 1.0 : 0.8;
+
+            anchors.centerIn: parent;
+
+            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+
+            text: appLangs.texts[fit.lang].day + " " + model.day;
+
+            font: Font {
+                family: "Proxima Nova Condensed";
+                pixelSize: 28;
+                black: true;
+            }
         }
     }
 }

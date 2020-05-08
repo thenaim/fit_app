@@ -1,5 +1,4 @@
 import "js/app.js" as app;
-import "Badge.qml";
 
 Rectangle {
     id: typesDelegate;

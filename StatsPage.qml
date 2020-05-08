@@ -1,8 +1,10 @@
+import "js/app.js" as app;
+import "js/languages.js" as appLangs;
+
 import "StatsPageBarDelegate.qml";
 import "StatsPageBarChartsDelegate.qml";
 import "StatsPageBarLinesDelegate.qml";
 
-import "js/app.js" as app;
 
 Item {
     id: statsPage;
@@ -22,7 +24,7 @@ Item {
 
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 
-		text: app.texts[fit.lang].statsTitile;
+		text: appLangs.texts[fit.lang].statsTitile;
 
  		font: Font {
 			  family: "Proxima Nova Condensed";
@@ -138,5 +140,5 @@ Item {
         });
     }
 
-    onVisibleChanged: {}
+    // onVisibleChanged: {}
 }

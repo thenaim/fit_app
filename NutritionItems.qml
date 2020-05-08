@@ -23,7 +23,7 @@ GridView {
     function getNutritions(day) {
         const stingray = JSON.parse(load("fit_stingray"));
         fit.loading = true;
-        app.httpServer(app.tabs[2].url, "GET", { type: stingray.meal ? "muscle_building" : "weight_loss", day: day || 1 }, "getNutritions", (nutritions) => {
+        app.httpServer(app.tabs[3].url, "GET", { type: stingray.meal ? "muscle_building" : "weight_loss", day: day || 1 }, "getNutritions", (nutritions) => {
             nutritionItemsList.nutritionModel.reset();
             if (nutritions.length) {
                 nutritions.forEach((nut) => {

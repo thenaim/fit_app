@@ -1,4 +1,6 @@
 import "js/app.js" as app;
+import "js/languages.js" as appLangs;
+
 import controls.Button;
 
 Item {
@@ -113,14 +115,14 @@ Item {
     }
 
     Button {
-        id: vkButton;
+        id: sendSocialButton;
 
         anchors.top: stepsText.bottom;
         anchors.horizontalCenter: nameText.horizontalCenter;
         anchors.topMargin: -app.sizes.margin;
 
         color: activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: app.texts[fit.lang].sendToSocial;
+        text: appLangs.texts[fit.lang].sendToSocial;
         radius: app.sizes.radius;
         visible: true;
         opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
@@ -129,14 +131,17 @@ Item {
         }
 
         onSelectPressed: {
-            sendSocial.visible = true;
-            sendSocial.showSendSocial("nutrition", nutritionDetail.id, nutritionDetail.day, load("nutrition_type"));
+            let socials = [];
+            app.social.forEach(element => {
+                socials.push({ id: element.id, data: element.data[fit.lang]})
+            });
+            fit.modalController.openModal(socials, "nutrition", nutritionDetail.id);
         }
     }
 
     onVisibleChanged: {
         nutritionDetail.stingray = fit.stingray;
-        vkButton.setFocus();
+        sendSocialButton.setFocus();
     }
 
     onUpPressed: {

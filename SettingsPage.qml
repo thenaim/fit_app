@@ -1,4 +1,6 @@
 import "js/app.js" as app;
+import "js/languages.js" as appLangs;
+
 import controls.Button;
 
 Item {
@@ -59,8 +61,8 @@ Item {
 
             opacity: 1;
             visible: true;
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: fit.stingray["vkIntegrated"] ? app.texts[fit.lang].vkIntegrated : app.texts[fit.lang].vkNotIntegrated;
+            color: fit.stingray["vkIntegrated"] ? app.theme.light.background : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            text: fit.stingray["vkIntegrated"] ? appLangs.texts[fit.lang].vkIntegrated : appLangs.texts[fit.lang].vkNotIntegrated;
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -78,8 +80,8 @@ Item {
 
             opacity: 1;
             visible: true;
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: fit.stingray["tgIntegrated"] ? app.texts[fit.lang].tgIntegrated : app.texts[fit.lang].tgNotIntegrated;
+            color: fit.stingray["tgIntegrated"] ? app.theme.light.background : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            text: fit.stingray["tgIntegrated"] ? appLangs.texts[fit.lang].tgIntegrated : appLangs.texts[fit.lang].tgNotIntegrated;
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -99,7 +101,7 @@ Item {
             opacity: 1;
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: app.texts[fit.lang].settingInfo;
+            text: appLangs.texts[fit.lang].settingInfo;
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -119,7 +121,7 @@ Item {
             opacity: 1;
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: app.texts[fit.lang].instruction + ":";
+            text: appLangs.texts[fit.lang].instruction + ":";
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -139,7 +141,7 @@ Item {
             opacity: 1;
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: app.texts[fit.lang].appFunctions.join("\r\n");
+            text: appLangs.texts[fit.lang].appFunctions.join("\r\n");
             wrapMode: Text.WordWrap;
 
             font: Font {
@@ -161,7 +163,7 @@ Item {
 
         opacity: themeChanger.activeFocus ? 1.0 : app.config.inactiveOpacity;
         color: themeChanger.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: fit.isDark ? app.texts[fit.lang].activeThemeDark : app.texts[fit.lang].activeThemeLight;
+        text: fit.isDark ? appLangs.texts[fit.lang].activeThemeDark : appLangs.texts[fit.lang].activeThemeLight;
         radius: app.sizes.radius;
         width: 400;
         onUpPressed: {
@@ -173,25 +175,11 @@ Item {
         }
 
         onSelectPressed: {
-            let stingray = JSON.parse(load("fit_stingray"));
-
-            fit.loading = true;
-            app.httpServer(app.config.api.updateStingray, "GET", { isDark: !fit.isDark }, "themeChanger", (theme) => {
-                if (theme.updated) {
-                    stingray.isDark = !fit.isDark;
-                    fit.isDark = !fit.isDark;
-
-                    if (fit.isDark) {
-                        fit.showNotification(app.texts[fit.lang].darkThemeActive);
-                    } else {
-                        fit.showNotification(app.texts[fit.lang].lightThemeActive);
-                    }
-    
-                    save("fit_stingray", JSON.stringify(stingray));
-                }
-
-                fit.loading = false;
+            let themesList = [];
+            app.themesList.forEach(element => {
+                themesList.push({ id: element.id, data: element.data[fit.lang]})
             });
+            fit.modalController.openModal(themesList, "theme", "");
         }
     }
 
@@ -204,11 +192,11 @@ Item {
 
         anchors.top: themeChanger.bottom;
         anchors.right: settingPageItem.right;
-        anchors.topMargin: app.sizes.margin;
+        anchors.topMargin: app.sizes.margin / 1.5;
 
         opacity: nutritionTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
         color: nutritionTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: fit.stingray["meal"] ? app.texts[fit.lang].nutritionMuscleBuilding : app.texts[fit.lang].nutritionWeightLoss;
+        text: fit.stingray["meal"] ? appLangs.texts[fit.lang].nutritionMuscleBuilding : appLangs.texts[fit.lang].nutritionWeightLoss;
         radius: app.sizes.radius;
         width: 400;
 
@@ -221,21 +209,11 @@ Item {
         }
 
         onSelectPressed: {
-            let stingray = JSON.parse(load("fit_stingray"));
-
-            app.httpServer(app.config.api.updateStingray, "GET", { meal: !stingray.meal }, "nutrition_type", (res) => {
-                if (res.updated) {
-                    stingray.meal = !stingray.meal;
-                    if (stingray.meal) {
-                        fit.showNotification(app.texts[fit.lang].nutritionMuscleBuildingChanged);
-                    } else {
-                        fit.showNotification(app.texts[fit.lang].nutritionWeightLossChanged);
-                    }
-
-                    save("fit_stingray", JSON.stringify(stingray));
-                    fit.stingray = JSON.parse(load("fit_stingray"));
-                }
+            let nutritionTypes = [];
+            app.nutritionTypes.forEach(element => {
+                nutritionTypes.push({ id: element.id, data: element.data[fit.lang]})
             });
+            return fit.modalController.openModal(nutritionTypes, "nutrition_type", "");
         }
     }
 
@@ -248,11 +226,11 @@ Item {
 
         anchors.top: nutritionTypeButton.bottom;
         anchors.right: settingPageItem.right;
-        anchors.topMargin: app.sizes.margin;
+        anchors.topMargin: app.sizes.margin / 1.5;
 
         opacity: genderTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
         color: genderTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: fit.stingray["gender"] !== "man" ? app.texts[fit.lang].genderFemale : app.texts[fit.lang].genderMale;
+        text: fit.stingray["gender"] !== "man" ? appLangs.texts[fit.lang].genderFemale : appLangs.texts[fit.lang].genderMale;
         radius: app.sizes.radius;
         width: 400;
 
@@ -261,26 +239,64 @@ Item {
         }
 
         onDownPressed: {
+            workoutTypeButton.setFocus();
+        }
+
+        onSelectPressed: {
+            let genderList = [];
+            app.gender.forEach(element => {
+                genderList.push({ id: element.id, data: element.data[fit.lang]})
+            });
+            return fit.modalController.openModal(genderList, "gender", "");
+        }
+    }
+
+    /**
+    * Workout day
+    */
+    Button {
+        id: workoutTypeButton;
+        z: 1;
+
+        anchors.top: genderTypeButton.bottom;
+        anchors.right: settingPageItem.right;
+        anchors.topMargin: app.sizes.margin / 1.5;
+
+        opacity: workoutTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
+        color: workoutTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+        text: (fit.lang === "ru") ? appLangs.texts[fit.lang].workoutDay + " - " + workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " дня в неделю" : appLangs.texts[fit.lang].workoutDay + " - " + workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " days per week";
+        radius: app.sizes.radius;
+        width: 400;
+
+        onUpPressed: {
+            genderTypeButton.setFocus();
+        }
+
+        onDownPressed: {
             languageTypeButton.setFocus();
         }
 
         onSelectPressed: {
-            let stingray = JSON.parse(load("fit_stingray"));
-
-            app.httpServer(app.config.api.updateStingray, "GET", { gender: stingray.gender === "man" ? "woman" : "man" }, "genderTypeButton", (res) => {
-                if (res.updated) {
-                    if (stingray.gender === "woman") {
-                        stingray.gender = "man";
-                        fit.showNotification(app.texts[fit.lang].genderMaleChanged);
-                    } else {
-                        stingray.gender = "woman";
-                        fit.showNotification(app.texts[fit.lang].genderFemaleChanged);
-                    }
-
-                    save("fit_stingray", JSON.stringify(stingray));
-                    fit.stingray = JSON.parse(load("fit_stingray"));
+            fit.loading = true;
+            app.httpServer(app.config.api.workoutsDays, "GET", {}, "getWorkouts", (days) => {
+                if (days.length) {
+                    fit.modalController.itemsWillBeInModal = 4;
+                    fit.modalController.openModal(days, "workouts_type");
                 }
+
+                fit.loading = false;
             });
+        }
+
+        function getDay(day) {
+            if (day === 1) {
+                day = 2;
+            } else if (day === 2) {
+                day = 3;
+            } else if (day === 3) {
+                day = 4;
+            }
+            return day;
         }
     }
 
@@ -291,65 +307,18 @@ Item {
         id: languageTypeButton;
         z: 1;
 
-        anchors.top: genderTypeButton.bottom;
+        anchors.top: workoutTypeButton.bottom;
         anchors.right: settingPageItem.right;
-        anchors.topMargin: app.sizes.margin;
+        anchors.topMargin: app.sizes.margin / 1.5;
 
         opacity: languageTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
         color: languageTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: app.texts[fit.lang].language;
+        text: appLangs.texts[fit.lang].language;
         radius: app.sizes.radius;
         width: 400;
 
         onUpPressed: {
-            genderTypeButton.setFocus();
-        }
-
-        onDownPressed: {
-            reloadIntegrated.setFocus();
-        }
-
-        onSelectPressed: {
-            let stingray = JSON.parse(load("fit_stingray"));
-
-            app.httpServer(app.config.api.updateStingray, "GET", { lang: stingray.lang === "ru" ? "en" : "ru" }, "languageTypeButton", (res) => {
-                if (res.updated) {
-                    if (stingray.lang === "ru") {
-                        stingray.lang = "en";
-                        fit.lang = "en";
-                        fit.showNotification(app.texts[fit.lang].languageChanged);
-                    } else {
-                        stingray.lang = "ru";
-                        fit.lang = "ru";
-                        fit.showNotification(app.texts[fit.lang].languageChanged);
-                    }
-
-                    save("fit_stingray", JSON.stringify(stingray));
-                    fit.stingray = JSON.parse(load("fit_stingray"));
-                }
-            });
-        }
-    }
-
-    /**
-    * Check integration
-    */
-    Button {
-        id: reloadIntegrated;
-        z: 1;
-
-        anchors.top: languageTypeButton.bottom;
-        anchors.right: settingPageItem.right;
-        anchors.topMargin: app.sizes.margin;
-
-        opacity: reloadIntegrated.activeFocus ? 1.0 : app.config.inactiveOpacity;
-        color: reloadIntegrated.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
-        text: app.texts[fit.lang].checkIntegration;
-        radius: app.sizes.radius;
-        width: 400;
-
-        onUpPressed: {
-            languageTypeButton.setFocus();
+            workoutTypeButton.setFocus();
         }
 
         onDownPressed: {
@@ -357,78 +326,31 @@ Item {
         }
 
         onSelectPressed: {
-            reloadIntegrated.text = app.texts[fit.lang].reloading;
-            reloadingTimer.start();
-            fit.loading = true;
+            fit.modalController.openModal(appLangs.languages, "language");
+        }
+    }
 
+    Timer {
+		id: checkIntegrationTimer;
+		interval: 4000;
+		repeat: true;
+		running: false;
+
+		onTriggered: {
             fit.appInit((callback) => {
                 if (callback) {
                     fit.loading = false;
                 }
             });
-        }
-    }
-
-    Timer {
-		id: reloadingTimer;
-		interval: 1000;
-		repeat: false;
-		running: false;
-
-		onTriggered: {
-            reloadIntegrated.text = app.texts[fit.lang].checkIntegration;
-			this.stop();
 		}
 	}
 
-    /**
-    * Update theme function
-    */
-    function updateTheme(isDark) {
-        fit.loading = true;
-        app.httpServer(app.config.api.themeChange, "GET", { isDark: isDark }, "updateTheme", (theme) => {
-            if (theme.changed) {
-                fit.stingray.isDark = isDark;
-                fit.isDark = isDark;
-
-                if (isDark) {
-                    fit.showNotification(app.texts[fit.lang].darkThemeActive);
-                } else {
-                    fit.showNotification(app.texts[fit.lang].lightThemeActive);
-                }
-            }
-
-            fit.loading = false;
-            themeChanger.setFocus();
-        });
-    }
-
-    /**
-    * Update nutrition type
-    */
-    function updateMeal() {
-        let stingray = JSON.parse(load("fit_stingray"));
-
-        app.httpServer(app.config.api.updateStingray, "POST", { meal: stingray.meal }, "nutrition_type", (res) => {
-            if (res.updated) {
-                stingray.meal = !stingray.meal;
-                if (stingray.meal) {
-                    nutritionTypeButton.text = app.texts[fit.lang].nutritionMuscleBuilding;
-                    fit.showNotification(app.texts[fit.lang].nutritionMuscleBuildingChanged);
-                } else {
-                    nutritionTypeButton.text = app.texts[fit.lang].nutritionWeightLoss;
-                    fit.showNotification(app.texts[fit.lang].nutritionWeightLossChanged);
-                }
-
-                save("fit_stingray", JSON.stringify(stingray));
-            }
-        });
-    }
-
     onVisibleChanged: {
         themeChanger.setFocus();
-        fit.appInit((callback) => {
-            fit.loading = false;
-        });
+        checkIntegrationTimer.stop();
+
+        if (visible) {
+            checkIntegrationTimer.start();
+        }
     }
 }
