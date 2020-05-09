@@ -22,24 +22,22 @@ Item {
     */
     ListView {
         id: bookmarkTypes;
-        // get main container width, then divided to tab length
-        // will be responsive card
-        property string typesCardWidth: (mainView.width) / 3;
-
         anchors.top: bookmarkPage.top;
         anchors.left: bookmarkPage.left;
         anchors.right: bookmarkPage.right;
         anchors.margins: -app.sizes.margin;
+
+        // get main container width, then divided to tab length
+        // will be responsive card
+        property string typesCardWidth: (mainView.width) / 3;
+
         orientation: mainWindow.horizontal;
         opacity: 1.0;
-
         height: fit.fullscreen ? 70 : 50;
         width: typesCardWidth;
         focus: true;
         clip: true;
-
         model: ListModel {}
-
         delegate: BookmarkTypesDelegate {}
 
         onCompleted: {
@@ -178,14 +176,10 @@ Item {
 
         cellWidth: app.sizes.poster.width + 5;
         cellHeight: (app.sizes.poster.height * 2) + 5;
-
         visible: false;
-
         focus: false;
         clip: true;
-
         delegate: VideosDelegate {}
-
         model: ListModel { id: bookmarkVideoModel; }
 
         onKeyPressed: {
@@ -317,9 +311,7 @@ Item {
         visible: false;
         focus: false;
         clip: true;
-
         delegate: ExerciseDelegate {}
-
         model: ListModel { id: bookmarkExerciseItemModel; }
 
         onKeyPressed: {
@@ -447,9 +439,7 @@ Item {
         visible: false;
         focus: false;
         clip: true;
-
         delegate: NutritionDelegate {}
-
         model: ListModel { id: bookmarkNutritionModel; }
 
         onKeyPressed: {
@@ -576,7 +566,7 @@ Item {
             bookmarkExerciseItemsList.visible = false;
             bookmarkNutritionItemsList.visible = false;
 
-            
+            // check type bookmark, then add data
             if (type === "video") {
                 bookmarks.forEach((vid) => {
                     bookmarkVideoItemsList.bookmarkVideoModel.append({
@@ -623,7 +613,6 @@ Item {
         id: errorMessage;
         anchors.centerIn: bookmarkPage;
         opacity: parent.opacity;
-
         color: "#fff";
 
         // No items message
@@ -694,7 +683,7 @@ Item {
 
     onVisibleChanged: {
 		if (visible) {
-            // clear bookmark tab badge
+            // clear bookmark tab badge, when visible = true
             let bookmarkTab = tab.model.get(3);
             bookmarkTab.badgeInt = 0;
             tab.model.set(3, bookmarkTab);

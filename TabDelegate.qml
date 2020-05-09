@@ -3,6 +3,7 @@ import "js/app.js" as app;
 Rectangle {
     id: tabDelegate;
     opacity: 1.0;
+
     width: app.sizes.tabCards.width;
     height: app.sizes.tabCards.height;
     radius: app.sizes.radius;
@@ -11,13 +12,12 @@ Rectangle {
 
     Image {
         id: tabImage;
-        opacity: 1.0;
-        height: 60;
-
         anchors.top: tabDelegate.top;
         anchors.horizontalCenter: tabDelegate.horizontalCenter;
         anchors.topMargin: tabDelegate.activeFocus ? 10 : 15;
 
+        opacity: 1.0;
+        height: 60;
         registerInCacheSystem: false;
         async: false;
         fillMode: PreserveAspectFit;
@@ -29,12 +29,11 @@ Rectangle {
 
 	Text {
 		id: tabText;
-        opacity: tabDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
-
         anchors.bottom: tabDelegate.bottom;
         anchors.horizontalCenter: parent.horizontalCenter;
         anchors.bottomMargin: app.sizes.margin / 1.6;
 
+        opacity: tabDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 		text: model.title[fit.lang];
  		font: Font {
@@ -53,7 +52,6 @@ Rectangle {
         height: 20;
         width: badgeLength.width + 10;
         radius: app.sizes.radius / 2;
-
         opacity: 1;
         color: "#f44336";
         visible: model.badgeInt;
@@ -61,8 +59,8 @@ Rectangle {
         Text {
             id: badgeLength;
             anchors.centerIn: badge;
-            opacity: parent.opacity;
 
+            opacity: parent.opacity;
             color: "#fff";
             text: model.badgeInt;
             font: Font {

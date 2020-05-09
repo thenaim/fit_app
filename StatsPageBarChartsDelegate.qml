@@ -18,12 +18,10 @@ Rectangle {
         anchors.top: parent.top;
         anchors.topMargin: -(app.sizes.margin + 4);
         anchors.horizontalCenter: barChartsDelegate.horizontalCenter;
+
         opacity: barChartsDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
-
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-
 		text: model.points;
-
  		font: Font {
 			  family: "Proxima Nova Condensed";
 			  pixelSize: 26;
@@ -36,12 +34,10 @@ Rectangle {
         anchors.top: barChartsDelegate.bottom;
         anchors.topMargin: app.sizes.margin / 2;
         anchors.horizontalCenter: barChartsDelegate.horizontalCenter;
+
         opacity: barChartsDelegate.activeFocus ? 1 : 0.9;
-
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-
 		text: model.name[fit.lang];
-
  		font: Font {
 			  family: "Proxima Nova Condensed";
 			  pixelSize: 22;

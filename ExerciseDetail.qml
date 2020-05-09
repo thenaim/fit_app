@@ -60,16 +60,14 @@ Item {
 
         height: app.sizes.exercise.height + (fit.fullscreen ? 100 : 80);
         spacing: 1;
-
         focus: true;
         clip: true;
-
         delegate: ImagesGalaryDelegate {}
-
        	model: ListModel {}
 
         Behavior on height { animation: Animation { duration: 300; } }
 
+        // On select pressed, zoom image and check if app fullscreened
         onSelectPressed: {
             if (imagesGalary.zoom) {
                 imagesGalary.height = app.sizes.exercise.height + (fit.fullscreen ? 100 : 80);
@@ -80,7 +78,10 @@ Item {
             }
             imagesGalary.zoom = !imagesGalary.zoom;
         }
-    
+
+        // On up pressed
+        // if fullscreen true, then return
+        // if not fullscreen, then setFocus to tab
         onUpPressed: {
             if (fit.fullscreen) return;
             exerciseDetailContainer.visible = false;
@@ -99,7 +100,7 @@ Item {
             if (fit.fullscreen) {
                 return startButton.setFocus();
             }
-            sendSocialButton.setFocus();
+            sendSocialExerciseButton.setFocus();
         }
     }
 
@@ -115,11 +116,9 @@ Item {
         anchors.topMargin: app.sizes.margin;
 
         opacity: 1.0;
-
         visible: fit.fullscreen && !imagesGalary.zoom;
         color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
         text: exerciseDetail.description;
-
         font: secondaryFont;
     }
 
@@ -150,9 +149,7 @@ Item {
             anchors.bottomMargin: app.sizes.margin / 2.8;
 
             color: imagesGalary.zoom ? app.theme.light.textColor : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-
             text: exerciseTimer.rounds + "/3 " + appLangs.texts[fit.lang].repetitionCircle;
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 26;
@@ -208,9 +205,7 @@ Item {
             anchors.topMargin: startButton.height / 3;
 
             color: imagesGalary.zoom ? app.theme.light.textColor : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-
             text: "00:00:30";
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: exerciseTimer.running && exerciseTimer.exercise ? 35 : 30;
@@ -229,9 +224,7 @@ Item {
             anchors.topMargin: startButton.height / 3;
 
             color: imagesGalary.zoom ? app.theme.light.textColor : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-
             text: "00:00:15";
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: exerciseTimer.running && !exerciseTimer.exercise ? 35 : 30;
@@ -302,22 +295,25 @@ Item {
                 exerciseTimer.stop();
             }
 
+            /**
+            * Parse Milliseconds Into Readable Time
+            * @param {Number} milliseconds of timer
+            */
             function parseMillisecondsIntoReadableTime(milliseconds){
                 //Get hours from milliseconds
-                var hours = milliseconds / (1000*60*60);
-                var absoluteHours = Math.floor(hours);
-                var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+                const hours = milliseconds / (1000 * 60 * 60);
+                const absoluteHours = Math.floor(hours);
+                const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
 
                 //Get remainder from hours and convert to minutes
-                var minutes = (hours - absoluteHours) * 60;
-                var absoluteMinutes = Math.floor(minutes);
-                var m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
+                const minutes = (hours - absoluteHours) * 60;
+                const absoluteMinutes = Math.floor(minutes);
+                const m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
 
                 //Get remainder from minutes and convert to seconds
-                var seconds = (minutes - absoluteMinutes) * 60;
-                var absoluteSeconds = Math.floor(seconds);
-                var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
-
+                const seconds = (minutes - absoluteMinutes) * 60;
+                const absoluteSeconds = Math.floor(seconds);
+                const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
 
                 return h + ':' + m + ':' + s;
             }
@@ -338,7 +334,7 @@ Item {
         visible: !fit.fullscreen && !imagesGalary.zoom;
 
         Button {
-            id: sendSocialButton;
+            id: sendSocialExerciseButton;
 
             anchors.top: descriptionAndButton.top;
             anchors.horizontalCenter: exerciseDetail.horizontalCenter;
@@ -374,10 +370,8 @@ Item {
             anchors.topMargin: -8;
 
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-
             visible: !fit.fullscreen;
             text: appLangs.texts[fit.lang].doFullscreen;
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 24;
@@ -399,6 +393,7 @@ Item {
                 image: img
             });
         });
+        imagesGalary.setFocus();
         imagesGalary.setFocus();
     }
 

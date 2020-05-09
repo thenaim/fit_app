@@ -46,10 +46,6 @@ Application {
                 app.onTabChange();
             }
         }
-
-        onLeftPressed: {}
-
-        onRightPressed: {}
     }
 
     /**
@@ -138,7 +134,6 @@ Application {
 
             visible: false;
             focus: false;
-
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
         }
 
@@ -155,7 +150,6 @@ Application {
 
             visible: false;
             focus: false;
-
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
         }
 
@@ -172,7 +166,6 @@ Application {
 
             visible: false;
             focus: false;
-
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
         }
 
@@ -189,7 +182,6 @@ Application {
 
             visible: false;
             focus: false;
-
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
         }
 
@@ -206,7 +198,6 @@ Application {
             width: 920;
             visible: false;
             keyNavigationWraps: true;
-
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
 
             onClosed: {
@@ -229,7 +220,6 @@ Application {
 
             visible: false;
             focus: false;
-
             opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
         }
 
@@ -248,7 +238,6 @@ Application {
             opacity: 1.0;
             visible: false;
             focus: true;
-            
         }
 
         /**
@@ -256,7 +245,6 @@ Application {
         */
         SettingsPage {
             id: settingPage;
-
             anchors.top: mainView.top;
             anchors.left: mainView.left;
             anchors.right: mainView.right;
@@ -269,7 +257,6 @@ Application {
             onUpPressed: {
                 tab.setFocus();
             }
-            
         }
 
         /**
@@ -281,11 +268,9 @@ Application {
 
             opacity: 0.09;
             height: 400;
-
             registerInCacheSystem: false;
             async: false;
             fillMode: PreserveAspectFit;
-
             source: "apps/fit_app/res/video_page_" + (fit.isDark ? "dark.png" : "light.png");
         }
     }
@@ -295,10 +280,10 @@ Application {
     */
     ModalController {
         id: modalController;
+        anchors.centerIn: mainView;
         z: 4;
         property int oneItemHeight: 77;
         property int itemsWillBeInModal: 3;
-        anchors.centerIn: mainView;
         width: 420;
         height: modalController.oneItemHeight * modalController.itemsWillBeInModal;
         visible: false;
@@ -347,12 +332,20 @@ Application {
                         languageTypeButton.setFocus();
                     }
                     break;
-                case "nutrition":  case "exercise":
+                case "nutrition":
                     if (selected.id === "cancel") {
-                        sendSocialButton.setFocus();
+                        sendSocialNutritionButton.setFocus();
                     } else {
                         fit.sendToSocial(idContent, type, selected.id);
-                        sendSocialButton.setFocus();
+                        sendSocialNutritionButton.setFocus();
+                    }
+                    break;
+                case "exercise":
+                    if (selected.id === "cancel") {
+                        sendSocialExerciseButton.setFocus();
+                    } else {
+                        fit.sendToSocial(idContent, type, selected.id);
+                        sendSocialExerciseButton.setFocus();
                     }
                     break;
 
@@ -396,9 +389,9 @@ Application {
     */
     FitPlayer {
         id: fitPlayer;
+        anchors.fill: mainWindow;
         property string page: "main";
 
-        anchors.fill: mainWindow;
         visible: false;
 
         onBackPressed: {

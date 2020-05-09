@@ -23,7 +23,6 @@ Rectangle {
         Image {
             id: imageNutritionDefault;
             anchors.top: imageNutritionItem.top;
-            opacity: nutritionDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
 
             width: app.sizes.nutrition.width - 5;
             height: 185;
@@ -31,9 +30,7 @@ Rectangle {
             visible: imageNutrition.status !== ui.Image.Ready;
             opacity: imageNutrition.status !== ui.Image.Ready ? 1.0 : app.config.inactiveOpacity;
             registerInCacheSystem: false;
-            
             source: "apps/fit_app/res/default_nutrition.png";
-
             fillMode: PreserveAspectFit;
         }
 
@@ -46,9 +43,7 @@ Rectangle {
             height: 185;
 
             registerInCacheSystem: false;
-
             source: app.config.static + "/images/coverMeal/" + model.image;
-
             fillMode: PreserveAspectFit;
         }
     }
@@ -75,8 +70,6 @@ Rectangle {
             opacity: nutritionDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
             text: app.wrapText(model.name, 28);
-            wrapMode: Text.WordWrap;
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 26;
@@ -98,12 +91,8 @@ Rectangle {
 
         visible: true;
         registerInCacheSystem: false;
-
         source: model.bookmark ? "apps/fit_app/res/heart_added.png" : "apps/fit_app/res/heart_add.png";
-
         fillMode: PreserveAspectFit;
     }
-
-    onCompleted: {}
 }
 

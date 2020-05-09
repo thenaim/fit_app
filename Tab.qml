@@ -7,12 +7,12 @@ ListView {
     z: 1;
     orientation: mainWindow.horizontal;
 	anchors.horizontalCenter: parent.horizontalCenter;
+
 	width: app.sizes.tabCards.width * app.tabs.length;
     height: app.sizes.tabCards.height;
 	focus: true;
 	clip: true;
 	spacing: 12;
-
     delegate: TabDelegate {}
     model: ListModel { }
 

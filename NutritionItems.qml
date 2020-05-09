@@ -6,18 +6,12 @@ GridView {
     id: nutritionItemsList;
     z:1;
 
-    property bool loading: false;
-
     cellWidth: app.sizes.nutrition.width;
     cellHeight: app.sizes.nutrition.height + 40;
 
-    visible: !loading;
-
     focus: true;
     clip: true;
-
     delegate: NutritionDelegate {}
-
     model: ListModel { id: nutritionModel; }
 
     function getNutritions(day) {

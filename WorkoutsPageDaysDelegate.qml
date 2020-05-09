@@ -14,10 +14,9 @@ Rectangle {
 
 	Text {
 		id: workoutDayText;
-        opacity: workoutsPageDayDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
-
         anchors.centerIn: workoutsPageDayDelegate;
 
+        opacity: workoutsPageDayDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 		text: model.title;
  		font: Font {

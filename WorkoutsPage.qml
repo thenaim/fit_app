@@ -31,7 +31,6 @@ Item {
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
             text: appLangs.texts[fit.lang].workoutByBodyType;
             visible: (fit.stingray["gender"] === "woman") && !workoutItems.visible;
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 34;
@@ -56,7 +55,6 @@ Item {
 
             focus: true;
             clip: true;
-
             delegate: WorkoutsPageCategoryDelegate {}
             model: ListModel {}
 
@@ -96,7 +94,6 @@ Item {
         focus: true;
         clip: true;
         visible: false;
-
         delegate: ExerciseDelegate {}
         model: ListModel {}
 

@@ -16,16 +16,12 @@ Item {
     */
 	Text {
 		id: statText;
-
         anchors.bottom: centeredStat.top;
-
         anchors.bottomMargin: app.sizes.margin;
         anchors.horizontalCenter: parent.horizontalCenter;
 
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-
 		text: appLangs.texts[fit.lang].statsTitile;
-
  		font: Font {
 			  family: "Proxima Nova Condensed";
 			  pixelSize: 36;
@@ -44,7 +40,6 @@ Item {
 
         width: 960;
         height: 352;
-
         opacity: 1.0;
 
         /**
@@ -60,9 +55,7 @@ Item {
             height: 2;
             focus: false;
             opacity: 1.0;
-
             model: ListModel {}
-
             delegate: StatsPageBarLinesDelegate {}
 
             onCompleted: {
@@ -82,13 +75,11 @@ Item {
             anchors.left: centeredStat.left;
             anchors.right: centeredStat.right;
             anchors.bottom: centeredStat.bottom;
+
             spacing: 20;
             height: 350;
-
             focus: true;
-
             model: ListModel {}
-
             delegate: StatsPageBarChartsDelegate {}
 
             onUpPressed: {
@@ -104,14 +95,13 @@ Item {
             anchors.top: centeredStat.top;
             anchors.left: centeredStat.right;
             anchors.topMargin: -10;
+
             width: 50;
             height: 370;
             focus: false;
             clip: true;
             opacity: 1.0;
-
             model: ListModel {}
-
             delegate: StatsPageBarDelegate {}
 
             onCompleted: {
@@ -139,6 +129,4 @@ Item {
             fit.loading = false;
         });
     }
-
-    // onVisibleChanged: {}
 }

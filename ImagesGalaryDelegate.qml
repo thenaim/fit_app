@@ -26,9 +26,7 @@ Rectangle {
 
             visible: true;
             registerInCacheSystem: false;
-
             source: app.config.static + "/images/img/" + model.image;
-
             fillMode: PreserveAspectFit;
         }
     }
@@ -49,14 +47,11 @@ Rectangle {
 
         Text {
             id: indexTxt;
-            opacity: galaryItems.activeFocus ? 1.0 : 0.8;
-
             anchors.centerIn: parent;
 
+            opacity: galaryItems.activeFocus ? 1.0 : 0.8;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-
             text: model.id;
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 28;

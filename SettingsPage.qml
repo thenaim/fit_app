@@ -16,10 +16,9 @@ Item {
         id: fitSmartImage;
         anchors.top: settingPageItem.top;
         anchors.topMargin: -app.sizes.margin;
-
         anchors.horizontalCenter: settingPage.horizontalCenter;
-        async: false;
 
+        async: false;
         source: fit.isDark ? "apps/fit_app/res/dark_logo.png" : "apps/fit_app/res/light_logo.png";
     }
 
@@ -35,7 +34,6 @@ Item {
 
         Text {
             id: integrateText;
-
             anchors.top: settingTexts.top;
             anchors.left: settingTexts.left;
 
@@ -43,8 +41,6 @@ Item {
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
             text: "ID: " + fit.stingray["id"];
-            wrapMode: Text.WordWrap;
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 28;
@@ -54,7 +50,6 @@ Item {
 
         Text {
             id: vkIntegratedOrNot;
-
             anchors.top: integrateText.bottom;
             anchors.left: integrateText.left;
             anchors.topMargin: app.sizes.margin / 2;
@@ -63,8 +58,6 @@ Item {
             visible: true;
             color: fit.stingray["vkIntegrated"] ? app.theme.light.background : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
             text: fit.stingray["vkIntegrated"] ? appLangs.texts[fit.lang].vkIntegrated : appLangs.texts[fit.lang].vkNotIntegrated;
-            wrapMode: Text.WordWrap;
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 26;
@@ -74,7 +67,6 @@ Item {
 
         Text {
             id: tgIntegratedOrNot;
-
             anchors.top: vkIntegratedOrNot.bottom;
             anchors.left: vkIntegratedOrNot.left;
 
@@ -82,8 +74,6 @@ Item {
             visible: true;
             color: fit.stingray["tgIntegrated"] ? app.theme.light.background : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
             text: fit.stingray["tgIntegrated"] ? appLangs.texts[fit.lang].tgIntegrated : appLangs.texts[fit.lang].tgNotIntegrated;
-            wrapMode: Text.WordWrap;
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 26;
@@ -93,7 +83,6 @@ Item {
 
         Text {
             id: settingMoreInfo;
-
             anchors.top: tgIntegratedOrNot.bottom;
             anchors.left: tgIntegratedOrNot.left;
             anchors.topMargin: app.sizes.margin / 2;
@@ -102,8 +91,6 @@ Item {
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
             text: appLangs.texts[fit.lang].settingInfo;
-            wrapMode: Text.WordWrap;
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 26;
@@ -113,7 +100,6 @@ Item {
 
         Text {
             id: infoTitleText;
-
             anchors.top: settingMoreInfo.bottom;
             anchors.left: settingMoreInfo.left;
             anchors.topMargin: app.sizes.margin;
@@ -123,7 +109,6 @@ Item {
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
             text: appLangs.texts[fit.lang].instruction + ":";
             wrapMode: Text.WordWrap;
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 30;
@@ -133,7 +118,6 @@ Item {
 
         Text {
             id: infoTextDes;
-
             anchors.top: infoTitleText.bottom;
             anchors.left: infoTitleText.left;
             anchors.topMargin: app.sizes.margin / 2;
@@ -142,8 +126,6 @@ Item {
             visible: true;
             color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
             text: appLangs.texts[fit.lang].appFunctions.join("\r\n");
-            wrapMode: Text.WordWrap;
-
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 24;
@@ -189,7 +171,6 @@ Item {
     Button {
         id: nutritionTypeButton;
         z: 1;
-
         anchors.top: themeChanger.bottom;
         anchors.right: settingPageItem.right;
         anchors.topMargin: app.sizes.margin / 1.5;

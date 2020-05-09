@@ -11,9 +11,7 @@ GridView {
 
     focus: true;
     clip: true;
-
     delegate: VideosDelegate {}
-
     model: ListModel { id: videoModel; }
 
     function getVideos(url) {

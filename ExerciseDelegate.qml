@@ -80,6 +80,9 @@ Rectangle {
         }
     }
 
+    /**
+    * Show day workout, when day property exist
+    */
     Rectangle {
         id: dayItemsIndex;
         z: 3;

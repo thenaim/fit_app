@@ -14,10 +14,9 @@ Rectangle {
 
 	Text {
 		id: workoutCategoryText;
-        opacity: workoutsPageCategoryDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
-
         anchors.centerIn: workoutsPageCategoryDelegate;
 
+        opacity: workoutsPageCategoryDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
 		text: model.categ_name;
  		font: Font {

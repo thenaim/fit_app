@@ -14,12 +14,10 @@ Rectangle {
     Text {
 		id: daysTabText;
         anchors.centerIn: parent;
+
         opacity: daysDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
-
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-
 		text: appLangs.texts[fit.lang].day + " " + model.title;
-
  		font: Font {
 			  family: "Proxima Nova Condensed";
 			  pixelSize: fit.fullscreen ? 34 : 28;

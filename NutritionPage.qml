@@ -33,9 +33,7 @@ Item {
         width: daysCardWidth;
         focus: true;
         clip: true;
-
         model: ListModel {}
-
         delegate: NutritionDaysDelegate {}
 
         onCompleted: {

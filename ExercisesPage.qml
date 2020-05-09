@@ -63,7 +63,6 @@ Item {
         anchors.topMargin: app.sizes.margin / 1.5;
 
         height: app.sizes.exercise.height + 50;
-
         opacity: 1.0;
         color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
 
@@ -109,14 +108,8 @@ Item {
                     app.httpServer(app.config.api.stats, "GET", { type: "exercise" }, "statsExercise", () => {});
                 }
             }
-
-            onLeftPressed: {}
-
-            onRightPressed: {}
         }
     }
-
-    onCompleted: {}
 
     function getChipsAndExercises() {
         chipItems.getChips(app.config.api.exercisesCategories, (callback) => {

@@ -5,8 +5,9 @@ import "js/languages.js" as appLangs;
 
 Rectangle {
 	id: modalContainerMain;
-    property string type: "language";
-    property string idContent: "language";
+    property string type: "";
+    property string idContent: "";
+
 	signal selectedModalItem(selected, type, idContent);
 
 	color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
@@ -20,15 +21,14 @@ Rectangle {
         anchors.top: modalContainerMain.top;
         anchors.horizontalCenter: modalContainerMain.horizontalCenter;
         anchors.margins: app.sizes.margin;
+
         opacity: 1.0;
         spacing: 10;
 	    width: parent.width - (app.sizes.margin * 2);
         height: parent.height - (app.sizes.margin * 2);
         focus: true;
         clip: true;
-
         model: ListModel {}
-
         delegate: ModalControllerDelegate {}
 
         onKeyPressed: {
@@ -76,6 +76,6 @@ Rectangle {
     }
 
     onBackPressed: {
-        fit.modalController.visible = false;
+        return;
     }
 }

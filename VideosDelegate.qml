@@ -6,7 +6,6 @@ Rectangle {
     height: (app.sizes.poster.height * 2);
     opacity: 1;
     color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
-
     focus: true;
 
     Item {
@@ -28,9 +27,7 @@ Rectangle {
             visible: imageCard.status !== ui.Image.Ready;
             opacity: imageCard.status !== ui.Image.Ready ? 1.0 : 0;
             registerInCacheSystem: false;
-
             source: app.config.defaultImage;
-
             fillMode: PreserveAspectFit;
         }
 
@@ -43,9 +40,7 @@ Rectangle {
             height: app.sizes.poster.height;
 
             registerInCacheSystem: false;
-
             source: model.image;
-
             fillMode: PreserveAspectFit;
         }
     }
@@ -58,12 +53,11 @@ Rectangle {
         anchors.right: imageVideoItem.right;
         anchors.bottom: bookmarkImage.top;
         anchors.margins: app.sizes.margin / 2;
-        opacity: 1.0;
 
+        opacity: 1.0;
         visible: true;
         color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
         text: model.title;
-
         font: Font {
             family: "Proxima Nova Condensed";
             pixelSize: 26;
@@ -77,7 +71,6 @@ Rectangle {
         anchors.left: videosDelegate.left;
         anchors.right: videosDelegate.right;
         anchors.bottom: videosDelegate.bottom;
-        // anchors.horizontalCenter: videosDelegate.horizontalCenter;
         anchors.margins: app.sizes.margin;
 
         width: 20;
@@ -85,9 +78,7 @@ Rectangle {
 
         visible: true;
         registerInCacheSystem: false;
-
         source: model.bookmark ? "apps/fit_app/res/heart_added.png" : "apps/fit_app/res/heart_add.png";
-
         fillMode: PreserveAspectFit;
     }
 }

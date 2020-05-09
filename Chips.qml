@@ -10,12 +10,9 @@ ListView {
 
     height: app.sizes.chips.height;
     spacing: 10;
-
     focus: true;
     clip: true;
-
     delegate: ChipsDelegate {}
-
     model: ListModel { id: chipModel; }
 
     function getChips(url, callback) {

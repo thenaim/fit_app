@@ -20,10 +20,8 @@ Item {
     property string image;
 
     opacity: 1.0;
-    
     width: nutritionItems.width;
     height: nutritionItems.height;
-
     focus: true;
 
     Text {
@@ -35,8 +33,6 @@ Item {
         opacity: 1;
         color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
         text: nutritionDetail.name;
-        wrapMode: Text.WordWrap;
-
         font: Font {
             family: "Proxima Nova Condensed";
             pixelSize: 34;
@@ -49,17 +45,15 @@ Item {
         anchors.top: nameText.bottom;
         anchors.left: nutritionDetail.left;
         anchors.topMargin: app.sizes.margin / 2;
-        opacity: 1.0;
 
         width: 350;
         height: 230;
         
+        opacity: 1.0;
         visible: imageNutrition.status !== ui.Image.Ready;
         opacity: imageNutrition.status !== ui.Image.Ready ? 1.0 : app.config.inactiveOpacity;
         registerInCacheSystem: false;
-        
         source: "apps/fit_app/res/default_nutrition.png";
-
         fillMode: PreserveAspectFit;
     }
 
@@ -68,15 +62,13 @@ Item {
         anchors.top: nameText.bottom;
         anchors.left: nutritionDetail.left;
         anchors.topMargin: app.sizes.margin / 2;
-        opacity: 1.0;
 
         width: 350;
         height: 230;
 
+        opacity: 1.0;
         registerInCacheSystem: false;
-
         source: app.config.static + "/images/coverMeal/" + nutritionDetail.image;
-
         fillMode: PreserveAspectFit;
     }
 
@@ -89,11 +81,9 @@ Item {
         anchors.leftMargin: app.sizes.margin / 3;
 
         opacity: 1.0;
-
         visible: true;
         color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
         text: nutritionDetail.ingredients;
-
         font: secondaryFont;
     }
 
@@ -106,16 +96,14 @@ Item {
         anchors.topMargin: app.sizes.margin / 2;
 
         opacity: 1.0;
-
         visible: true;
         color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
         text: nutritionDetail.steps;
-
         font: secondaryFont;
     }
 
     Button {
-        id: sendSocialButton;
+        id: sendSocialNutritionButton;
 
         anchors.top: stepsText.bottom;
         anchors.horizontalCenter: nameText.horizontalCenter;
@@ -141,7 +129,7 @@ Item {
 
     onVisibleChanged: {
         nutritionDetail.stingray = fit.stingray;
-        sendSocialButton.setFocus();
+        sendSocialNutritionButton.setFocus();
     }
 
     onUpPressed: {

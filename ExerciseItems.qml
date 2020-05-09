@@ -12,9 +12,7 @@ ListView {
 	opacity: 1;
 	focus: true;
 	clip: true;
-
 	delegate: ExerciseDelegate {}
-
 	model: ListModel { id: exerciseItemModel; }
 
 	function getExercises(id_type) {

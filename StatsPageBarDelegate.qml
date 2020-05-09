@@ -3,6 +3,7 @@ import "js/app.js" as app;
 Rectangle {
     id: statsBarDelegate;
     z: 1;
+
     height: 50;
     width: parent.width;
     opacity: 1.0;
@@ -13,12 +14,10 @@ Rectangle {
 		id: daysTabText;
         anchors.top: parent.top;
         anchors.horizontalCenter: statsBarDelegate.horizontalCenter;
+
         opacity: 1.0;
-
 		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-
 		text: model.line;
-
  		font: Font {
 			  family: "Proxima Nova Condensed";
 			  pixelSize: 28;
