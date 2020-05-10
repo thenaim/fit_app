@@ -355,10 +355,7 @@ Item {
             }
 
             onSelectPressed: {
-                let socials = [];
-                appMain.social.forEach(element => {
-                    socials.push({ id: element.id, data: element.data[fit.lang]})
-                });
+                let socials = appMain.social;
                 fit.modalController.openModal(socials, "exercise", exerciseDetail.id);
             }
         }

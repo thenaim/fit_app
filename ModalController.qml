@@ -5,6 +5,7 @@ import "js/languages.js" as appLangs;
 
 Rectangle {
 	id: modalContainerMain;
+    property string title: "";
     property string type: "";
     property string idContent: "";
 
@@ -13,12 +14,29 @@ Rectangle {
 	color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
 	radius: appMain.sizes.radius;
 
+    Text {
+        id: modalTitle;
+        z: 3;
+        anchors.top: modalContainerMain.top;
+        anchors.horizontalCenter: nutritionDetail.horizontalCenter;
+        anchors.margins: appMain.sizes.margin;
+
+        opacity: 1;
+        color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
+        text: appMain.wrapText(modalContainerMain.title, 40);
+        font: Font {
+            family: "Proxima Nova Condensed";
+            pixelSize: 28;
+            black: true;
+        }
+    }
+
     /**
     * Modal list item
     */
     ListView {
         id: modalTypes;
-        anchors.top: modalContainerMain.top;
+        anchors.top: modalTitle.bottom;
         anchors.horizontalCenter: modalContainerMain.horizontalCenter;
         anchors.margins: appMain.sizes.margin;
 
@@ -51,6 +69,7 @@ Rectangle {
     * id, data
     */
     function openModal(array, type, idContent) {
+        modalContainerMain.title = array.title[fit.lang];
         modalContainerMain.type = type;
         modalContainerMain.idContent = idContent || "";
 
@@ -58,11 +77,10 @@ Rectangle {
         modalTypes.model.reset();
         
         // add items
-        array.forEach((lang, index) => {
-            modalTypes.model.append(lang);
-
+        array["items"].forEach((element, index) => {
+            modalTypes.model.append({ id: element.id, data: element.data[fit.lang] ? element.data[fit.lang] : element.data});
             // add cancel button on end
-            if (index === array.length - 1) {
+            if (index === array["items"].length - 1) {
                 modalTypes.model.append({
                     id: "cancel",
                     data: appLangs.texts[fit.lang].cancel

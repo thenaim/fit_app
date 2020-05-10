@@ -1,18 +1,4 @@
 /**
- * App languages
- */
-this.languages = [{
-        "id": "ru",
-        "data": "Русский"
-    },
-    {
-        "id": "en",
-        "data": "English"
-    }
-];
-
-
-/**
  * App texts
  */
 this.texts = {

@@ -157,10 +157,7 @@ Item {
         }
 
         onSelectPressed: {
-            let themesList = [];
-            appMain.themesList.forEach(element => {
-                themesList.push({ id: element.id, data: element.data[fit.lang]})
-            });
+            let themesList = appMain.themesList;
             fit.modalController.openModal(themesList, "theme", "");
         }
     }
@@ -190,10 +187,7 @@ Item {
         }
 
         onSelectPressed: {
-            let nutritionTypes = [];
-            appMain.nutritionTypes.forEach(element => {
-                nutritionTypes.push({ id: element.id, data: element.data[fit.lang]})
-            });
+            let nutritionTypes = appMain.nutritionTypes;
             return fit.modalController.openModal(nutritionTypes, "nutrition_type", "");
         }
     }
@@ -224,10 +218,7 @@ Item {
         }
 
         onSelectPressed: {
-            let genderList = [];
-            appMain.gender.forEach(element => {
-                genderList.push({ id: element.id, data: element.data[fit.lang]})
-            });
+            let genderList = appMain.gender;
             return fit.modalController.openModal(genderList, "gender", "");
         }
     }
@@ -260,7 +251,7 @@ Item {
         onSelectPressed: {
             fit.loading = true;
             appMain.httpServer(appMain.config.api.workoutsDays, "GET", {}, "getWorkouts", (days) => {
-                if (days.length) {
+                if (days.items.length) {
                     fit.modalController.itemsWillBeInModal = 4;
                     fit.modalController.openModal(days, "workouts_type");
                 }
@@ -307,7 +298,8 @@ Item {
         }
 
         onSelectPressed: {
-            fit.modalController.openModal(appLangs.languages, "language");
+            const languages = appMain.languages;
+            fit.modalController.openModal(languages, "language");
         }
     }
 

@@ -1,7 +1,7 @@
 /**
  * Server adress with IPv4 (for local tests)
  */
-const prod = true;
+const prod = false;
 
 const server = prod ? "http://ec2-52-15-73-251.us-east-2.compute.amazonaws.com:8080" : "http://192.168.1.71:8080";
 
@@ -35,68 +35,68 @@ this.config = {
  * App tabs
  */
 this.tabs = [{
-        id: "videos",
-        title: {
-            ru: "Видео",
-            en: "Video"
-        },
-        url: server + "/videos",
-        badgeInt: 0
+    id: "videos",
+    title: {
+        ru: "Видео",
+        en: "Video"
     },
-    {
-        id: "exercises",
-        title: {
-            ru: "Упражнения",
-            en: "Exercises"
-        },
-        url: server + "/exercises",
-        badgeInt: 0
+    url: server + "/videos",
+    badgeInt: 0
+},
+{
+    id: "exercises",
+    title: {
+        ru: "Упражнения",
+        en: "Exercises"
     },
-    {
-        id: "workouts",
-        title: {
-            ru: "Тренировки",
-            en: "Workouts"
-        },
-        url: server + "/workouts",
-        badgeInt: 0
+    url: server + "/exercises",
+    badgeInt: 0
+},
+{
+    id: "workouts",
+    title: {
+        ru: "Тренировки",
+        en: "Workouts"
     },
-    {
-        id: "nutritions",
-        title: {
-            ru: "Питание",
-            en: "Nutrition"
-        },
-        url: server + "/nutritions",
-        badgeInt: 0
+    url: server + "/workouts",
+    badgeInt: 0
+},
+{
+    id: "nutritions",
+    title: {
+        ru: "Питание",
+        en: "Nutrition"
     },
-    {
-        id: "bookmarks",
-        title: {
-            ru: "Закладки",
-            en: "Bookmarks"
-        },
-        url: server + "/bookmarks",
-        badgeInt: 0
+    url: server + "/nutritions",
+    badgeInt: 0
+},
+{
+    id: "bookmarks",
+    title: {
+        ru: "Закладки",
+        en: "Bookmarks"
     },
-    {
-        id: "stats",
-        title: {
-            ru: "Статистика",
-            en: "Stats"
-        },
-        url: server + "/stats",
-        badgeInt: 0
+    url: server + "/bookmarks",
+    badgeInt: 0
+},
+{
+    id: "stats",
+    title: {
+        ru: "Статистика",
+        en: "Stats"
     },
-    {
-        id: "settings",
-        title: {
-            ru: "Настройки",
-            en: "Settings"
-        },
-        url: server + "/settings",
-        badgeInt: 0
-    }
+    url: server + "/stats",
+    badgeInt: 0
+},
+{
+    id: "settings",
+    title: {
+        ru: "Настройки",
+        en: "Settings"
+    },
+    url: server + "/settings",
+    badgeInt: 0
+}
 ];
 
 this.bookmarksTypes = [{
@@ -143,22 +143,6 @@ this.theme = {
     }
 };
 
-this.themesList = [{
-        "id": "0",
-        "data": {
-            "ru": "Светлая тема",
-            "en": "Light theme"
-        }
-    },
-    {
-        "id": "1",
-        "data": {
-            "ru": "Тёмная тема",
-            "en": "Dark theme"
-        }
-    }
-];
-
 /**
  * App sizes
  */
@@ -189,55 +173,115 @@ this.sizes = {
 };
 
 /**
+ * Theme
+ */
+this.themesList = {
+    title: {
+        ru: "Выберите тему оформления",
+        en: "Choose a theme"
+    },
+    items: [{
+        id: "0",
+        data: {
+            ru: "Светлая тема",
+            en: "Light theme"
+        }
+    },
+    {
+        id: "1",
+        data: {
+            ru: "Тёмная тема",
+            en: "Dark theme"
+        }
+    }]
+};
+
+/**
  * Social
  */
-this.social = [{
-    "id": "vk",
-    "data": {
-        "ru": "Вконтакте",
-        "en": "VK"
-    }
-}, {
-    "id": "tg",
-    "data": {
-        "ru": "Телеграм",
-        "en": "Telegram"
-    }
-}];
+this.social = {
+    title: {
+        ru: "Выберите социальную сеть",
+        en: "Choose a social network"
+    },
+    items: [{
+        id: "vk",
+        data: {
+            ru: "Вконтакте",
+            en: "VK"
+        }
+    }, {
+        id: "tg",
+        data: {
+            ru: "Телеграм",
+            en: "Telegram"
+        }
+    }]
+};
 
 /**
  * Gender
  */
-this.gender = [{
-    "id": "man",
-    "data": {
-        "ru": "Мужской",
-        "en": "Male"
-    }
-}, {
-    "id": "woman",
-    "data": {
-        "ru": "Женский",
-        "en": "Female"
-    }
-}];
+this.gender = {
+    title: {
+        ru: "Выберите тип упражнений и тренировок",
+        en: "Choose the type of exercise and training"
+    },
+    items: [{
+        id: "man",
+        data: {
+            ru: "Мужской",
+            en: "Male"
+        }
+    }, {
+        id: "woman",
+        data: {
+            ru: "Женский",
+            en: "Female"
+        }
+    }]
+};
 
 /**
  * Nutrition type
  */
-this.nutritionTypes = [{
-    "id": "1",
-    "data": {
-        "ru": "Наращивание мышц",
-        "en": "Muscle building"
-    }
-}, {
-    "id": "0",
-    "data": {
-        "ru": "Снижение веса",
-        "en": "Weight loss"
-    }
-}];
+this.nutritionTypes = {
+    title: {
+        ru: "Выберите тип рецептов",
+        en: "Choose recipe type"
+    },
+    items: [{
+        id: "1",
+        data: {
+            ru: "Наращивание мышц",
+            en: "Muscle building"
+        }
+    }, {
+        id: "0",
+        data: {
+            ru: "Снижение веса",
+            en: "Weight loss"
+        }
+    }]
+};
+
+/**
+ * App languages
+ */
+this.languages = {
+    title: {
+        ru: "Выберите язык приложения",
+        en: "Choose application language"
+    },
+    items: [{
+        id: "ru",
+        data: "Русский"
+    },
+    {
+        id: "en",
+        data: "English"
+    }]
+};
 
 /**
  * Format params

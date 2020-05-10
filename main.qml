@@ -284,8 +284,9 @@ Application {
         z: 4;
         property int oneItemHeight: 77;
         property int itemsWillBeInModal: 3;
+        property int modalTitleHeight: 50;
         width: 420;
-        height: modalController.oneItemHeight * modalController.itemsWillBeInModal;
+        height: modalTitleHeight + (modalController.oneItemHeight * modalController.itemsWillBeInModal);
         visible: false;
 
         // Check what select user in modal, then run function
