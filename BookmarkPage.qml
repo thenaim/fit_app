@@ -1,4 +1,4 @@
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 import "js/languages.js" as appLangs;
 
 import "BookmarkTypesDelegate.qml";
@@ -25,7 +25,7 @@ Item {
         anchors.top: bookmarkPage.top;
         anchors.left: bookmarkPage.left;
         anchors.right: bookmarkPage.right;
-        anchors.margins: -app.sizes.margin;
+        anchors.margins: -appMain.sizes.margin;
 
         // get main container width, then divided to tab length
         // will be responsive card
@@ -41,7 +41,7 @@ Item {
         delegate: BookmarkTypesDelegate {}
 
         onCompleted: {
-            app.bookmarksTypes.forEach((tab) => {
+            appMain.bookmarksTypes.forEach((tab) => {
                 model.append(tab);
             });
         }
@@ -62,7 +62,7 @@ Item {
         // ListView tabBookmarkTypesHighlight
         property int hlWidth: bookmarkTypes.typesCardWidth;
         property int hlHeight: 4;
-        property Color highlightColor: app.theme.light.background;
+        property Color highlightColor: appMain.theme.light.background;
 
         // Highlight back (line)
         Rectangle {
@@ -70,7 +70,7 @@ Item {
             anchors.bottom: bookmarkTypes.bottom;
             anchors.left: bookmarkTypes.left;
             anchors.right: bookmarkTypes.right;
-            color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
+            color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
 
             height: bookmarkTypes.hlHeight;
             visible: true;
@@ -172,10 +172,10 @@ Item {
         anchors.left: bookmarkPage.left;
         anchors.right: bookmarkPage.right;
         anchors.bottom: bookmarkPage.bottom;
-        anchors.topMargin: app.sizes.margin / 1.5;
+        anchors.topMargin: appMain.sizes.margin / 1.5;
 
-        cellWidth: app.sizes.poster.width + 5;
-        cellHeight: (app.sizes.poster.height * 2) + 5;
+        cellWidth: appMain.sizes.poster.width + 5;
+        cellHeight: (appMain.sizes.poster.height * 2) + 5;
         visible: false;
         focus: false;
         clip: true;
@@ -187,10 +187,10 @@ Item {
                 bookmarkTypes.setFocus();
             } else if (key === "Red") {
                 let current = model.get(bookmarkVideoItemsList.currentIndex);
-                app.addToBookmark(current, "video", "bookmark");
+                appMain.addToBookmark(current, "video", "bookmark");
             } else if (key === "Select") {
                 const video = bookmarkVideoItemsList.model.get(bookmarkVideoItemsList.currentIndex);
-                const url = app.config.main + "/videos/" + video.videoId + ".mp4";
+                const url = appMain.config.main + "/videos/" + video.videoId + ".mp4";
                 videoItems.playVideo(video.title, url, "bookmark");
             }
         }
@@ -205,20 +205,20 @@ Item {
         }
 
         // GridView bookmarkVideoItemsList
-        property Color highlightColor: app.theme.light.background;
+        property Color highlightColor: appMain.theme.light.background;
 
         Rectangle {
             id: nutritionHighlight;
             z: 2;
 
-            width: app.sizes.poster.width;
-            height: app.sizes.poster.height * 2;
+            width: appMain.sizes.poster.width;
+            height: appMain.sizes.poster.height * 2;
 
             visible: bookmarkVideoItemsList.count;
 
             opacity: parent.activeFocus && bookmarkVideoItemsList.count ? 0.4 : 0.2;
             color: bookmarkVideoItemsList.highlightColor;
-            // radius: app.sizes.radius;
+            // radius: appMain.sizes.radius;
 
             updateHighlight: {
                 this.doHighlight();
@@ -301,12 +301,12 @@ Item {
         anchors.left: bookmarkPage.left;
         anchors.right: bookmarkPage.right;
         anchors.bottom: bookmarkPage.bottom;
-        anchors.topMargin: app.sizes.margin;
+        anchors.topMargin: appMain.sizes.margin;
         z: 2;
         orientation: mainWindow.horizontal;
 
         spacing: 10;
-        height: app.sizes.exercise.height + 100;
+        height: appMain.sizes.exercise.height + 100;
         opacity: 1.0;
         visible: false;
         focus: false;
@@ -319,7 +319,7 @@ Item {
                 bookmarkTypes.setFocus();
             } else if (key === "Red") {
                 let current = model.get(bookmarkExerciseItemsList.currentIndex);
-                app.addToBookmark(current, "exercise", "bookmark");
+                appMain.addToBookmark(current, "exercise", "bookmark");
             } else if (key === "Select") {
                 bookmarkPage.openExerciseDetailPage();
             }
@@ -335,9 +335,9 @@ Item {
         }
 
         // ListView exerciseHighlight
-        property int hlWidth: app.sizes.exercise.width;
-        property int hlHeight: app.sizes.exercise.height + 100;
-        property Color highlightColor: app.theme.light.background;
+        property int hlWidth: appMain.sizes.exercise.width;
+        property int hlHeight: appMain.sizes.exercise.height + 100;
+        property Color highlightColor: appMain.theme.light.background;
 
         Rectangle {
             id: exerciseHighlight;
@@ -431,10 +431,10 @@ Item {
         anchors.left: bookmarkPage.left;
         anchors.right: bookmarkPage.right;
         anchors.bottom: bookmarkPage.bottom;
-        anchors.topMargin: app.sizes.margin;
+        anchors.topMargin: appMain.sizes.margin;
 
-        cellWidth: app.sizes.nutrition.width;
-        cellHeight: app.sizes.nutrition.height + 40;
+        cellWidth: appMain.sizes.nutrition.width;
+        cellHeight: appMain.sizes.nutrition.height + 40;
 
         visible: false;
         focus: false;
@@ -447,7 +447,7 @@ Item {
                 bookmarkTypes.setFocus();
             } else if (key === "Red") {
                 let current = model.get(bookmarkNutritionItemsList.currentIndex);
-                app.addToBookmark(current, "nutrition", "bookmark");
+                appMain.addToBookmark(current, "nutrition", "bookmark");
             } else if (key === "Select") {
                 bookmarkPage.openNutritionDetailPage();
             }
@@ -463,7 +463,7 @@ Item {
         }
 
         // GridView nutritionHighlight
-        property Color highlightColor: app.theme.light.background;
+        property Color highlightColor: appMain.theme.light.background;
 
         Rectangle {
             id: nutritionHighlight;
@@ -476,7 +476,7 @@ Item {
 
             opacity: parent.activeFocus && bookmarkNutritionItemsList.count ? 0.2 : 0.1;
             color: bookmarkNutritionItemsList.highlightColor;
-            radius: app.sizes.radius;
+            radius: appMain.sizes.radius;
 
             updateHighlight: {
                 this.doHighlight();
@@ -556,7 +556,7 @@ Item {
     function getBookmarks(type) {
         const activeBookmarkType = bookmarkTypes.model.get(bookmarkTypes.currentIndex).type;
         fit.loading = true;
-        app.httpServer(app.config.api.getBookmarks, "GET", {type: activeBookmarkType}, "getBookmarks", (bookmarks) => {
+        appMain.httpServer(appMain.config.api.getBookmarks, "GET", {type: activeBookmarkType}, "getBookmarks", (bookmarks) => {
             // reset all bookmarks data
             bookmarkVideoItemsList.bookmarkVideoModel.reset();
             bookmarkExerciseItemsList.bookmarkExerciseItemModel.reset();
@@ -655,7 +655,7 @@ Item {
         exerciseDetailContainer.setFocus();
 
         // stats
-        app.httpServer(app.config.api.stats, "GET", { type: "exercise" }, "statsExercise", () => {});
+        appMain.httpServer(appMain.config.api.stats, "GET", { type: "exercise" }, "statsExercise", () => {});
     }
 
     /**
@@ -678,7 +678,7 @@ Item {
         nutritionDetail.setFocus();
 
         // stats
-        app.httpServer(app.config.api.stats, "GET", { type: "nutrition" }, "statsNutrition", () => {});
+        appMain.httpServer(appMain.config.api.stats, "GET", { type: "nutrition" }, "statsNutrition", () => {});
     }
 
     onVisibleChanged: {

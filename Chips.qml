@@ -1,6 +1,6 @@
 import "ChipsDelegate.qml";
 
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 
 ListView {
     id: chipsList;
@@ -8,7 +8,7 @@ ListView {
     property int position: 0;
     orientation: mainWindow.horizontal;
 
-    height: app.sizes.chips.height;
+    height: appMain.sizes.chips.height;
     spacing: 10;
     focus: true;
     clip: true;
@@ -16,10 +16,10 @@ ListView {
     model: ListModel { id: chipModel; }
 
     function getChips(url, callback) {
-        app.httpServer(url, "GET", {}, "getChips", (chips) => {
+        appMain.httpServer(url, "GET", {}, "getChips", (chips) => {
             chipsList.chipModel.reset();
             if (chips.length) {
-                chipsList.width = app.sizes.chips.width * chips.length;
+                chipsList.width = appMain.sizes.chips.width * chips.length;
                 chips.forEach((vid) => {
                     chipsList.chipModel.append({
                         id: vid.id,
@@ -36,9 +36,9 @@ ListView {
     /**
     * ListView chipHighlight
     */
-    property int hlWidth: app.sizes.chips.width;
+    property int hlWidth: appMain.sizes.chips.width;
 	property int hlHeight: 4;
-	property Color highlightColor: app.theme.light.background;
+	property Color highlightColor: appMain.theme.light.background;
 
 	Rectangle {
 		id: chipHighlight;
@@ -47,7 +47,7 @@ ListView {
 		color: chipsList.highlightColor;
         z: 2;
         opacity: 1;
-        radius: app.sizes.radius;
+        radius: appMain.sizes.radius;
 
 		doHighlight: {
 			if (!chipsList || !chipsList.model || !chipsList.count)

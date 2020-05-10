@@ -10,12 +10,12 @@ Documentation [StingrayTv Emulator](https://devstingray.gs-labs.tv/emulator)
 
 **Step 2.** Clone App.
 
-Clone app to StingrayTv Emulator directory.
+Clone appMain to StingrayTv Emulator directory.
 
 ```sh
 git clone https://github.com/thenaim/fit_app
 ```
-**Step 3.** Install app to StingrayTv Emulator.
+**Step 3.** Install appMain to StingrayTv Emulator.
 
 ```sh
 ./install_app ./fit_app

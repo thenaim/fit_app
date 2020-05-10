@@ -1,4 +1,4 @@
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 import "js/languages.js" as appLangs;
 
 import controls.Button;
@@ -6,7 +6,7 @@ import controls.Button;
 Item {
     id: settingPageItem;
     z: 4;
-    opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+    opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
     width: 600;
 
     /**
@@ -15,7 +15,7 @@ Item {
     Image {
         id: fitSmartImage;
         anchors.top: settingPageItem.top;
-        anchors.topMargin: -app.sizes.margin;
+        anchors.topMargin: -appMain.sizes.margin;
         anchors.horizontalCenter: settingPage.horizontalCenter;
 
         async: false;
@@ -39,7 +39,7 @@ Item {
 
             opacity: 1;
             visible: true;
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             text: "ID: " + fit.stingray["id"];
             font: Font {
                 family: "Proxima Nova Condensed";
@@ -52,11 +52,11 @@ Item {
             id: vkIntegratedOrNot;
             anchors.top: integrateText.bottom;
             anchors.left: integrateText.left;
-            anchors.topMargin: app.sizes.margin / 2;
+            anchors.topMargin: appMain.sizes.margin / 2;
 
             opacity: 1;
             visible: true;
-            color: fit.stingray["vkIntegrated"] ? app.theme.light.background : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: fit.stingray["vkIntegrated"] ? appMain.theme.light.background : fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             text: fit.stingray["vkIntegrated"] ? appLangs.texts[fit.lang].vkIntegrated : appLangs.texts[fit.lang].vkNotIntegrated;
             font: Font {
                 family: "Proxima Nova Condensed";
@@ -72,7 +72,7 @@ Item {
 
             opacity: 1;
             visible: true;
-            color: fit.stingray["tgIntegrated"] ? app.theme.light.background : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: fit.stingray["tgIntegrated"] ? appMain.theme.light.background : fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             text: fit.stingray["tgIntegrated"] ? appLangs.texts[fit.lang].tgIntegrated : appLangs.texts[fit.lang].tgNotIntegrated;
             font: Font {
                 family: "Proxima Nova Condensed";
@@ -85,11 +85,11 @@ Item {
             id: settingMoreInfo;
             anchors.top: tgIntegratedOrNot.bottom;
             anchors.left: tgIntegratedOrNot.left;
-            anchors.topMargin: app.sizes.margin / 2;
+            anchors.topMargin: appMain.sizes.margin / 2;
 
             opacity: 1;
             visible: true;
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             text: appLangs.texts[fit.lang].settingInfo;
             font: Font {
                 family: "Proxima Nova Condensed";
@@ -102,11 +102,11 @@ Item {
             id: infoTitleText;
             anchors.top: settingMoreInfo.bottom;
             anchors.left: settingMoreInfo.left;
-            anchors.topMargin: app.sizes.margin;
+            anchors.topMargin: appMain.sizes.margin;
 
             opacity: 1;
             visible: true;
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             text: appLangs.texts[fit.lang].instruction + ":";
             wrapMode: Text.WordWrap;
             font: Font {
@@ -120,11 +120,11 @@ Item {
             id: infoTextDes;
             anchors.top: infoTitleText.bottom;
             anchors.left: infoTitleText.left;
-            anchors.topMargin: app.sizes.margin / 2;
+            anchors.topMargin: appMain.sizes.margin / 2;
 
             opacity: 1;
             visible: true;
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             text: appLangs.texts[fit.lang].appFunctions.join("\r\n");
             font: Font {
                 family: "Proxima Nova Condensed";
@@ -143,10 +143,10 @@ Item {
         anchors.top: fitSmartImage.bottom;
         anchors.right: settingPageItem.right;
 
-        opacity: themeChanger.activeFocus ? 1.0 : app.config.inactiveOpacity;
-        color: themeChanger.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+        opacity: themeChanger.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+        color: themeChanger.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
         text: fit.isDark ? appLangs.texts[fit.lang].activeThemeDark : appLangs.texts[fit.lang].activeThemeLight;
-        radius: app.sizes.radius;
+        radius: appMain.sizes.radius;
         width: 400;
         onUpPressed: {
             tab.setFocus();
@@ -158,7 +158,7 @@ Item {
 
         onSelectPressed: {
             let themesList = [];
-            app.themesList.forEach(element => {
+            appMain.themesList.forEach(element => {
                 themesList.push({ id: element.id, data: element.data[fit.lang]})
             });
             fit.modalController.openModal(themesList, "theme", "");
@@ -173,12 +173,12 @@ Item {
         z: 1;
         anchors.top: themeChanger.bottom;
         anchors.right: settingPageItem.right;
-        anchors.topMargin: app.sizes.margin / 1.5;
+        anchors.topMargin: appMain.sizes.margin / 1.5;
 
-        opacity: nutritionTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
-        color: nutritionTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+        opacity: nutritionTypeButton.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+        color: nutritionTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
         text: fit.stingray["meal"] ? appLangs.texts[fit.lang].nutritionMuscleBuilding : appLangs.texts[fit.lang].nutritionWeightLoss;
-        radius: app.sizes.radius;
+        radius: appMain.sizes.radius;
         width: 400;
 
         onUpPressed: {
@@ -191,7 +191,7 @@ Item {
 
         onSelectPressed: {
             let nutritionTypes = [];
-            app.nutritionTypes.forEach(element => {
+            appMain.nutritionTypes.forEach(element => {
                 nutritionTypes.push({ id: element.id, data: element.data[fit.lang]})
             });
             return fit.modalController.openModal(nutritionTypes, "nutrition_type", "");
@@ -207,12 +207,12 @@ Item {
 
         anchors.top: nutritionTypeButton.bottom;
         anchors.right: settingPageItem.right;
-        anchors.topMargin: app.sizes.margin / 1.5;
+        anchors.topMargin: appMain.sizes.margin / 1.5;
 
-        opacity: genderTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
-        color: genderTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+        opacity: genderTypeButton.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+        color: genderTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
         text: fit.stingray["gender"] !== "man" ? appLangs.texts[fit.lang].genderFemale : appLangs.texts[fit.lang].genderMale;
-        radius: app.sizes.radius;
+        radius: appMain.sizes.radius;
         width: 400;
 
         onUpPressed: {
@@ -225,7 +225,7 @@ Item {
 
         onSelectPressed: {
             let genderList = [];
-            app.gender.forEach(element => {
+            appMain.gender.forEach(element => {
                 genderList.push({ id: element.id, data: element.data[fit.lang]})
             });
             return fit.modalController.openModal(genderList, "gender", "");
@@ -241,12 +241,12 @@ Item {
 
         anchors.top: genderTypeButton.bottom;
         anchors.right: settingPageItem.right;
-        anchors.topMargin: app.sizes.margin / 1.5;
+        anchors.topMargin: appMain.sizes.margin / 1.5;
 
-        opacity: workoutTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
-        color: workoutTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+        opacity: workoutTypeButton.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+        color: workoutTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
         text: (fit.lang === "ru") ? appLangs.texts[fit.lang].workoutDay + " - " + workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " дня в неделю" : appLangs.texts[fit.lang].workoutDay + " - " + workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " days per week";
-        radius: app.sizes.radius;
+        radius: appMain.sizes.radius;
         width: 400;
 
         onUpPressed: {
@@ -259,7 +259,7 @@ Item {
 
         onSelectPressed: {
             fit.loading = true;
-            app.httpServer(app.config.api.workoutsDays, "GET", {}, "getWorkouts", (days) => {
+            appMain.httpServer(appMain.config.api.workoutsDays, "GET", {}, "getWorkouts", (days) => {
                 if (days.length) {
                     fit.modalController.itemsWillBeInModal = 4;
                     fit.modalController.openModal(days, "workouts_type");
@@ -290,12 +290,12 @@ Item {
 
         anchors.top: workoutTypeButton.bottom;
         anchors.right: settingPageItem.right;
-        anchors.topMargin: app.sizes.margin / 1.5;
+        anchors.topMargin: appMain.sizes.margin / 1.5;
 
-        opacity: languageTypeButton.activeFocus ? 1.0 : app.config.inactiveOpacity;
-        color: languageTypeButton.activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+        opacity: languageTypeButton.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+        color: languageTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
         text: appLangs.texts[fit.lang].language;
-        radius: app.sizes.radius;
+        radius: appMain.sizes.radius;
         width: 400;
 
         onUpPressed: {

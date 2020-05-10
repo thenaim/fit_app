@@ -1,13 +1,13 @@
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 
 Rectangle {
     id: exerciseDelegate;
     anchors.top: exerciseItems.top;
 
-    width: app.sizes.exercise.width;
-    height: app.sizes.exercise.height + 100;
+    width: appMain.sizes.exercise.width;
+    height: appMain.sizes.exercise.height + 100;
     opacity: 1;
-    color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
+    color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
 
     focus: true;
 
@@ -18,8 +18,8 @@ Rectangle {
         color: "#ffffff";
         opacity: 1;
 
-        width: app.sizes.exercise.width;
-        height: app.sizes.exercise.height;
+        width: appMain.sizes.exercise.width;
+        height: appMain.sizes.exercise.height;
 
         Image {
             id: imageCard;
@@ -27,11 +27,11 @@ Rectangle {
             anchors.top: imageExerciseItem.top;
             opacity: 1;
 
-            width: app.sizes.exercise.width;
-            height: app.sizes.exercise.height;
+            width: appMain.sizes.exercise.width;
+            height: appMain.sizes.exercise.height;
 
             registerInCacheSystem: false;
-            source: app.config.static + "/images/img/" + model.images[0];
+            source: appMain.config.static + "/images/img/" + model.images[0];
             fillMode: PreserveAspectFit;
         }
     }
@@ -41,20 +41,20 @@ Rectangle {
         anchors.top: imageExerciseItem.bottom;
         anchors.left: imageExerciseItem.left;
         anchors.right: imageExerciseItem.right;
-        anchors.margins: app.sizes.margin / 2;
-        opacity: exerciseDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
+        anchors.margins: appMain.sizes.margin / 2;
+        opacity: exerciseDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
 
-        width: app.sizes.exercise.width;
-        height: (app.sizes.exercise.height / 2) + 30;
+        width: appMain.sizes.exercise.width;
+        height: (appMain.sizes.exercise.height / 2) + 30;
 
         Text {
             id: exerciseText;
             anchors.top: parent.top;
 
-            width: app.sizes.exercise.width;
+            width: appMain.sizes.exercise.width;
 
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
-            text: app.wrapText(model.title, 28);
+            color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
+            text: appMain.wrapText(model.title, 28);
             wrapMode: Text.WordWrap;
             font: Font {
                 family: "Proxima Nova Condensed";
@@ -69,7 +69,7 @@ Rectangle {
             anchors.left: exerciseDelegate.left;
             anchors.right: exerciseDelegate.right;
             anchors.bottom: exerciseDelegate.bottom;
-            anchors.margins: app.sizes.margin / 2;
+            anchors.margins: appMain.sizes.margin / 2;
 
             width: 20;
             height: 20;
@@ -88,14 +88,14 @@ Rectangle {
         z: 3;
         anchors.top: contentExerciseItem.top;
         anchors.horizontalCenter: exerciseDelegate.horizontalCenter;
-        anchors.topMargin: -(app.sizes.margin * 2);
+        anchors.topMargin: -(appMain.sizes.margin * 2);
         radius: 10;
-        width: indexTxt.width + app.sizes.margin;
+        width: indexTxt.width + appMain.sizes.margin;
         height: 25;
         visible: model.day;
 
         opacity: exerciseDelegate.activeFocus ? 1.0 : 0.8;
-        color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
+        color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
         focus: true;
 
         Text {
@@ -104,7 +104,7 @@ Rectangle {
 
             anchors.centerIn: parent;
 
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
 
             text: appLangs.texts[fit.lang].day + " " + model.day;
 

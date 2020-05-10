@@ -1,6 +1,6 @@
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 
-import "ExerciseItems.qml";
+import "ExercisesPageItems.qml";
 import "ExerciseDelegate.qml";
 import "Chips.qml";
 
@@ -60,23 +60,23 @@ Item {
         anchors.top: chipItems.bottom;
         anchors.left: exercisesPage.left;
         anchors.right: exercisesPage.right;
-        anchors.topMargin: app.sizes.margin / 1.5;
+        anchors.topMargin: appMain.sizes.margin / 1.5;
 
-        height: app.sizes.exercise.height + 50;
+        height: appMain.sizes.exercise.height + 50;
         opacity: 1.0;
-        color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
+        color: fit.isDark ? appMain.theme.dark.item_background : appMain.theme.light.item_background;
 
         /**
         * Exercise items
         */
-        ExerciseItems {
+        ExercisesPageItems {
             id: exerciseItemsList;
             z: 1;
 
             anchors.top: exercisesCategory.top;
             anchors.left: exercisesPageContainer.left;
             anchors.right: exercisesPageContainer.right;
-            anchors.topMargin: app.sizes.margin / 1.5;
+            anchors.topMargin: appMain.sizes.margin / 1.5;
 
             opacity: 1.0;
 
@@ -87,7 +87,7 @@ Item {
             onKeyPressed: {
                 if (key === "Red") {
                     let current = model.get(exerciseItemsList.currentIndex);
-                    app.addToBookmark(current, "exercise", "main");
+                    appMain.addToBookmark(current, "exercise", "main");
                 } else if (key === "Up") {
                     chipItems.setFocus();
                 } else if (key === "Select") {
@@ -105,14 +105,14 @@ Item {
                     exerciseDetailContainer.setFocus();
 
                     // stats
-                    app.httpServer(app.config.api.stats, "GET", { type: "exercise" }, "statsExercise", () => {});
+                    appMain.httpServer(appMain.config.api.stats, "GET", { type: "exercise" }, "statsExercise", () => {});
                 }
             }
         }
     }
 
     function getChipsAndExercises() {
-        chipItems.getChips(app.config.api.exercisesCategories, (callback) => {
+        chipItems.getChips(appMain.config.api.exercisesCategories, (callback) => {
             if (callback) {
                 exerciseItemsList.getExercises(chipItems.model.get(chipItems.currentIndex).id_type);
                 exerciseItemsList.setFocus();

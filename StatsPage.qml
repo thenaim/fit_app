@@ -1,4 +1,4 @@
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 import "js/languages.js" as appLangs;
 
 import "StatsPageBarDelegate.qml";
@@ -17,10 +17,10 @@ Item {
 	Text {
 		id: statText;
         anchors.bottom: centeredStat.top;
-        anchors.bottomMargin: app.sizes.margin;
+        anchors.bottomMargin: appMain.sizes.margin;
         anchors.horizontalCenter: parent.horizontalCenter;
 
-		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+		color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
 		text: appLangs.texts[fit.lang].statsTitile;
  		font: Font {
 			  family: "Proxima Nova Condensed";
@@ -36,7 +36,7 @@ Item {
         id: centeredStat;
         anchors.top: statText.bottom;
         anchors.centerIn: parent;
-        color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
+        color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
 
         width: 960;
         height: 352;
@@ -115,7 +115,7 @@ Item {
 
     function getStats() {
         fit.loading = true;
-        app.httpServer(app.config.api.stingray, "GET", {}, "appInit", (data) => {
+        appMain.httpServer(appMain.config.api.stingray, "GET", {}, "appInit", (data) => {
             if (!data.id) return callback(false);
 
             if (data.stats.length) {

@@ -1,6 +1,6 @@
 import "ExerciseDelegate.qml";
 
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 
 ListView {
 	id: exerciseItemsList;
@@ -8,7 +8,7 @@ ListView {
 	orientation: exercisesCategory.horizontal;
 
 	spacing: 10;
-	height: app.sizes.exercise.height + 100;
+	height: appMain.sizes.exercise.height + 100;
 	opacity: 1;
 	focus: true;
 	clip: true;
@@ -17,7 +17,7 @@ ListView {
 
 	function getExercises(id_type) {
 		fit.loading = true;
-        app.httpServer(app.config.api.exercises, "GET", { id_type: id_type }, "getExercises", (exercise) => {
+        appMain.httpServer(appMain.config.api.exercises, "GET", { id_type: id_type }, "getExercises", (exercise) => {
             // reset model
             exerciseItemsList.exerciseItemModel.reset();
 
@@ -42,9 +42,9 @@ ListView {
 	/**
 	* ListView exerciseHighlight
 	*/
-	property int hlWidth: app.sizes.exercise.width;
-	property int hlHeight: app.sizes.exercise.height + 100;
-	property Color highlightColor: app.theme.light.background;
+	property int hlWidth: appMain.sizes.exercise.width;
+	property int hlHeight: appMain.sizes.exercise.height + 100;
+	property Color highlightColor: appMain.theme.light.background;
 
 	Rectangle {
 		id: exerciseHighlight;

@@ -120,7 +120,7 @@ this.texts = {
         nutritionNotAdded: "You haven't added Food to your bookmarks yet",
         sended: "Sent!",
         checkIntegration: "Check integration",
-        settingInfo: "You can send exercises, recipes, and much more.\nBot VK: https://vk.com/fit_smart_bot.\nBot Telegram: https://t.me/fit_smart_bot.\nTo connect, you will need to send the app ID.",
+        settingInfo: "You can send exercises, recipes, and much more.\nBot VK: https://vk.com/fit_smart_bot.\nBot Telegram: https://t.me/fit_smart_bot.\nTo connect, you will need to send the appMain ID.",
         appFunctions: [
             "1. Add to bookmarks. This is the red button on the remote.",
             "2. A function to make it full screen. This is the green button on the remote.",

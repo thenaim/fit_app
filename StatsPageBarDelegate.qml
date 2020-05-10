@@ -1,4 +1,4 @@
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 
 Rectangle {
     id: statsBarDelegate;
@@ -7,7 +7,7 @@ Rectangle {
     height: 50;
     width: parent.width;
     opacity: 1.0;
-    color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
+    color: fit.isDark ? appMain.theme.dark.item_background : appMain.theme.light.item_background;
     focus: false;
 
     Text {
@@ -16,7 +16,7 @@ Rectangle {
         anchors.horizontalCenter: statsBarDelegate.horizontalCenter;
 
         opacity: 1.0;
-		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+		color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
 		text: model.line;
  		font: Font {
 			  family: "Proxima Nova Condensed";

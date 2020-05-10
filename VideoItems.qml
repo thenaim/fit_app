@@ -1,13 +1,13 @@
 import "VideosDelegate.qml";
 
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 
 GridView {
     id: videoItemsList;
 	z: 1;
 
-    cellWidth: app.sizes.poster.width + 5;
-    cellHeight: (app.sizes.poster.height * 2) + 5;
+    cellWidth: appMain.sizes.poster.width + 5;
+    cellHeight: (appMain.sizes.poster.height * 2) + 5;
 
     focus: true;
     clip: true;
@@ -15,7 +15,7 @@ GridView {
     model: ListModel { id: videoModel; }
 
     function getVideos(url) {
-        app.httpServer(url, "GET", {}, "getVideos", (videos) => {
+        appMain.httpServer(url, "GET", {}, "getVideos", (videos) => {
         	videoItemsList.videoModel.reset();
             if (videos.length) {
                 videos.forEach((vid) => {
@@ -35,20 +35,20 @@ GridView {
     /**
     * GridView videoItemsList
     */
-	property Color highlightColor: app.theme.light.background;
+	property Color highlightColor: appMain.theme.light.background;
 
 	Rectangle {
 		id: highlight;
 		z: 2;
 
-        width: app.sizes.poster.width;
-        height: app.sizes.poster.height * 2;
+        width: appMain.sizes.poster.width;
+        height: appMain.sizes.poster.height * 2;
 
         visible: videoItemsList.count;
 
 		opacity: parent.activeFocus && videoItemsList.count ? 0.2 : 0.1;
 		color: videoItemsList.highlightColor;
-        // radius: app.sizes.radius;
+        // radius: appMain.sizes.radius;
 
 		updateHighlight: {
 			this.doHighlight();

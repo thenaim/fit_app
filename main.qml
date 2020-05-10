@@ -16,7 +16,7 @@ import "FitPlayer.qml";
 
 import controls.Spinner;
 
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 import "js/languages.js" as appLangs;
 
 Application {
@@ -27,7 +27,7 @@ Application {
     property bool fullscreen: false;
     property bool loading: false;
 
-    color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
+    color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
 
     /**
     * Main tabs
@@ -35,15 +35,15 @@ Application {
     Tab {
         id: tab;
         anchors.top: mainWindow.top;
-        anchors.margins: app.sizes.margin;
+        anchors.margins: appMain.sizes.margin;
         anchors.horizontalCenter: mainWindow.horizontalCenter;
 
-        width: (app.sizes.tabCards.width + tabList.spacing) * app.tabs.length;
+        width: (appMain.sizes.tabCards.width + tabList.spacing) * appMain.tabs.length;
         
         keyNavigationWraps: false;
         onKeyPressed: {
             if (key === "Select" || key === "Down") {
-                app.onTabChange();
+                appMain.onTabChange();
             }
         }
     }
@@ -59,10 +59,10 @@ Application {
         anchors.left: mainWindow.left;
         anchors.right: mainWindow.right;
         anchors.bottom: mainWindow.bottom;
-        anchors.margins: fit.fullscreen ? 0 : app.sizes.margin;
+        anchors.margins: fit.fullscreen ? 0 : appMain.sizes.margin;
 
-		radius: fit.fullscreen ? 0 : app.sizes.radius;
-		color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
+		radius: fit.fullscreen ? 0 : appMain.sizes.radius;
+		color: fit.isDark ? appMain.theme.dark.item_background : appMain.theme.light.item_background;
 
         Behavior on height { animation: Animation { duration: 100; } }
         Behavior on width { animation: Animation { duration: 100; } }
@@ -76,25 +76,25 @@ Application {
             anchors.left: mainView.left;
             anchors.right: mainView.right;
             anchors.bottom: mainView.bottom;
-            anchors.margins: app.sizes.margin;
+            anchors.margins: appMain.sizes.margin;
 
             focus: true;
             visible: true;
 
-            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
 
             keyNavigationWraps: false;
 
             onKeyPressed: {
                 if (key === "Red") {
                     let current = model.get(videoItems.currentIndex);
-                    app.addToBookmark(current, "video", "main");
+                    appMain.addToBookmark(current, "video", "main");
                 }
             }
 
             onSelectPressed: {
                 const video = videoItems.model.get(videoItems.currentIndex);
-                const url = app.config.main + "/videos/" + video.videoId + ".mp4";
+                const url = appMain.config.main + "/videos/" + video.videoId + ".mp4";
 
                 videoItems.playVideo(video.title, url, "main");
             }
@@ -114,9 +114,9 @@ Application {
                 mainView.visible = false;
 
                 // Show player element and play url
-                fitPlayer.visible = true;
                 fitPlayer.title = title;
                 fitPlayer.page = page;
+                fitPlayer.visible = true;
                 fitPlayer.playVideoByUrl(url);
             }
         }
@@ -130,11 +130,11 @@ Application {
             anchors.left: mainView.left;
             anchors.right: mainView.right;
             anchors.bottom: mainView.bottom;
-            anchors.margins: app.sizes.margin;
+            anchors.margins: appMain.sizes.margin;
 
             visible: false;
             focus: false;
-            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         }
 
         /**
@@ -146,11 +146,11 @@ Application {
             anchors.left: mainView.left;
             anchors.right: mainView.right;
             anchors.bottom: mainView.bottom;
-            anchors.margins: app.sizes.margin;
+            anchors.margins: appMain.sizes.margin;
 
             visible: false;
             focus: false;
-            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         }
 
         /**
@@ -162,11 +162,11 @@ Application {
             anchors.left: mainView.left;
             anchors.right: mainView.right;
             anchors.bottom: mainView.bottom;
-            anchors.margins: app.sizes.margin;
+            anchors.margins: appMain.sizes.margin;
 
             visible: false;
             focus: false;
-            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         }
 
         /**
@@ -178,11 +178,11 @@ Application {
             anchors.left: mainView.left;
             anchors.right: mainView.right;
             anchors.bottom: mainView.bottom;
-            anchors.margins: app.sizes.margin;
+            anchors.margins: appMain.sizes.margin;
 
             visible: false;
             focus: false;
-            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         }
 
         /**
@@ -193,12 +193,12 @@ Application {
 
             anchors.top: mainView.top;
             anchors.horizontalCenter: mainWindow.horizontalCenter;
-            anchors.margins: app.sizes.margin;
+            anchors.margins: appMain.sizes.margin;
 
             width: 920;
             visible: false;
             keyNavigationWraps: true;
-            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
 
             onClosed: {
                 nutritionDetail.visible = false;
@@ -216,11 +216,11 @@ Application {
             anchors.left: mainView.left;
             anchors.right: mainView.right;
             anchors.bottom: mainView.bottom;
-            anchors.margins: app.sizes.margin;
+            anchors.margins: appMain.sizes.margin;
 
             visible: false;
             focus: false;
-            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         }
 
         /**
@@ -233,7 +233,7 @@ Application {
             anchors.left: mainView.left;
             anchors.right: mainView.right;
             anchors.bottom: mainView.bottom;
-            anchors.margins: app.sizes.margin;
+            anchors.margins: appMain.sizes.margin;
 
             opacity: 1.0;
             visible: false;
@@ -249,7 +249,7 @@ Application {
             anchors.left: mainView.left;
             anchors.right: mainView.right;
             anchors.bottom: mainView.bottom;
-            anchors.margins: app.sizes.margin;
+            anchors.margins: appMain.sizes.margin;
 
             visible: false;
             focus: false;
@@ -389,38 +389,40 @@ Application {
     */
     FitPlayer {
         id: fitPlayer;
+        z: 4;
         anchors.fill: mainWindow;
         property string page: "main";
 
         visible: false;
 
         onBackPressed: {
-            fit.hideFitPlayer(page);
+            fitPlayer.hideFitPlayer(page);
         }
 
         onFinished: {
-            fit.hideFitPlayer(page);
+            fitPlayer.hideFitPlayer(page);
         }
-    }
 
-    /**
-    * Hide player function
-    * @param {String} page main|bookmark
-    * page param for setting focus, after close player
-    */
-    function hideFitPlayer(page) {
-        // Show (main) elements
-        tab.visible = true;
-        mainView.visible = true;
+        /**
+        * Hide player function
+        * @param {String} page main|bookmark
+        * page param for setting focus, after close player
+        */
+        function hideFitPlayer(page, action) {
+            // Show (main) elements
+            tab.visible = true;
+            mainView.visible = true;
 
-        // Hide player
-        fitPlayer.visible = false;
+            // Hide player
+            fitPlayer.abort();
+            fitPlayer.visible = false;
 
-        // Set focus
-        if (page === "main") {
-            videoItems.setFocus();
-        } else if (page === "bookmark") {
-            bookmarkVideoItemsList.setFocus();
+            // Set focus
+            if (page === "main") {
+                videoItems.setFocus();
+            } else if (page === "bookmark") {
+                bookmarkVideoItemsList.setFocus();
+            }
         }
     }
 
@@ -450,7 +452,7 @@ Application {
                 return fit.showNotification(appLangs.texts[fit.lang].tgNotIntegrated);
             }
         }
-        app.httpServer(app.config.api.sendToSocial, "GET", {
+        appMain.httpServer(appMain.config.api.sendToSocial, "GET", {
             id: id,
             type: type,
             social: social
@@ -474,7 +476,7 @@ Application {
         if (stingray.isDark === parseInt(theme)) return;
 
         fit.loading = true;
-        app.httpServer(app.config.api.updateStingray, "GET", { isDark: theme }, "themeChanger", (is) => {
+        appMain.httpServer(appMain.config.api.updateStingray, "GET", { isDark: theme }, "themeChanger", (is) => {
             if (is.updated) {
                 stingray.isDark = parseInt(theme);
                 fit.isDark = parseInt(theme);
@@ -500,7 +502,7 @@ Application {
         let stingray = JSON.parse(load("fit_stingray"));
         if (stingray.meal === parseInt(meal)) return;
 
-        app.httpServer(app.config.api.updateStingray, "GET", { meal: meal }, "nutrition_type", (res) => {
+        appMain.httpServer(appMain.config.api.updateStingray, "GET", { meal: meal }, "nutrition_type", (res) => {
             if (res.updated) {
                 stingray.meal = parseInt(meal);
                 if (parseInt(meal)) {
@@ -523,7 +525,7 @@ Application {
         let stingray = JSON.parse(load("fit_stingray"));
         if (stingray.gender === gender) return;
 
-        app.httpServer(app.config.api.updateStingray, "GET", { gender: gender }, "genderTypeButton", (res) => {
+        appMain.httpServer(appMain.config.api.updateStingray, "GET", { gender: gender }, "genderTypeButton", (res) => {
             if (res.updated) {
                 stingray.gender = gender;
                 if (gender === "woman") {
@@ -542,7 +544,7 @@ Application {
         let stingray = JSON.parse(load("fit_stingray"));
         if (stingray.workoutDays === parseInt(selected.id)) return;
 
-        app.httpServer(app.config.api.updateStingray, "GET", { workoutDays: selected.id }, "genderTypeButton", (res) => {
+        appMain.httpServer(appMain.config.api.updateStingray, "GET", { workoutDays: selected.id }, "genderTypeButton", (res) => {
             if (res.updated) {
                 stingray.workoutDays = parseInt(selected.id);
                 fit.showNotification(appLangs.texts[fit.lang].workoutDay + " " + selected.data);
@@ -561,7 +563,7 @@ Application {
         let stingray = JSON.parse(load("fit_stingray"));
         if (stingray.lang === lang) return;
 
-        app.httpServer(app.config.api.updateStingray, "GET", { lang: lang }, "updateLanguage", (res) => {
+        appMain.httpServer(appMain.config.api.updateStingray, "GET", { lang: lang }, "updateLanguage", (res) => {
             if (res.updated) {
                 stingray.lang = lang;
                 fit.lang = lang;
@@ -579,7 +581,7 @@ Application {
     * @param {String} type bookmark type index video=0|exercise=|nutrition
     */
     function addDeleteBadge(added, type) {
-        const tabIndex = app.tabs.findIndex(tab => tab.id === "bookmarks");
+        const tabIndex = appMain.tabs.findIndex(tab => tab.id === "bookmarks");
         let bookmarkTab = tab.model.get(tabIndex);
         
         // main tab badge
@@ -592,7 +594,7 @@ Application {
 
         // bookmark page tabs badges
         if (bookmarkTypes.model.count != 0) {
-            const bookmarkTabIndex = app.bookmarksTypes.findIndex(tab => tab.type === type);
+            const bookmarkTabIndex = appMain.bookmarksTypes.findIndex(tab => tab.type === type);
             const getTypeBookmarkTab = bookmarkTypes.model.get(bookmarkTabIndex);
             if (added) {
                 getTypeBookmarkTab.badgeInt += 1;
@@ -610,7 +612,7 @@ Application {
     * @return {Object} id, isDark, vkIntegrated
     */
     function appInit(callback) {
-        app.httpServer(app.config.api.stingray, "GET", {}, "appInit", (data) => {
+        appMain.httpServer(appMain.config.api.stingray, "GET", {}, "appInit", (data) => {
             if (!data.id) return callback(false);
 
             // save stingray

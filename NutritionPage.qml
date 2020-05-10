@@ -1,4 +1,4 @@
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 import "NutritionDaysDelegate.qml";
 import "NutritionItems.qml";
 
@@ -25,7 +25,7 @@ Item {
         anchors.top: nutritionPage.top;
         anchors.left: nutritionPage.left;
         anchors.right: nutritionPage.right;
-        anchors.margins: -app.sizes.margin;
+        anchors.margins: -appMain.sizes.margin;
         orientation: mainWindow.horizontal;
         opacity: 1.0;
 
@@ -67,7 +67,7 @@ Item {
         // ListView tabDaysHighlight
         property int hlWidth: nutritionDays.daysCardWidth;
         property int hlHeight: 4;
-        property Color highlightColor: app.theme.light.background;
+        property Color highlightColor: appMain.theme.light.background;
 
         // Highlight back (line)
         Rectangle {
@@ -75,7 +75,7 @@ Item {
             anchors.bottom: nutritionDays.bottom;
             anchors.left: nutritionDays.left;
             anchors.right: nutritionDays.right;
-            color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
+            color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
 
             height: nutritionDays.hlHeight;
             visible: true;
@@ -178,7 +178,7 @@ Item {
         anchors.left: nutritionPage.left;
         anchors.right: nutritionPage.right;
         anchors.bottom: nutritionPage.bottom;
-        anchors.topMargin: app.sizes.margin / 2;
+        anchors.topMargin: appMain.sizes.margin / 2;
 
         opacity: 1.0;
 
@@ -187,7 +187,7 @@ Item {
                 nutritionDays.setFocus();
             } else if (key === "Red") {
                 let current = model.get(nutritionItems.currentIndex);
-                app.addToBookmark(current, "nutrition", "main");
+                appMain.addToBookmark(current, "nutrition", "main");
             } else if (key === "Select") {
                 const currentNutritionItem = model.get(nutritionItems.currentIndex);
                 
@@ -205,7 +205,7 @@ Item {
                 nutritionDetail.setFocus();
 
                 // stats
-                app.httpServer(app.config.api.stats, "GET", { type: "nutrition" }, "statsNutrition", () => {});
+                appMain.httpServer(appMain.config.api.stats, "GET", { type: "nutrition" }, "statsNutrition", () => {});
             }
         }
     }

@@ -1,11 +1,11 @@
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 Rectangle {
     id: videosDelegate;
 
-    width: app.sizes.poster.width;
-    height: (app.sizes.poster.height * 2);
+    width: appMain.sizes.poster.width;
+    height: (appMain.sizes.poster.height * 2);
     opacity: 1;
-    color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
+    color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
     focus: true;
 
     Item {
@@ -13,21 +13,21 @@ Rectangle {
         anchors.top: videosDelegate.top;
         anchors.left: videosDelegate.left;
 
-        width: app.sizes.poster.width;
-        height: app.sizes.poster.height;
+        width: appMain.sizes.poster.width;
+        height: appMain.sizes.poster.height;
 
         Image {
             id: imageCardDefault;
             anchors.top: videosDelegate.top;
             anchors.left: parent.left;
 
-            width: app.sizes.poster.width;
-            height: app.sizes.poster.height;
+            width: appMain.sizes.poster.width;
+            height: appMain.sizes.poster.height;
             
             visible: imageCard.status !== ui.Image.Ready;
             opacity: imageCard.status !== ui.Image.Ready ? 1.0 : 0;
             registerInCacheSystem: false;
-            source: app.config.defaultImage;
+            source: appMain.config.defaultImage;
             fillMode: PreserveAspectFit;
         }
 
@@ -36,8 +36,8 @@ Rectangle {
             anchors.top: videosDelegate.top;
             anchors.left: parent.left;
 
-            width: app.sizes.poster.width;
-            height: app.sizes.poster.height;
+            width: appMain.sizes.poster.width;
+            height: appMain.sizes.poster.height;
 
             registerInCacheSystem: false;
             source: model.image;
@@ -52,11 +52,11 @@ Rectangle {
         anchors.left: imageVideoItem.left;
         anchors.right: imageVideoItem.right;
         anchors.bottom: bookmarkImage.top;
-        anchors.margins: app.sizes.margin / 2;
+        anchors.margins: appMain.sizes.margin / 2;
 
         opacity: 1.0;
         visible: true;
-        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+        color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
         text: model.title;
         font: Font {
             family: "Proxima Nova Condensed";
@@ -71,7 +71,7 @@ Rectangle {
         anchors.left: videosDelegate.left;
         anchors.right: videosDelegate.right;
         anchors.bottom: videosDelegate.bottom;
-        anchors.margins: app.sizes.margin;
+        anchors.margins: appMain.sizes.margin;
 
         width: 20;
         height: 20;

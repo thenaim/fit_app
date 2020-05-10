@@ -1,4 +1,4 @@
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 
 Rectangle {
     id: galaryItems;
@@ -26,7 +26,7 @@ Rectangle {
 
             visible: true;
             registerInCacheSystem: false;
-            source: app.config.static + "/images/img/" + model.image;
+            source: appMain.config.static + "/images/img/" + model.image;
             fillMode: PreserveAspectFit;
         }
     }
@@ -36,13 +36,13 @@ Rectangle {
         z: 3;
         anchors.top: galaryItems.top;
         anchors.horizontalCenter: galaryItems.horizontalCenter;
-        anchors.margins: app.sizes.margin / 2;
+        anchors.margins: appMain.sizes.margin / 2;
         radius: 10;
         width: 25;
         height: 25;
 
         opacity: galaryItems.activeFocus ? 1.0 : 0.8;
-        color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
+        color: fit.isDark ? appMain.theme.dark.item_background : appMain.theme.light.item_background;
         focus: true;
 
         Text {
@@ -50,7 +50,7 @@ Rectangle {
             anchors.centerIn: parent;
 
             opacity: galaryItems.activeFocus ? 1.0 : 0.8;
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             text: model.id;
             font: Font {
                 family: "Proxima Nova Condensed";

@@ -1,7 +1,7 @@
 import "ImagesGalaryDelegate.qml";
 
 import controls.Button;
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 import "js/languages.js" as appLangs;
 
 Item {
@@ -31,7 +31,7 @@ Item {
         anchors.horizontalCenter: exerciseDetail.horizontalCenter;
 
         opacity: 1;
-        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+        color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
         text: exerciseDetail.title;
         wrapMode: Text.WordWrap;
         visible: !imagesGalary.zoom;
@@ -56,9 +56,9 @@ Item {
         anchors.horizontalCenter: exerciseDetail.horizontalCenter;
         anchors.left: exerciseDetail.left;
         anchors.right: exerciseDetail.right;
-        anchors.topMargin: !imagesGalary.zoom ? app.sizes.margin : 0;
+        anchors.topMargin: !imagesGalary.zoom ? appMain.sizes.margin : 0;
 
-        height: app.sizes.exercise.height + (fit.fullscreen ? 100 : 80);
+        height: appMain.sizes.exercise.height + (fit.fullscreen ? 100 : 80);
         spacing: 1;
         focus: true;
         clip: true;
@@ -67,13 +67,13 @@ Item {
 
         Behavior on height { animation: Animation { duration: 300; } }
 
-        // On select pressed, zoom image and check if app fullscreened
+        // On select pressed, zoom image and check if appMain fullscreened
         onSelectPressed: {
             if (imagesGalary.zoom) {
-                imagesGalary.height = app.sizes.exercise.height + (fit.fullscreen ? 100 : 80);
+                imagesGalary.height = appMain.sizes.exercise.height + (fit.fullscreen ? 100 : 80);
                 imagesGalary.anchors.top = nameText.bottom;
             } else {
-                imagesGalary.height = mainView.height > 720 ? 720 - (app.sizes.margin * 2) : mainView.height - (app.sizes.margin * 2);
+                imagesGalary.height = mainView.height > 720 ? 720 - (appMain.sizes.margin * 2) : mainView.height - (appMain.sizes.margin * 2);
                 imagesGalary.anchors.top = exerciseDetail.top;
             }
             imagesGalary.zoom = !imagesGalary.zoom;
@@ -113,11 +113,11 @@ Item {
         anchors.left: exerciseDetail.left;
         anchors.right: exerciseDetail.right;
         anchors.bottom: exerciseDetail.bottom;
-        anchors.topMargin: app.sizes.margin;
+        anchors.topMargin: appMain.sizes.margin;
 
         opacity: 1.0;
         visible: fit.fullscreen && !imagesGalary.zoom;
-        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+        color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
         text: exerciseDetail.description;
         font: secondaryFont;
     }
@@ -146,9 +146,9 @@ Item {
             id: exerciseRounds;
             anchors.top: startExercises.top;
             anchors.horizontalCenter: exerciseDetail.horizontalCenter;
-            anchors.bottomMargin: app.sizes.margin / 2.8;
+            anchors.bottomMargin: appMain.sizes.margin / 2.8;
 
-            color: imagesGalary.zoom ? app.theme.light.textColor : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: imagesGalary.zoom ? appMain.theme.light.textColor : fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             text: exerciseTimer.rounds + "/3 " + appLangs.texts[fit.lang].repetitionCircle;
             font: Font {
                 family: "Proxima Nova Condensed";
@@ -165,14 +165,14 @@ Item {
 
             anchors.top: exerciseRounds.bottom;
             anchors.horizontalCenter: parent.horizontalCenter;
-            anchors.topMargin: app.sizes.margin / 2;
-            anchors.bottomMargin: app.sizes.margin / 3;
+            anchors.topMargin: appMain.sizes.margin / 2;
+            anchors.bottomMargin: appMain.sizes.margin / 3;
 
-            color: activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+            color: activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
             text: exerciseTimer.running ? appLangs.texts[fit.lang].stop : appLangs.texts[fit.lang].start;
-            radius: app.sizes.radius;
+            radius: appMain.sizes.radius;
             visible: true;
-            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
             font: Font {
                 pixelSize: 15;
             }
@@ -190,7 +190,7 @@ Item {
                 fit.showNotification(appLangs.texts[fit.lang].startFirstCircle);
                 exerciseTimer.start();
                 // stats
-                app.httpServer(app.config.api.stats, "GET", { type: "exercise_play" }, "startButton", () => {});
+                appMain.httpServer(appMain.config.api.stats, "GET", { type: "exercise_play" }, "startButton", () => {});
             }
         }
 
@@ -201,10 +201,10 @@ Item {
             id: exerciseTime;
             anchors.top: startButton.top;
             anchors.right: startButton.left;
-            anchors.rightMargin: app.sizes.margin / 2;
+            anchors.rightMargin: appMain.sizes.margin / 2;
             anchors.topMargin: startButton.height / 3;
 
-            color: imagesGalary.zoom ? app.theme.light.textColor : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: imagesGalary.zoom ? appMain.theme.light.textColor : fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             text: "00:00:30";
             font: Font {
                 family: "Proxima Nova Condensed";
@@ -220,10 +220,10 @@ Item {
             id: relaxTime;
             anchors.top: startButton.top;
             anchors.left: startButton.right;
-            anchors.leftMargin: app.sizes.margin / 2;
+            anchors.leftMargin: appMain.sizes.margin / 2;
             anchors.topMargin: startButton.height / 3;
 
-            color: imagesGalary.zoom ? app.theme.light.textColor : fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: imagesGalary.zoom ? appMain.theme.light.textColor : fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             text: "00:00:15";
             font: Font {
                 family: "Proxima Nova Condensed";
@@ -338,13 +338,13 @@ Item {
 
             anchors.top: descriptionAndButton.top;
             anchors.horizontalCenter: exerciseDetail.horizontalCenter;
-            anchors.topMargin: app.sizes.margin / 2;
+            anchors.topMargin: appMain.sizes.margin / 2;
 
-            color: activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+            color: activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
             text: appLangs.texts[fit.lang].sendToSocial;
-            radius: app.sizes.radius;
+            radius: appMain.sizes.radius;
             visible: true;
-            opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
             font: Font {
                 pixelSize: 15;
             }
@@ -356,7 +356,7 @@ Item {
 
             onSelectPressed: {
                 let socials = [];
-                app.social.forEach(element => {
+                appMain.social.forEach(element => {
                     socials.push({ id: element.id, data: element.data[fit.lang]})
                 });
                 fit.modalController.openModal(socials, "exercise", exerciseDetail.id);
@@ -369,7 +369,7 @@ Item {
             anchors.horizontalCenter: exerciseDetail.horizontalCenter;
             anchors.topMargin: -8;
 
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             visible: !fit.fullscreen;
             text: appLangs.texts[fit.lang].doFullscreen;
             font: Font {

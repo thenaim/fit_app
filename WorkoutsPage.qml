@@ -1,7 +1,7 @@
 import "WorkoutsPageCategoryDelegate.qml";
 import "ExerciseDelegate.qml";
 
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 import "js/languages.js" as appLangs;
 
 Item {
@@ -11,7 +11,7 @@ Item {
     anchors.right: parent.right;
     anchors.bottom: parent.bottom;
     z: 1;
-    opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+    opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
     focus: true;
 
     Item {
@@ -28,7 +28,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter;
 
             opacity: 1;
-            color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+            color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             text: appLangs.texts[fit.lang].workoutByBodyType;
             visible: (fit.stingray["gender"] === "woman") && !workoutItems.visible;
             font: Font {
@@ -47,7 +47,7 @@ Item {
             anchors.left: parent.left;
             anchors.right: parent.right;
             anchors.bottom: parent.bottom;
-            anchors.topMargin: fit.stingray["gender"] === "woman" ? app.sizes.margin : 0;
+            anchors.topMargin: fit.stingray["gender"] === "woman" ? appMain.sizes.margin : 0;
             z: 1;
 
             cellWidth: 350;
@@ -88,8 +88,8 @@ Item {
         z: 1;
         opacity: 1;
 
-        cellWidth: app.sizes.exercise.width + 5;
-        cellHeight: app.sizes.exercise.height + 105;
+        cellWidth: appMain.sizes.exercise.width + 5;
+        cellHeight: appMain.sizes.exercise.height + 105;
 
         focus: true;
         clip: true;
@@ -107,7 +107,7 @@ Item {
                 data: workoutItems.model.get(workoutItems.currentIndex)
             };
             if (key === "Red") {
-                app.addToBookmark(workoutsCurrent.data, "exercise", "workout");
+                appMain.addToBookmark(workoutsCurrent.data, "exercise", "workout");
             } else if (key === "Up") {
                 tab.setFocus();
             } else if (key === "Select") {
@@ -124,7 +124,7 @@ Item {
                 exerciseDetailContainer.setFocus();
 
                 // stats
-                app.httpServer(app.config.api.stats, "GET", { type: "workout" }, "statsExercise", () => {});
+                appMain.httpServer(appMain.config.api.stats, "GET", { type: "workout" }, "statsExercise", () => {});
             }
         }
 
@@ -136,9 +136,9 @@ Item {
         /**
         * ListView exerciseHighlight
         */
-        property int hlWidth: app.sizes.exercise.width;
-        property int hlHeight: app.sizes.exercise.height + 100;
-        property Color highlightColor: app.theme.light.background;
+        property int hlWidth: appMain.sizes.exercise.width;
+        property int hlHeight: appMain.sizes.exercise.height + 100;
+        property Color highlightColor: appMain.theme.light.background;
 
         Rectangle {
             id: exerciseHighlight;
@@ -224,7 +224,7 @@ Item {
 
 
     function getWorkoutsCategory() {
-        app.httpServer(app.config.api.workoutsCategory, "GET", {}, "getWorkouts", (workouts) => {
+        appMain.httpServer(appMain.config.api.workoutsCategory, "GET", {}, "getWorkouts", (workouts) => {
             workoutCategoryItems.model.reset();
             if (workouts.length) {
                 workouts.forEach((work) => {
@@ -238,7 +238,7 @@ Item {
 
     function getWorkouts(id_categ) {
 		fit.loading = true;
-        app.httpServer(app.config.api.workouts, "GET", { id_categ: id_categ }, "getWorkouts", (exercise) => {
+        appMain.httpServer(appMain.config.api.workouts, "GET", { id_categ: id_categ }, "getWorkouts", (exercise) => {
             workoutItems.model.reset();
             if (exercise.length) {
                 exercise.forEach((vid) => {

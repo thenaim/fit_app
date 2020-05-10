@@ -1,4 +1,4 @@
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 
 Rectangle {
     id: barChartsDelegate;
@@ -7,7 +7,7 @@ Rectangle {
     height: model.points >= 350 ? 350 : model.points === 0 ? 1 : model.points;
     width: 176;
     color: model.colors;
-    opacity: barChartsDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
+    opacity: barChartsDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
     focus: true;
 
     Behavior on height { animation: Animation { duration: 1500; } }
@@ -16,11 +16,11 @@ Rectangle {
     Text {
 		id: barChartsPoint;
         anchors.top: parent.top;
-        anchors.topMargin: -(app.sizes.margin + 4);
+        anchors.topMargin: -(appMain.sizes.margin + 4);
         anchors.horizontalCenter: barChartsDelegate.horizontalCenter;
 
-        opacity: barChartsDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
-		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+        opacity: barChartsDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+		color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
 		text: model.points;
  		font: Font {
 			  family: "Proxima Nova Condensed";
@@ -32,11 +32,11 @@ Rectangle {
     Text {
 		id: barChartsPoint;
         anchors.top: barChartsDelegate.bottom;
-        anchors.topMargin: app.sizes.margin / 2;
+        anchors.topMargin: appMain.sizes.margin / 2;
         anchors.horizontalCenter: barChartsDelegate.horizontalCenter;
 
         opacity: barChartsDelegate.activeFocus ? 1 : 0.9;
-		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+		color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
 		text: model.name[fit.lang];
  		font: Font {
 			  family: "Proxima Nova Condensed";

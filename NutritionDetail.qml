@@ -1,4 +1,4 @@
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 import "js/languages.js" as appLangs;
 
 import controls.Button;
@@ -31,7 +31,7 @@ Item {
         anchors.horizontalCenter: nutritionDetail.horizontalCenter;
 
         opacity: 1;
-        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+        color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
         text: nutritionDetail.name;
         font: Font {
             family: "Proxima Nova Condensed";
@@ -44,14 +44,14 @@ Item {
         id: imageNutritionDefault;
         anchors.top: nameText.bottom;
         anchors.left: nutritionDetail.left;
-        anchors.topMargin: app.sizes.margin / 2;
+        anchors.topMargin: appMain.sizes.margin / 2;
 
         width: 350;
         height: 230;
         
         opacity: 1.0;
         visible: imageNutrition.status !== ui.Image.Ready;
-        opacity: imageNutrition.status !== ui.Image.Ready ? 1.0 : app.config.inactiveOpacity;
+        opacity: imageNutrition.status !== ui.Image.Ready ? 1.0 : appMain.config.inactiveOpacity;
         registerInCacheSystem: false;
         source: "apps/fit_app/res/default_nutrition.png";
         fillMode: PreserveAspectFit;
@@ -61,14 +61,14 @@ Item {
         id: imageNutrition;
         anchors.top: nameText.bottom;
         anchors.left: nutritionDetail.left;
-        anchors.topMargin: app.sizes.margin / 2;
+        anchors.topMargin: appMain.sizes.margin / 2;
 
         width: 350;
         height: 230;
 
         opacity: 1.0;
         registerInCacheSystem: false;
-        source: app.config.static + "/images/coverMeal/" + nutritionDetail.image;
+        source: appMain.config.static + "/images/coverMeal/" + nutritionDetail.image;
         fillMode: PreserveAspectFit;
     }
 
@@ -78,11 +78,11 @@ Item {
         anchors.left: imageNutrition.right;
         anchors.right: nutritionDetail.right;
         anchors.bottom: nutritionDetail.bottom;
-        anchors.leftMargin: app.sizes.margin / 3;
+        anchors.leftMargin: appMain.sizes.margin / 3;
 
         opacity: 1.0;
         visible: true;
-        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+        color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
         text: nutritionDetail.ingredients;
         font: secondaryFont;
     }
@@ -93,11 +93,11 @@ Item {
         anchors.left: nutritionDetail.left;
         anchors.right: nutritionDetail.right;
         anchors.bottom: nutritionDetail.bottom;
-        anchors.topMargin: app.sizes.margin / 2;
+        anchors.topMargin: appMain.sizes.margin / 2;
 
         opacity: 1.0;
         visible: true;
-        color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+        color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
         text: nutritionDetail.steps;
         font: secondaryFont;
     }
@@ -107,20 +107,20 @@ Item {
 
         anchors.top: stepsText.bottom;
         anchors.horizontalCenter: nameText.horizontalCenter;
-        anchors.topMargin: -app.sizes.margin;
+        anchors.topMargin: -appMain.sizes.margin;
 
-        color: activeFocus ? app.theme.light.background : app.theme.dark.layout_background;
+        color: activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
         text: appLangs.texts[fit.lang].sendToSocial;
-        radius: app.sizes.radius;
+        radius: appMain.sizes.radius;
         visible: true;
-        opacity: activeFocus ? 1.0 : app.config.inactiveOpacity;
+        opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         font: Font {
             pixelSize: 15;
         }
 
         onSelectPressed: {
             let socials = [];
-            app.social.forEach(element => {
+            appMain.social.forEach(element => {
                 socials.push({ id: element.id, data: element.data[fit.lang]})
             });
             fit.modalController.openModal(socials, "nutrition", nutritionDetail.id);

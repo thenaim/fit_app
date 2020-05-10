@@ -1,6 +1,6 @@
 import "ModalControllerDelegate.qml";
 
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 import "js/languages.js" as appLangs;
 
 Rectangle {
@@ -10,8 +10,8 @@ Rectangle {
 
 	signal selectedModalItem(selected, type, idContent);
 
-	color: fit.isDark ? app.theme.dark.layout_background : app.theme.light.layout_background;
-	radius: app.sizes.radius;
+	color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
+	radius: appMain.sizes.radius;
 
     /**
     * Modal list item
@@ -20,12 +20,12 @@ Rectangle {
         id: modalTypes;
         anchors.top: modalContainerMain.top;
         anchors.horizontalCenter: modalContainerMain.horizontalCenter;
-        anchors.margins: app.sizes.margin;
+        anchors.margins: appMain.sizes.margin;
 
         opacity: 1.0;
         spacing: 10;
-	    width: parent.width - (app.sizes.margin * 2);
-        height: parent.height - (app.sizes.margin * 2);
+	    width: parent.width - (appMain.sizes.margin * 2);
+        height: parent.height - (appMain.sizes.margin * 2);
         focus: true;
         clip: true;
         model: ListModel {}

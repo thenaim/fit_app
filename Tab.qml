@@ -1,6 +1,6 @@
 import "TabDelegate.qml";
 
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 
 ListView {
     id: tabList;
@@ -8,8 +8,8 @@ ListView {
     orientation: mainWindow.horizontal;
 	anchors.horizontalCenter: parent.horizontalCenter;
 
-	width: app.sizes.tabCards.width * app.tabs.length;
-    height: app.sizes.tabCards.height;
+	width: appMain.sizes.tabCards.width * appMain.tabs.length;
+    height: appMain.sizes.tabCards.height;
 	focus: true;
 	clip: true;
 	spacing: 12;
@@ -17,7 +17,7 @@ ListView {
     model: ListModel { }
 
     onCompleted: {
-        app.tabs.forEach((tab) => {
+        appMain.tabs.forEach((tab) => {
             model.append(tab);
         });
     }
@@ -25,9 +25,9 @@ ListView {
    /**
     * ListView tabHighlight
     */
-    property int hlWidth: app.sizes.tabCards.width;
+    property int hlWidth: appMain.sizes.tabCards.width;
 	property int hlHeight: 4;
-	property Color highlightColor: app.theme.light.background;
+	property Color highlightColor: appMain.theme.light.background;
 
 	Rectangle {
 		id: tabHighlight;
@@ -37,7 +37,7 @@ ListView {
 		visible: tabList.count;
         z: 1;
         opacity: tabList.activeFocus ? 1 : 0.6;
-        radius: app.sizes.radius;
+        radius: appMain.sizes.radius;
 
 		doHighlight: {
 			if (!tabList || !tabList.model || !tabList.count)

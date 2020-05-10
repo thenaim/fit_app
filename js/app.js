@@ -1,7 +1,7 @@
 /**
  * Server adress with IPv4 (for local tests)
  */
-const prod = true;
+const prod = false;
 
 const server = prod ? "http://ec2-52-15-73-251.us-east-2.compute.amazonaws.com:8080" : "http://192.168.1.71:8080";
 
@@ -284,7 +284,7 @@ this.httpServer = (url, method, params, functionName, callback) => {
             if (http.status === 200) {
                 return callback(JSON.parse(http.responseText));
             }
-            log("\n----",
+            error("\n----",
                 "\nError http server status:", http.status,
                 "\nFunction name:", functionName,
                 "\nError url:", url,
@@ -390,7 +390,7 @@ this.onTabChange = () => {
  */
 this.addToBookmark = (current, type, page) => {
     fit.loading = true;
-    this.httpServer(app.config.api.addDeleteBookmark, "GET", {
+    this.httpServer(appMain.config.api.addDeleteBookmark, "GET", {
         id: type === "video" ? current.videoId : current.id,
         type: type
     }, "Add bookmark key: Red", (book) => {

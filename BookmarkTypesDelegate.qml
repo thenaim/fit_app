@@ -1,4 +1,4 @@
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 
 Rectangle {
     id: typesDelegate;
@@ -6,16 +6,16 @@ Rectangle {
     height: parent.height;
     width: parent.typesCardWidth;
     opacity: 1.0;
-    color: fit.isDark ? app.theme.dark.item_background : app.theme.light.item_background;
-    radius: fit.fullscreen ? 0 : app.sizes.radius;
+    color: fit.isDark ? appMain.theme.dark.item_background : appMain.theme.light.item_background;
+    radius: fit.fullscreen ? 0 : appMain.sizes.radius;
     focus: true;
 
     Text {
 		id: typesTabText;
         anchors.centerIn: parent;
 
-        opacity: typesDelegate.activeFocus ? 1.0 : app.config.inactiveOpacity;
-		color: fit.isDark ? app.theme.dark.textColor : app.theme.light.textColor;
+        opacity: typesDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+		color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
 		text: model.title[fit.lang];
  		font: Font {
 			  family: "Proxima Nova Condensed";
@@ -35,7 +35,7 @@ Rectangle {
 
         height: 20;
         width: badgeLength.width + 10;
-        radius: app.sizes.radius / 2;
+        radius: appMain.sizes.radius / 2;
         opacity: 1;
         color: "#f44336";
         visible: model.badgeInt;

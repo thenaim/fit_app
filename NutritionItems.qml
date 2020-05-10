@@ -1,13 +1,13 @@
 import "NutritionDelegate.qml";
 
-import "js/app.js" as app;
+import "js/app.js" as appMain;
 
 GridView {
     id: nutritionItemsList;
     z:1;
 
-    cellWidth: app.sizes.nutrition.width;
-    cellHeight: app.sizes.nutrition.height + 40;
+    cellWidth: appMain.sizes.nutrition.width;
+    cellHeight: appMain.sizes.nutrition.height + 40;
 
     focus: true;
     clip: true;
@@ -17,7 +17,7 @@ GridView {
     function getNutritions(day) {
         const stingray = JSON.parse(load("fit_stingray"));
         fit.loading = true;
-        app.httpServer(app.tabs[3].url, "GET", { type: stingray.meal ? "muscle_building" : "weight_loss", day: day || 1 }, "getNutritions", (nutritions) => {
+        appMain.httpServer(appMain.tabs[3].url, "GET", { type: stingray.meal ? "muscle_building" : "weight_loss", day: day || 1 }, "getNutritions", (nutritions) => {
             nutritionItemsList.nutritionModel.reset();
             if (nutritions.length) {
                 nutritions.forEach((nut) => {
@@ -39,7 +39,7 @@ GridView {
     /**
     * GridView nutritionHighlight
     */
-	property Color highlightColor: app.theme.light.background;
+	property Color highlightColor: appMain.theme.light.background;
 
 	Rectangle {
 		id: highlight;
@@ -52,7 +52,7 @@ GridView {
 
 		opacity: parent.activeFocus && nutritionItemsList.count ? 0.2 : 0.1;
 		color: nutritionItemsList.highlightColor;
-        radius: app.sizes.radius;
+        radius: appMain.sizes.radius;
 
 		updateHighlight: {
 			this.doHighlight();
