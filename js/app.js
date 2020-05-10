@@ -1,7 +1,7 @@
 /**
  * Server adress with IPv4 (for local tests)
  */
-const prod = false;
+const prod = true;
 
 const server = prod ? "http://ec2-52-15-73-251.us-east-2.compute.amazonaws.com:8080" : "http://192.168.1.71:8080";
 
