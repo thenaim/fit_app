@@ -10,12 +10,12 @@ Documentation [StingrayTv Emulator](https://devstingray.gs-labs.tv/emulator)
 
 **Step 2.** Clone App.
 
-Clone appMain to StingrayTv Emulator directory.
+Clone fit_app to StingrayTv Emulator directory.
 
 ```sh
 git clone https://github.com/thenaim/fit_app
 ```
-**Step 3.** Install appMain to StingrayTv Emulator.
+**Step 3.** Install fit_app to StingrayTv Emulator.
 
 ```sh
 ./install_app ./fit_app
@@ -28,7 +28,7 @@ git clone https://github.com/thenaim/fit_app
 ```
 `Warning!` If your have 2 or more audio cards in your host machine you must specify configured audio card and audio device manually in script arguments. Docs: [StingrayTv Emulator Docs](https://devstingray.gs-labs.tv/emulator)
 
-## Server
+## Server side
 
 NodeJs server [fit_server](https://github.com/thenaim/fit_server)
 
