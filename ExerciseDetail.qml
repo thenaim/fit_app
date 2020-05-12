@@ -3,6 +3,7 @@ import "ImagesGalaryDelegate.qml";
 import controls.Button;
 import "js/app.js" as appMain;
 import "js/languages.js" as appLangs;
+import "js/modals.js" as modals;
 
 Item {
     id: exerciseDetail;
@@ -355,8 +356,8 @@ Item {
             }
 
             onSelectPressed: {
-                let socials = appMain.social;
-                fit.modalController.openModal(socials, "exercise", exerciseDetail.id);
+                fit.modalController.itemsWillBeInModal = 3;
+                fit.modalController.openModal(modals.social, "exercise", exerciseDetail.id, sendSocialExerciseButton);
             }
         }
 

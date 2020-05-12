@@ -684,9 +684,9 @@ Item {
     onVisibleChanged: {
 		if (visible) {
             // clear bookmark tab badge, when visible = true
-            let bookmarkTab = tab.model.get(3);
+            let bookmarkTab = tab.model.get(4);
             bookmarkTab.badgeInt = 0;
-            tab.model.set(3, bookmarkTab);
+            tab.model.set(4, bookmarkTab);
         }
 	}
 }

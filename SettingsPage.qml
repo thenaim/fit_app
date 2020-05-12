@@ -1,5 +1,6 @@
 import "js/app.js" as appMain;
 import "js/languages.js" as appLangs;
+import "js/modals.js" as modals;
 
 import controls.Button;
 
@@ -157,8 +158,8 @@ Item {
         }
 
         onSelectPressed: {
-            let themesList = appMain.themesList;
-            fit.modalController.openModal(themesList, "theme", "");
+            fit.modalController.itemsWillBeInModal = 3;
+            fit.modalController.openModal(modals.themesList, "theme", null, themeChanger);
         }
     }
 
@@ -187,8 +188,8 @@ Item {
         }
 
         onSelectPressed: {
-            let nutritionTypes = appMain.nutritionTypes;
-            return fit.modalController.openModal(nutritionTypes, "nutrition_type", "");
+            fit.modalController.itemsWillBeInModal = 3;
+            return fit.modalController.openModal(modals.nutritionTypes, "nutrition_type", null, nutritionTypeButton);
         }
     }
 
@@ -218,8 +219,8 @@ Item {
         }
 
         onSelectPressed: {
-            let genderList = appMain.gender;
-            return fit.modalController.openModal(genderList, "gender", "");
+            fit.modalController.itemsWillBeInModal = 3;
+            return fit.modalController.openModal(modals.gender, "gender", null, genderTypeButton);
         }
     }
 
@@ -236,7 +237,7 @@ Item {
 
         opacity: workoutTypeButton.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         color: workoutTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
-        text: (fit.lang === "ru") ? appLangs.texts[fit.lang].workoutDay + " - " + workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " дня в неделю" : appLangs.texts[fit.lang].workoutDay + " - " + workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " days per week";
+        text: (fit.lang === "ru") ? workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " дня в неделю" : workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " days per week";
         radius: appMain.sizes.radius;
         width: 400;
 
@@ -253,22 +254,23 @@ Item {
             appMain.httpServer(appMain.config.api.workoutsDays, "GET", {}, "getWorkouts", (days) => {
                 if (days.items.length) {
                     fit.modalController.itemsWillBeInModal = 4;
-                    fit.modalController.openModal(days, "workouts_type");
+                    fit.modalController.openModal(days, "workouts_type", null, workoutTypeButton);
                 }
 
                 fit.loading = false;
             });
         }
 
-        function getDay(day) {
-            if (day === 1) {
-                day = 2;
-            } else if (day === 2) {
-                day = 3;
-            } else if (day === 3) {
-                day = 4;
+        function getDay(dayId) {
+            let days = 0;
+            if (dayId === 1) {
+                days = 2;
+            } else if (dayId === 2) {
+                days = 3;
+            } else if (dayId === 3) {
+                days = 4;
             }
-            return day;
+            return days;
         }
     }
 
@@ -298,8 +300,8 @@ Item {
         }
 
         onSelectPressed: {
-            const languages = appMain.languages;
-            fit.modalController.openModal(languages, "language");
+            fit.modalController.itemsWillBeInModal = 3;
+            fit.modalController.openModal(modals.languages, "language", null, languageTypeButton);
         }
     }
 

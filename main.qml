@@ -283,79 +283,48 @@ Application {
         anchors.centerIn: mainView;
         z: 4;
         property int oneItemHeight: 77;
-        property int itemsWillBeInModal: 3;
-        property int modalTitleHeight: 50;
-        width: 420;
-        height: modalTitleHeight + (modalController.oneItemHeight * modalController.itemsWillBeInModal);
+        property int itemsWillBeInModal: 0;
+        width: 520;
+
+        // (Modal title height + margin) + (One item height modal * how many items will be in modal)
+        height: (modalTitle.height + appMain.sizes.margin) + (modalController.oneItemHeight * modalController.itemsWillBeInModal);
         visible: false;
 
-        // Check what select user in modal, then run function
-        // If cancel clicked, then return focus to button
+        Behavior on height { animation: Animation { duration: app.config.animationDuration; } }
+        Behavior on width { animation: Animation { duration: app.config.animationDuration; } }
+
+        // Check what type of item user select in modal, then run function
+
+        // [selected] element in modal, [type] of items, [idContent] of modal
         onSelectedModalItem: {
             switch (type) {
                 case "theme":
-                    if (selected.id === "cancel") {
-                        themeChanger.setFocus();
-                    } else {
-                        fit.updateTheme(selected.id);
-                        themeChanger.setFocus();
-                    }
+                    fit.updateTheme(selected.id);
                     break;
                 case "nutrition_type":
-                    if (selected.id === "cancel") {
-                        nutritionTypeButton.setFocus();
-                    } else {
-                        fit.updateNutritionType(selected.id);
-                        nutritionTypeButton.setFocus();
-                    }
+                    fit.updateNutritionType(selected.id);
                     break;
                 case "gender":
-                    if (selected.id === "cancel") {
-                        genderTypeButton.setFocus();
-                    } else {
-                        fit.updatedGenderType(selected.id);
-                        genderTypeButton.setFocus();
-                    }
+                    fit.updatedGenderType(selected.id);
                     break;
                 case "workouts_type":
-                    if (selected.id === "cancel") {
-                        workoutTypeButton.setFocus();
-                    } else {
-                        fit.updateWorkoutType(selected);
-                        workoutTypeButton.setFocus();
-                    }
+                    fit.updateWorkoutType(selected);
                     break;
                 case "language":
-                    if (selected.id === "cancel") {
-                        languageTypeButton.setFocus();
-                    } else {
-                        fit.updateLanguage(selected.id);
-                        languageTypeButton.setFocus();
-                    }
+                    fit.updateLanguage(selected.id);
                     break;
                 case "nutrition":
-                    if (selected.id === "cancel") {
-                        sendSocialNutritionButton.setFocus();
-                    } else {
-                        fit.sendToSocial(idContent, type, selected.id);
-                        sendSocialNutritionButton.setFocus();
-                    }
+                    fit.sendToSocial(idContent, type, selected.id);
                     break;
                 case "exercise":
-                    if (selected.id === "cancel") {
-                        sendSocialExerciseButton.setFocus();
-                    } else {
-                        fit.sendToSocial(idContent, type, selected.id);
-                        sendSocialExerciseButton.setFocus();
-                    }
+                    fit.sendToSocial(idContent, type, selected.id);
                     break;
 
                 default:
                     break;
             }
 
-            modalController.itemsWillBeInModal = 3;
-            modalController.visible = false;
+            modalContainerMain.closeModal();
         }
     }
 
@@ -409,7 +378,7 @@ Application {
         * @param {String} page main|bookmark
         * page param for setting focus, after close player
         */
-        function hideFitPlayer(page, action) {
+        function hideFitPlayer(page) {
             // Show (main) elements
             tab.visible = true;
             mainView.visible = true;
@@ -503,6 +472,7 @@ Application {
         let stingray = JSON.parse(load("fit_stingray"));
         if (stingray.meal === parseInt(meal)) return;
 
+        fit.loading = true;
         appMain.httpServer(appMain.config.api.updateStingray, "GET", { meal: meal }, "nutrition_type", (res) => {
             if (res.updated) {
                 stingray.meal = parseInt(meal);
@@ -514,6 +484,7 @@ Application {
 
                 save("fit_stingray", JSON.stringify(stingray));
                 fit.stingray = JSON.parse(load("fit_stingray"));
+                fit.loading = false;
             }
         });
     }
@@ -526,6 +497,7 @@ Application {
         let stingray = JSON.parse(load("fit_stingray"));
         if (stingray.gender === gender) return;
 
+        fit.loading = true;
         appMain.httpServer(appMain.config.api.updateStingray, "GET", { gender: gender }, "genderTypeButton", (res) => {
             if (res.updated) {
                 stingray.gender = gender;
@@ -537,6 +509,7 @@ Application {
 
                 save("fit_stingray", JSON.stringify(stingray));
                 fit.stingray = JSON.parse(load("fit_stingray"));
+                fit.loading = false;
             }
         });
     }
@@ -545,6 +518,7 @@ Application {
         let stingray = JSON.parse(load("fit_stingray"));
         if (stingray.workoutDays === parseInt(selected.id)) return;
 
+        fit.loading = true;
         appMain.httpServer(appMain.config.api.updateStingray, "GET", { workoutDays: selected.id }, "genderTypeButton", (res) => {
             if (res.updated) {
                 stingray.workoutDays = parseInt(selected.id);
@@ -552,6 +526,7 @@ Application {
 
                 save("fit_stingray", JSON.stringify(stingray));
                 fit.stingray = JSON.parse(load("fit_stingray"));
+                fit.loading = false;
             }
         });
     }
@@ -564,6 +539,7 @@ Application {
         let stingray = JSON.parse(load("fit_stingray"));
         if (stingray.lang === lang) return;
 
+        fit.loading = true;
         appMain.httpServer(appMain.config.api.updateStingray, "GET", { lang: lang }, "updateLanguage", (res) => {
             if (res.updated) {
                 stingray.lang = lang;
@@ -572,6 +548,7 @@ Application {
 
                 save("fit_stingray", JSON.stringify(stingray));
                 fit.stingray = JSON.parse(load("fit_stingray"));
+                fit.loading = false;
             }
         });
     }
@@ -632,7 +609,6 @@ Application {
             fit.fullscreen = !fit.fullscreen;
         } else if (key === "Yellow") {
             let theme = (fit.isDark === 1) ? 0 : 1;
-            log(theme);
             fit.updateTheme(theme);
         } else if (key === "Blue") {
             let lang = fit.stingray["lang"] === "ru" ? "en" : "ru";
@@ -642,7 +618,6 @@ Application {
 
     onCompleted: {
         fit.loading = true;
-        tab.currentIndex = 1;
         tab.currentIndex = 0;
 
         // Waiting stingray token/settings, then load page data
@@ -667,8 +642,5 @@ Application {
     onVisibleChanged: {
         viewsFinder.ignoreScreenSaverForApp("fit", this.visible);
         fitPlayer.abort();
-        if (fitPlayer.visible) {
-            fit.hideFitPlayer();
-        }
     }
 }

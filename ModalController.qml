@@ -5,6 +5,8 @@ import "js/languages.js" as appLangs;
 
 Rectangle {
 	id: modalContainerMain;
+    property var focusElement;
+
     property string title: "";
     property string type: "";
     property string idContent: "";
@@ -37,13 +39,15 @@ Rectangle {
     ListView {
         id: modalTypes;
         anchors.top: modalTitle.bottom;
-        anchors.horizontalCenter: modalContainerMain.horizontalCenter;
+        anchors.left: modalContainerMain.left;
+        anchors.right: modalContainerMain.right;
+        anchors.bottom: modalContainerMain.bottom;
         anchors.margins: appMain.sizes.margin;
 
         opacity: 1.0;
         spacing: 10;
-	    width: parent.width - (appMain.sizes.margin * 2);
-        height: parent.height - (appMain.sizes.margin * 2);
+	    width: modalController.width - (appMain.sizes.margin * 2);
+        height: modalController.height - (appMain.sizes.margin * 2);
         focus: true;
         clip: true;
         model: ListModel {}
@@ -56,7 +60,11 @@ Rectangle {
             } else if (key === "Down") {
                 modalTypes.currentIndex = 0;
             } else if (key === "Select") {
-                modalContainerMain.selectedModalItem(current, modalContainerMain.type, modalContainerMain.idContent);
+                if (current.id === "cancel") {
+                    modalContainerMain.closeModal();
+                } else {
+                    modalContainerMain.selectedModalItem(current, modalContainerMain.type, modalContainerMain.idContent);
+                }
             }
         }
     }
@@ -66,26 +74,21 @@ Rectangle {
     * 
     * @param  {Array} array
     * @param  {String} type items type
-    * id, data
+    * @param  {String} idContent optional
+    * @param  {Element} elementToFocus to focus on close or confirm
     */
-    function openModal(array, type, idContent) {
+    function openModal(array, type, idContent, elementToFocus) {
         modalContainerMain.title = array.title[fit.lang];
         modalContainerMain.type = type;
-        modalContainerMain.idContent = idContent || "";
+        modalContainerMain.idContent = idContent;
+        modalContainerMain.focusElement = elementToFocus;
 
         // reset model
         modalTypes.model.reset();
         
         // add items
         array["items"].forEach((element, index) => {
-            modalTypes.model.append({ id: element.id, data: element.data[fit.lang] ? element.data[fit.lang] : element.data});
-            // add cancel button on end
-            if (index === array["items"].length - 1) {
-                modalTypes.model.append({
-                    id: "cancel",
-                    data: appLangs.texts[fit.lang].cancel
-                });
-            }
+            modalTypes.model.append({ id: element.id, data: element.data[fit.lang] ? element.data[fit.lang] : element.data });
         });
 
         // show modal and set focus
@@ -93,7 +96,16 @@ Rectangle {
         modalTypes.setFocus();
     }
 
+    /**
+    * Close modal
+    */
+    function closeModal() {
+        modalController.visible = false;
+        modalController.itemsWillBeInModal = 0;
+        modalContainerMain.focusElement.setFocus();
+    }
+
     onBackPressed: {
-        return;
+        modalContainerMain.closeModal();
     }
 }

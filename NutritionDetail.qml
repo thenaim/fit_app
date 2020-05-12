@@ -1,5 +1,6 @@
 import "js/app.js" as appMain;
 import "js/languages.js" as appLangs;
+import "js/modals.js" as modals;
 
 import controls.Button;
 
@@ -119,8 +120,8 @@ Item {
         }
 
         onSelectPressed: {
-            let socials = appMain.social;
-            fit.modalController.openModal(socials, "nutrition", nutritionDetail.id);
+            fit.modalController.itemsWillBeInModal = 3;
+            fit.modalController.openModal(modals.social, "nutrition", nutritionDetail.id, sendSocialNutritionButton);
         }
     }
 
