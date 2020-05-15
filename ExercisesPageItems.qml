@@ -51,7 +51,7 @@ ListView {
 		z: 2;
 		color: exerciseItemsList.highlightColor;
 		opacity: exerciseItemsList.activeFocus ? 0.2 : 0.1;
-		visible: exerciseItemsList.count;
+		visible: false;
 
 		doHighlight: {
 			if (!exerciseItemsList || !exerciseItemsList.model || !exerciseItemsList.count)

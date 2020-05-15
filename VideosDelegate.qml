@@ -8,11 +8,17 @@ Rectangle {
     color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
     focus: true;
 
+	BorderShadow3D {
+		anchors.fill: videosDelegate;
+		opacity: videosDelegate.activeFocus ? 1 : 0;
+	}
+
     Item {
         id: imageVideoItem;
         anchors.top: videosDelegate.top;
         anchors.left: videosDelegate.left;
 
+        opacity: videosDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         width: appMain.sizes.poster.width;
         height: appMain.sizes.poster.height;
 
@@ -25,7 +31,7 @@ Rectangle {
             height: appMain.sizes.poster.height;
             
             visible: imageCard.status !== ui.Image.Ready;
-            opacity: imageCard.status !== ui.Image.Ready ? 1.0 : 0;
+            opacity: videosDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
             registerInCacheSystem: false;
             source: appMain.config.defaultImage;
             fillMode: PreserveAspectFit;
@@ -39,6 +45,7 @@ Rectangle {
             width: appMain.sizes.poster.width;
             height: appMain.sizes.poster.height;
 
+            opacity: videosDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
             registerInCacheSystem: false;
             source: model.image;
             fillMode: PreserveAspectFit;
@@ -54,7 +61,7 @@ Rectangle {
         anchors.bottom: bookmarkImage.top;
         anchors.margins: appMain.sizes.margin / 2;
 
-        opacity: 1.0;
+        opacity: videosDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         visible: true;
         color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
         text: model.title;
@@ -76,6 +83,7 @@ Rectangle {
         width: 20;
         height: 20;
 
+        opacity: videosDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         visible: true;
         registerInCacheSystem: false;
         source: model.bookmark ? "apps/fit_app/res/heart_added.png" : "apps/fit_app/res/heart_add.png";

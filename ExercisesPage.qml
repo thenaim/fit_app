@@ -78,7 +78,7 @@ Item {
             anchors.right: exercisesPageContainer.right;
             anchors.topMargin: appMain.sizes.margin / 1.5;
 
-            opacity: 1.0;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
 
             onCompleted: {
                 chipItems.setFocus();

@@ -22,6 +22,14 @@ ListView {
         });
     }
 
+	onLeftPressed: {
+		tabList.currentIndex = tabList.count - 1;
+	}
+
+	onRightPressed: {
+		tabList.currentIndex = 0;
+	}
+
    /**
     * ListView tabHighlight
     */
@@ -33,7 +41,6 @@ ListView {
 		id: tabHighlight;
 		color: tabList.highlightColor;
         anchors.bottom: tabList.bottom;
-        // anchors.left: tabList.left;
 		visible: tabList.count;
         z: 1;
         opacity: tabList.activeFocus ? 1 : 0.6;

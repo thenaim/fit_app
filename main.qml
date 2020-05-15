@@ -39,7 +39,6 @@ Application {
         anchors.horizontalCenter: mainWindow.horizontalCenter;
 
         width: (appMain.sizes.tabCards.width + tabList.spacing) * appMain.tabs.length;
-        
         keyNavigationWraps: false;
         onKeyPressed: {
             if (key === "Select" || key === "Down") {
@@ -66,6 +65,7 @@ Application {
 
         Behavior on height { animation: Animation { duration: 100; } }
         Behavior on width { animation: Animation { duration: 100; } }
+        
         /**
         * Video Items
         */
@@ -80,9 +80,7 @@ Application {
 
             focus: true;
             visible: true;
-
             opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
-
             keyNavigationWraps: false;
 
             onKeyPressed: {
@@ -351,7 +349,6 @@ Application {
     */
     VirtualKeyboard {
         id: keyboard;
-        visible: true;
     }
 
     /**
@@ -413,14 +410,10 @@ Application {
     */
     function sendToSocial(id, type, social) {
 		const stingray = JSON.parse(load("fit_stingray"));
-        if (social === "vk") {
-            if (!stingray.vkIntegrated) {
-                return fit.showNotification(appLangs.texts[fit.lang].vkNotIntegrated);
-            }
-        } else if (social === "tg") {
-            if (!stingray.tgIntegrated) {
-                return fit.showNotification(appLangs.texts[fit.lang].tgNotIntegrated);
-            }
+        if (social === "vk" && !stingray.vkIntegrated) {
+            return fit.showNotification(appLangs.texts[fit.lang].vkNotIntegrated);
+        } else if (social === "tg" && !stingray.tgIntegrated) {
+            return fit.showNotification(appLangs.texts[fit.lang].tgNotIntegrated);
         }
         appMain.httpServer(appMain.config.api.sendToSocial, "GET", {
             id: id,

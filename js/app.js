@@ -27,7 +27,7 @@ this.config = {
         updateStingray: server + "/settings/update/stingray"
     },
     animationDuration: 150,
-    inactiveOpacity: 0.8,
+    inactiveOpacity: 0.6,
     defaultImage: "apps/fit_app/res/default_video_image.png"
 };
 
@@ -122,6 +122,20 @@ this.bookmarksTypes = [{
     badgeInt: 0
 }];
 
+this.statsTypes = [{
+    type: "dashboard",
+    title: {
+        ru: "Статистика",
+        en: "Stats"
+    }
+}, {
+    type: "leaderboard",
+    title: {
+        ru: "Топ 5 пользователей",
+        en: "Top 5 users"
+    }
+}];
+
 /**
  * Theme colors - light and dark
  */
@@ -139,6 +153,7 @@ this.theme = {
         textColor: "#ffffff",
         border_color: "#222222",
         item_background: "#1A1B1E",
+        item_background_2: "#3A3B3F",
         layout_background: "#0d0d0d"
     }
 };

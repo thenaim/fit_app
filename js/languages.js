@@ -6,6 +6,8 @@ this.texts = {
         language: "Русский",
         languageChanged: "Вы изменили язык на русский",
 
+        place: "Место",
+        points: "Баллы",
         workoutDay: "Тренировки",
         workoutByBodyType: "Тренировки по типу фигуры",
         nutritionSended: "Рецепт успешно отправлен!",
@@ -63,6 +65,8 @@ this.texts = {
         language: "English",
         languageChanged: "You changed the language to english",
 
+        place: "Place",
+        points: "Points",
         workoutDay: "Workouts",
         workoutByBodyType: "Body Type Workouts",
         nutritionSended: "Recipe sent successfully!",

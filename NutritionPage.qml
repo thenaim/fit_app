@@ -167,7 +167,6 @@ Item {
         onCurrentIndexChanged:	{ tabDaysHighlight.updateHighlight(); }
     }
 
-
     /**
     * Nutrition Items
     */

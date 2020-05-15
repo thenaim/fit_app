@@ -6,10 +6,14 @@ Rectangle {
 
     width: appMain.sizes.exercise.width;
     height: appMain.sizes.exercise.height + 100;
-    opacity: 1;
+    opacity: 1.0;
     color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
-
     focus: true;
+    
+    BorderShadow3D {
+		anchors.fill: exerciseDelegate;
+		opacity: exerciseDelegate.activeFocus ? 1 : 0.01;
+	}
 
     Rectangle {
         id: imageExerciseItem;
@@ -25,7 +29,7 @@ Rectangle {
             id: imageCard;
             z: 2;
             anchors.top: imageExerciseItem.top;
-            opacity: 1;
+            opacity: exerciseDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
 
             width: appMain.sizes.exercise.width;
             height: appMain.sizes.exercise.height;
@@ -55,7 +59,7 @@ Rectangle {
 
             color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
             text: appMain.wrapText(model.title, 28);
-            wrapMode: Text.WordWrap;
+            opacity: exerciseDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
             font: Font {
                 family: "Proxima Nova Condensed";
                 pixelSize: 26;
@@ -71,6 +75,7 @@ Rectangle {
             anchors.bottom: exerciseDelegate.bottom;
             anchors.margins: appMain.sizes.margin / 2;
 
+            opacity: exerciseDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
             width: 20;
             height: 20;
             visible: true;

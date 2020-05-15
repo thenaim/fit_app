@@ -73,6 +73,93 @@ Item {
                 workoutItems.setFocus();
                 workoutsPage.getWorkouts(workoutsCategoryCurrent.data.id_categ);
             }
+
+            /**
+            * GridView nutritionHighlight
+            */
+            property Color highlightColor: appMain.theme.light.background;
+
+            Rectangle {
+                id: highlight;
+                z: 2;
+
+                width: workoutCategoryItems.cellWidth - 5;
+                height: workoutCategoryItems.cellHeight - 5;
+
+                visible: workoutCategoryItems.count;
+
+                opacity: parent.activeFocus && workoutCategoryItems.count ? 0.2 : 0.1;
+                color: workoutCategoryItems.highlightColor;
+                radius: appMain.sizes.radius;
+
+                updateHighlight: {
+                    this.doHighlight();
+                    crunchTimer.restart();
+                }
+
+                doHighlight: {
+                    if (!workoutCategoryItems.model || !workoutCategoryItems.model.count)
+                        return;
+
+                    var futurePos = workoutCategoryItems.getPositionViewAtIndex(workoutCategoryItems.currentIndex, workoutCategoryItems.positionMode);
+                    var itemRect = workoutCategoryItems.getItemRect(workoutCategoryItems.currentIndex);
+                    itemRect.Move(-futurePos.X, -futurePos.Y);
+
+                    highlightXAnim.complete();
+                    highlightYAnim.complete();
+                    this.y = itemRect.Top;
+                    this.x = itemRect.Left;
+                    if (this.y != itemRect.Top && this.x != itemRect.Left) {
+                        highlightXAnim.complete();
+                        highlightYAnim.complete();
+                    }
+                }
+
+                Behavior on y {
+                    id: highlightYAnim;
+                    animation: Animation {
+                        duration: 250;
+                    }
+                }
+
+                Behavior on x {
+                    id: highlightXAnim;
+                    animation: Animation {
+                        duration: 250;
+                    }
+                }
+
+                Behavior on width {
+                    animation: Animation {
+                        duration: 250;
+                    }
+                }
+
+                Behavior on height {
+                    animation: Animation {
+                        duration: 250;
+                    }
+                }
+
+                Behavior on opacity { animation: Animation { duration: 300; } }
+            }
+
+            Timer {	//TODO: Remove this when GetItemRect will work correctly.
+                id: crunchTimer;
+                interval: 200;
+                repeat: false;
+                running: false;
+
+                onTriggered: {
+                    highlight.doHighlight();
+                    this.stop();
+                }
+            }
+
+            onContentHeightChanged:	{ highlight.updateHighlight(); }
+            onContentWidthChanged:	{ highlight.updateHighlight(); }
+            onCurrentIndexChanged:	{ highlight.updateHighlight(); }
+            onCountChanged:			{ highlight.updateHighlight(); }
         }
     }
 

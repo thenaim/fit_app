@@ -7,26 +7,27 @@ this.themesList = {
         en: "Choose a theme"
     },
     items: [{
-        id: "0",
-        data: {
-            ru: "Светлая тема",
-            en: "Light theme"
+            id: "0",
+            data: {
+                ru: "Светлая тема",
+                en: "Light theme"
+            }
+        },
+        {
+            id: "1",
+            data: {
+                ru: "Тёмная тема",
+                en: "Dark theme"
+            }
+        },
+        {
+            id: "cancel",
+            data: {
+                ru: "Отменить",
+                en: "Cancel"
+            }
         }
-    },
-    {
-        id: "1",
-        data: {
-            ru: "Тёмная тема",
-            en: "Dark theme"
-        }
-    },
-    {
-        id: "cancel",
-        data: {
-            ru: "Отменить",
-            en: "Cancel"
-        }
-    }]
+    ]
 };
 
 /**
@@ -63,8 +64,8 @@ this.social = {
  */
 this.gender = {
     title: {
-        ru: "Выберите тип упражнений и тренировок",
-        en: "Choose the type of exercise and training"
+        ru: "Выберите тип видео, упражнений и тренировок",
+        en: "Choose the type of video, exercise and training"
     },
     items: [{
         id: "man",
@@ -125,17 +126,18 @@ this.languages = {
         en: "Choose application language"
     },
     items: [{
-        id: "ru",
-        data: "Русский"
-    },
-    {
-        id: "en",
-        data: "English"
-    }, {
-        id: "cancel",
-        data: {
-            ru: "Отменить",
-            en: "Cancel"
+            id: "ru",
+            data: "Русский"
+        },
+        {
+            id: "en",
+            data: "English"
+        }, {
+            id: "cancel",
+            data: {
+                ru: "Отменить",
+                en: "Cancel"
+            }
         }
-    }]
+    ]
 };

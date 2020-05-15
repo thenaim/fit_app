@@ -4,12 +4,12 @@ import "js/app.js" as appMain;
 
 GridView {
     id: videoItemsList;
-	z: 1;
+	z: 2;
 
     cellWidth: appMain.sizes.poster.width + 5;
     cellHeight: (appMain.sizes.poster.height * 2) + 5;
 
-    focus: true;
+    focus: false;
     clip: true;
     delegate: VideosDelegate {}
     model: ListModel { id: videoModel; }
@@ -39,7 +39,7 @@ GridView {
 
 	Rectangle {
 		id: highlight;
-		z: 2;
+		z: 1;
 
         width: appMain.sizes.poster.width;
         height: appMain.sizes.poster.height * 2;
