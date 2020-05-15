@@ -84,21 +84,16 @@ Application {
             keyNavigationWraps: false;
 
             onKeyPressed: {
-                if (key === "Red") {
+                const video = videoItems.model.get(videoItems.currentIndex);
+                if (key === "Up" && !fit.fullscreen) {
+                    tab.setFocus();
+                } else if (key === "Red") {
                     let current = model.get(videoItems.currentIndex);
                     appMain.addToBookmark(current, "video", "main");
+                } else if (key === "Select") {
+                    const url = appMain.config.main + "/videos/" + video.videoId + ".mp4";
+                    videoItems.playVideo(video.title, url, "main");
                 }
-            }
-
-            onSelectPressed: {
-                const video = videoItems.model.get(videoItems.currentIndex);
-                const url = appMain.config.main + "/videos/" + video.videoId + ".mp4";
-
-                videoItems.playVideo(video.title, url, "main");
-            }
-
-            onUpPressed: {
-                tab.setFocus();
             }
 
             /**
@@ -253,7 +248,9 @@ Application {
             focus: false;
 
             onUpPressed: {
-                tab.setFocus();
+                if (!fit.fullscreen) {
+                    tab.setFocus();
+                }
             }
         }
 
@@ -282,17 +279,16 @@ Application {
         z: 4;
         property int oneItemHeight: 77;
         property int itemsWillBeInModal: 0;
-        width: 520;
 
         // (Modal title height + margin) + (One item height modal * how many items will be in modal)
         height: (modalTitle.height + appMain.sizes.margin) + (modalController.oneItemHeight * modalController.itemsWillBeInModal);
+        width: 520;
         visible: false;
 
         Behavior on height { animation: Animation { duration: app.config.animationDuration; } }
         Behavior on width { animation: Animation { duration: app.config.animationDuration; } }
 
         // Check what type of item user select in modal, then run function
-
         // [selected] element in modal, [type] of items, [idContent] of modal
         onSelectedModalItem: {
             switch (type) {
@@ -400,34 +396,6 @@ Application {
     function showNotification(text) {
         notificatorManager.text = text;
         notificatorManager.addNotify();
-    }
-
-    /**
-    * Send To Social
-    * @param {String} id content id, what sending
-    * @param {String} type type content
-    * @param {String} social type social, where will send
-    */
-    function sendToSocial(id, type, social) {
-		const stingray = JSON.parse(load("fit_stingray"));
-        if (social === "vk" && !stingray.vkIntegrated) {
-            return fit.showNotification(appLangs.texts[fit.lang].vkNotIntegrated);
-        } else if (social === "tg" && !stingray.tgIntegrated) {
-            return fit.showNotification(appLangs.texts[fit.lang].tgNotIntegrated);
-        }
-        appMain.httpServer(appMain.config.api.sendToSocial, "GET", {
-            id: id,
-            type: type,
-            social: social
-        }, "sendToSocial", (ok) => {
-            if (ok.sended) {
-                if (type === "nutrition") {
-                    fit.showNotification(appLangs.texts[fit.lang].nutritionSended);
-                } else if (type === "exercise") {
-                    fit.showNotification(appLangs.texts[fit.lang].exerciseSended);
-                }
-            };
-        });
     }
 
     /**
@@ -555,32 +523,57 @@ Application {
         const tabIndex = appMain.tabs.findIndex(tab => tab.id === "bookmarks");
         let bookmarkTab = tab.model.get(tabIndex);
         
-        // main tab badge
-        if (added) {
-            bookmarkTab.badgeInt += 1;
-        } else if (!added && bookmarkTab.badgeInt) {
-            bookmarkTab.badgeInt -= 1;
-        }
+        // Main tab badges
+        // if added, then add 1, else remove 1
+        bookmarkTab.badgeInt = added ? bookmarkTab.badgeInt += 1 : bookmarkTab.badgeInt > 0 ? bookmarkTab.badgeInt -= 1 : bookmarkTab.badgeInt;
         tab.model.set(tabIndex, bookmarkTab);
 
-        // bookmark page tabs badges
+        // Bookmark page badges
+        // Check bookmark types model count
         if (bookmarkTypes.model.count != 0) {
+            // Get bookmark tab index by type name
             const bookmarkTabIndex = appMain.bookmarksTypes.findIndex(tab => tab.type === type);
+            // Get bookmark tab from model by index
             const getTypeBookmarkTab = bookmarkTypes.model.get(bookmarkTabIndex);
-            if (added) {
-                getTypeBookmarkTab.badgeInt += 1;
-            } else if (!added && getTypeBookmarkTab.badgeInt) {
-                getTypeBookmarkTab.badgeInt -= 1;
-            }
-
+            // if added, then add 1, else remove 1
+            getTypeBookmarkTab.badgeInt = added ? getTypeBookmarkTab.badgeInt += 1 : getTypeBookmarkTab.badgeInt > 0 ? getTypeBookmarkTab.badgeInt -= 1 : getTypeBookmarkTab.badgeInt;
             bookmarkTypes.model.set(bookmarkTabIndex, getTypeBookmarkTab);
         }
     }
 
     /**
+    * Send To Social
+    * @param {String} id content id, what sending
+    * @param {String} type type content
+    * @param {String} social type social, where will send
+    */
+    function sendToSocial(id, type, social) {
+		const stingray = JSON.parse(load("fit_stingray"));
+        // Check social networks is integrated or not
+        if (social === "vk" && !stingray.vkIntegrated) {
+            return fit.showNotification(appLangs.texts[fit.lang].vkNotIntegrated);
+        } else if (social === "tg" && !stingray.tgIntegrated) {
+            return fit.showNotification(appLangs.texts[fit.lang].tgNotIntegrated);
+        }
+        appMain.httpServer(appMain.config.api.sendToSocial, "GET", {
+            id: id,
+            type: type,
+            social: social
+        }, "sendToSocial", (ok) => {
+            if (ok.sended) {
+                if (type === "nutrition") {
+                    fit.showNotification(appLangs.texts[fit.lang].nutritionSended);
+                } else if (type === "exercise") {
+                    fit.showNotification(appLangs.texts[fit.lang].exerciseSended);
+                }
+            };
+        });
+    }
+
+    /**
     * App init
     * On first lunch - load & check stingray token and settings
-    * @return {Object} id, isDark, vkIntegrated
+    * @return {Object} id, isDark, gender, meal, lang, vkId, vkIntegrated, tgId, tgIntegrated, workoutDays, stats
     */
     function appInit(callback) {
         appMain.httpServer(appMain.config.api.stingray, "GET", {}, "appInit", (data) => {
@@ -588,9 +581,9 @@ Application {
 
             // save stingray
             save("fit_stingray", JSON.stringify(data));
-            fit.stingray = JSON.parse(load("fit_stingray"));
+            fit.stingray = data;
 
-            fit.isDark = data.isDark ? true : false;
+            fit.isDark = data.isDark
             fit.lang = data.lang;
 
             callback(true);

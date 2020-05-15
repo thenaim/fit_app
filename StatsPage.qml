@@ -251,7 +251,7 @@ Item {
         width: 600;
         height: 330;
         opacity: 1.0;
-        visible: true;
+        visible: false;
 
         Rectangle {
             id: placeText;
