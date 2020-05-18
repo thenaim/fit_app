@@ -1,8 +1,5 @@
 import "ModalControllerDelegate.qml";
 
-import "js/app.js" as appMain;
-import "js/languages.js" as appLangs;
-
 Rectangle {
 	id: modalContainerMain;
     property var focusElement;

@@ -1,7 +1,5 @@
 import "TabDelegate.qml";
 
-import "js/app.js" as appMain;
-
 ListView {
     id: tabList;
     z: 1;

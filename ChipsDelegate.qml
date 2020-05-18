@@ -1,4 +1,3 @@
-import "js/app.js" as appMain;
 Rectangle {
     id: chipsDelegate;
     anchors.top: chipItems.top;

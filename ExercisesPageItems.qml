@@ -1,7 +1,5 @@
 import "ExerciseDelegate.qml";
 
-import "js/app.js" as appMain;
-
 ListView {
 	id: exerciseItemsList;
 	z: 1;

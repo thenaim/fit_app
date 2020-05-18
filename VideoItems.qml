@@ -1,7 +1,5 @@
 import "VideosDelegate.qml";
 
-import "js/app.js" as appMain;
-
 GridView {
     id: videoItemsList;
 	z: 2;

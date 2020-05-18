@@ -1,5 +1,3 @@
-import controls.Player;
-
 Player {
     id: fitPlayer;
     focus: true;

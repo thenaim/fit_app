@@ -14,9 +14,12 @@ import "SettingsPage.qml";
 import "ModalController.qml";
 import "FitPlayer.qml";
 
+import controls.Player;
 import controls.Spinner;
+import controls.Button;
 
 import "js/app.js" as appMain;
+import "js/modals.js" as modals;
 import "js/languages.js" as appLangs;
 
 Application {

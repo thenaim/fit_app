@@ -1,5 +1,3 @@
-import "js/app.js" as appMain;
-import "js/languages.js" as appLangs;
 
 Item {
     id: statsLeaderDelegate;
@@ -11,7 +9,7 @@ Item {
 
     Rectangle {
         id: statsLeaderPlace;
-        anchors.top: statsLeaderDelegate.bottom;
+        anchors.top: statsLeaderDelegate.top;
         anchors.left: statsLeaderDelegate.left;
         anchors.leftMargin: appMain.sizes.margin / 2;
         anchors.rightMargin: appMain.sizes.margin / 2;
@@ -39,7 +37,7 @@ Item {
 
     Rectangle {
         id: statsLeaderId;
-        anchors.top: statsLeaderDelegate.bottom;
+        anchors.top: statsLeaderDelegate.top;
         anchors.left: statsLeaderPlace.right;
         anchors.leftMargin: appMain.sizes.margin / 2;
         anchors.rightMargin: appMain.sizes.margin / 2;
@@ -67,7 +65,7 @@ Item {
 
     Rectangle {
         id: statsLeaderPoints;
-        anchors.top: statsLeaderDelegate.bottom;
+        anchors.top: statsLeaderDelegate.top;
         anchors.left: statsLeaderId.right;
         anchors.leftMargin: appMain.sizes.margin / 2;
         anchors.rightMargin: appMain.sizes.margin / 2;

@@ -1,9 +1,6 @@
 import "WorkoutsPageCategoryDelegate.qml";
 import "ExerciseDelegate.qml";
 
-import "js/app.js" as appMain;
-import "js/languages.js" as appLangs;
-
 Item {
     id: workoutsPage;
     anchors.top: parent.top;

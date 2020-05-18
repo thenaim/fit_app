@@ -1,6 +1,3 @@
-import "js/app.js" as appMain;
-import "js/languages.js" as appLangs;
-
 import "StatsPageTypeDelegate.qml";
 import "StatsPageLeaderboardDelegate.qml";
 import "StatsPageBarDelegate.qml";
@@ -244,12 +241,12 @@ Item {
     */
     Rectangle {
         id: centeredStatTopusers;
-        anchors.centerIn: parent;
+        anchors.centerIn: statsPage;
 
         color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
 		radius: appMain.sizes.radius;
         width: 600;
-        height: 330;
+        height: 400;
         opacity: 1.0;
         visible: false;
 
@@ -334,6 +331,8 @@ Item {
             anchors.left: centeredStatTopusers.left;
             anchors.right: centeredStatTopusers.right;
             anchors.bottom: centeredStatTopusers.bottom;
+            anchors.topMargin: 50;
+            anchors.bottomMargin: 10;
 
             width: 600;
             height: 50;

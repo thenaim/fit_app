@@ -1,4 +1,3 @@
-import "js/app.js" as appMain;
 Rectangle {
     id: nutritionDelegate;
 	z: 1;

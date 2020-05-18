@@ -1,5 +1,3 @@
-import "js/app.js" as appMain;
-
 import "ExercisesPageItems.qml";
 import "ExerciseDelegate.qml";
 import "Chips.qml";

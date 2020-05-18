@@ -1,9 +1,3 @@
-import "js/app.js" as appMain;
-import "js/languages.js" as appLangs;
-import "js/modals.js" as modals;
-
-import controls.Button;
-
 Item {
     id: nutritionDetail;
     z: 2;
@@ -47,8 +41,8 @@ Item {
         anchors.left: nutritionDetail.left;
         anchors.topMargin: appMain.sizes.margin / 2;
 
-        width: 350;
-        height: 230;
+        width: fit.fullscreen ? 450 : 350;
+        height: fit.fullscreen ? 300 : 230;
         
         opacity: 1.0;
         visible: imageNutrition.status !== ui.Image.Ready;
@@ -64,8 +58,8 @@ Item {
         anchors.left: nutritionDetail.left;
         anchors.topMargin: appMain.sizes.margin / 2;
 
-        width: 350;
-        height: 230;
+        width: fit.fullscreen ? 450 : 350;
+        height: fit.fullscreen ? 300 : 230;
 
         opacity: 1.0;
         registerInCacheSystem: false;

@@ -1,5 +1,3 @@
-import "js/app.js" as appMain;
-
 Rectangle {
     id: workoutsPageDayDelegate;
 	z: 1;

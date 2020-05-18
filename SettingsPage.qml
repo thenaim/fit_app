@@ -1,9 +1,3 @@
-import "js/app.js" as appMain;
-import "js/languages.js" as appLangs;
-import "js/modals.js" as modals;
-
-import controls.Button;
-
 Item {
     id: settingPageItem;
     z: 4;

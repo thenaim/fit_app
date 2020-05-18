@@ -1,6 +1,3 @@
-import "js/app.js" as appMain;
-import "js/languages.js" as appLangs;
-
 Rectangle {
     id: daysDelegate;
     z: 1;

@@ -1,7 +1,5 @@
 import "ChipsDelegate.qml";
 
-import "js/app.js" as appMain;
-
 ListView {
     id: chipsList;
     z: 1;

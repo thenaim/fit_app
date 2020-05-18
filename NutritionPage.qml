@@ -1,4 +1,3 @@
-import "js/app.js" as appMain;
 import "NutritionDaysDelegate.qml";
 import "NutritionItems.qml";
 

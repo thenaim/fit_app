@@ -1,7 +1,5 @@
 import "NutritionDelegate.qml";
 
-import "js/app.js" as appMain;
-
 GridView {
     id: nutritionItemsList;
     z:1;
