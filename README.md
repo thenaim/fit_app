@@ -1,32 +1,30 @@
 ## Installation
 
-**Step 1.** Install StingrayTv Emulator.
+**Step 1.** Install Emulator.
 
-Documentation [StingrayTv Emulator](https://devstingray.gs-labs.tv/emulator)
+Documentation: [Emulator](https://devstingray.gs-labs.tv/emulator)
 
 **Step 2.** Clone App.
 
-Clone fit_app to StingrayTv Emulator directory.
+Clone fit_app to Emulator directory.
 
 ```sh
 git clone https://github.com/thenaim/fit_app
 ```
 
-**Step 3.** Install fit_app to StingrayTv Emulator.
+**Step 3.** Install fit_app to Emulator.
 
 ```sh
 ./install_app ./fit_app
 ```
 
-**Step 4.** Run StingrayTv Emulator.
+**Step 4.** Run Emulator.
 
 ```sh
 ./run_emu --audiocard-number=1 --audiodevice-number=0
 ```
 
-`Warning!` If your have 2 or more audio cards in your host machine you must specify configured audio card and audio device manually in script arguments. Docs: [StingrayTv Emulator Docs](https://devstingray.gs-labs.tv/emulator)
-
-## Server side
+## Server side (If you want to run localy)
 
 NodeJs server [fit_server](https://github.com/thenaim/fit_server)
 
