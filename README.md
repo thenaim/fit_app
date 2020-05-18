@@ -1,7 +1,3 @@
-# FitSmart App
-
-Home Fitness App for StingrayTv.
-
 ## Installation
 
 **Step 1.** Install StingrayTv Emulator.
