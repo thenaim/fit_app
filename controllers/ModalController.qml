@@ -73,9 +73,10 @@ Rectangle {
     * @param  {String} type items type
     * @param  {String} idContent optional
     * @param  {Element} elementToFocus to focus on close or confirm
+    * @param  {String} lang ru|en
     */
-    function openModal(array, type, idContent, elementToFocus) {
-        modalContainerMain.title = array.title[fit.lang];
+    function openModal(array, type, idContent, elementToFocus, lang) {
+        modalContainerMain.title = array.title[lang];
         modalContainerMain.type = type;
         modalContainerMain.idContent = idContent;
         modalContainerMain.focusElement = elementToFocus;
@@ -85,7 +86,7 @@ Rectangle {
         
         // add items
         array["items"].forEach((element, index) => {
-            modalTypes.model.append({ id: element.id, data: element.data[fit.lang] ? element.data[fit.lang] : element.data });
+            modalTypes.model.append({ id: element.id, data: element.data[lang] ? element.data[lang] : element.data });
         });
 
         // show modal and set focus

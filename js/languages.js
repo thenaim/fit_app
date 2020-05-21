@@ -6,6 +6,8 @@ this.texts = {
         language: "Русский",
         languageChanged: "Вы изменили язык на русский",
 
+        noMusic: "Без музыки",
+        withMusic: "C музыкой",
         place: "Место",
         points: "Баллы",
         workoutDay: "Тренировки",
@@ -65,6 +67,8 @@ this.texts = {
         language: "English",
         languageChanged: "You changed the language to english",
 
+        noMusic: "Without music",
+        withMusic: "With music",
         place: "Place",
         points: "Points",
         workoutDay: "Workouts",

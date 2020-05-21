@@ -1,7 +1,7 @@
 {
 	"id": "fit_app",
 	"display": {
-		"name": "FitSmart",
+		"name": "FitSmart - Тренер",
 		"icon": "res/logo.png"
 	},
 	"application": { }

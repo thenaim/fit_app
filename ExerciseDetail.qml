@@ -12,10 +12,11 @@ Item {
     property string title;
     property var description;
     property var images;
+    property bool bookmark: false; 
 
     opacity: 1.0;
 
-    focus: false;
+    focus: true;
 
     /**
     * Exercise Name
@@ -52,7 +53,8 @@ Item {
         anchors.horizontalCenter: exerciseDetail.horizontalCenter;
         anchors.left: exerciseDetail.left;
         anchors.right: exerciseDetail.right;
-        anchors.topMargin: !imagesGalary.zoom ? appMain.sizes.margin : 0;
+        anchors.margins: imagesGalary.zoom ? -appMain.sizes.margin : 0;
+        anchors.topMargin: imagesGalary.zoom ? 0 : appMain.sizes.margin / 2;
 
         height: appMain.sizes.exercise.height + (fit.fullscreen ? 100 : 80);
         spacing: 1;
@@ -94,7 +96,7 @@ Item {
 
         onDownPressed: {
             if (fit.fullscreen) {
-                return startButton.setFocus();
+                return startExerciseButton.setFocus();
             }
             sendSocialExerciseButton.setFocus();
         }
@@ -118,204 +120,6 @@ Item {
         font: secondaryFont;
     }
 
-    /**
-    * Exercise Start container
-    */
-    Item {
-        id: startExercises;
-        z: 3;
-        anchors.top: descriptionexerciseText.bottom;
-        anchors.left: exerciseDetail.left;
-        anchors.right: exerciseDetail.right;
-        anchors.bottom: exerciseDetail.bottom;
-        anchors.topMargin: -80;
-        anchors.horizontalCenter: exerciseDetail.horizontalCenter;
-
-        height: 150;
-        width: 300;
-        visible: fit.fullscreen;
-
-        /**
-        * Exercise rounds
-        */
-        Text {
-            id: exerciseRounds;
-            anchors.top: startExercises.top;
-            anchors.horizontalCenter: exerciseDetail.horizontalCenter;
-            anchors.bottomMargin: appMain.sizes.margin / 2.8;
-
-            color: imagesGalary.zoom ? appMain.theme.light.textColor : fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
-            text: exerciseTimer.rounds + "/3 " + appLangs.texts[fit.lang].repetitionCircle;
-            font: Font {
-                family: "Proxima Nova Condensed";
-                pixelSize: 26;
-                black: true;
-            }
-        }
-
-        /**
-        * Exercise start button
-        */
-        Button {
-            id: startButton;
-
-            anchors.top: exerciseRounds.bottom;
-            anchors.horizontalCenter: parent.horizontalCenter;
-            anchors.topMargin: appMain.sizes.margin / 2;
-            anchors.bottomMargin: appMain.sizes.margin / 3;
-
-            color: activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
-            text: exerciseTimer.running ? appLangs.texts[fit.lang].stop : appLangs.texts[fit.lang].start;
-            radius: appMain.sizes.radius;
-            visible: true;
-            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
-            font: Font {
-                pixelSize: 15;
-            }
-
-            onUpPressed: {
-                imagesGalary.setFocus();
-            }
-
-            onSelectPressed: {
-                if (exerciseTimer.running) {
-                    // stop play exercise
-                    return exerciseTimer.resetDataPlay();
-                }
-
-                fit.showNotification(appLangs.texts[fit.lang].startFirstCircle);
-                exerciseTimer.start();
-                // stats
-                appMain.httpServer(appMain.config.api.stats, "GET", { type: "exercise_play" }, "startButton", () => {});
-            }
-        }
-
-        /**
-        * Exercise time
-        */
-        Text {
-            id: exerciseTime;
-            anchors.top: startButton.top;
-            anchors.right: startButton.left;
-            anchors.rightMargin: appMain.sizes.margin / 2;
-            anchors.topMargin: startButton.height / 3;
-
-            color: imagesGalary.zoom ? appMain.theme.light.textColor : fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
-            text: "00:00:30";
-            font: Font {
-                family: "Proxima Nova Condensed";
-                pixelSize: exerciseTimer.running && exerciseTimer.exercise ? 35 : 30;
-                black: true;
-            }
-        }
-
-        /**
-        * Exercise relax time
-        */
-        Text {
-            id: relaxTime;
-            anchors.top: startButton.top;
-            anchors.left: startButton.right;
-            anchors.leftMargin: appMain.sizes.margin / 2;
-            anchors.topMargin: startButton.height / 3;
-
-            color: imagesGalary.zoom ? appMain.theme.light.textColor : fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
-            text: "00:00:15";
-            font: Font {
-                family: "Proxima Nova Condensed";
-                pixelSize: exerciseTimer.running && !exerciseTimer.exercise ? 35 : 30;
-                black: true;
-            }
-        }
-
-        /**
-        * Exercise start timer
-        */
-        Timer {
-            id: exerciseTimer;
-            property bool exercise: true;
-            property int timerExercise: 30000;
-            property int timerRelax: 15000;
-            property int rounds: 1;
-            interval: 1000;
-            repeat: true;
-            
-            onTriggered: {
-                // stop if fullscreen closed
-                if (!fit.fullscreen) {
-                    exerciseTimer.resetDataPlay();
-
-                    return fit.showNotification(appLangs.texts[fit.lang].playExerciseClosed);
-                }
-                // stop when 3 round finished
-                if (exerciseTimer.rounds === 4) {
-                    exerciseTimer.resetDataPlay();
-                    return fit.showNotification(appLangs.texts[fit.lang].finishedExercise);
-                }
-                // time to do exercise
-                if (exerciseTimer.exercise) {
-                    exerciseTimer.timerExercise -= interval;
-                    if (exerciseTimer.timerExercise === 0) {
-                        exerciseTimer.exercise = false;
-                        exerciseTimer.timerExercise = 30000;
-                        if (exerciseTimer.rounds === 1) {
-                            fit.showNotification(appLangs.texts[fit.lang].relaxCircle);
-                        }
-                    }
-                    exerciseTime.text = exerciseTimer.parseMillisecondsIntoReadableTime(exerciseTimer.timerExercise);
-                }
-                // time to relax
-                if (!exerciseTimer.exercise) {
-                    exerciseTimer.timerRelax -= interval;
-                    if (exerciseTimer.timerRelax === 0) {
-                        exerciseTimer.exercise = true;
-                        exerciseTimer.timerRelax = 15000;
-                        exerciseTimer.rounds += 1;
-                        if (exerciseTimer.rounds === 2) {
-                            fit.showNotification(appLangs.texts[fit.lang].startSecondCircle);
-                        }
-                        if (exerciseTimer.rounds === 3) {
-                            fit.showNotification(appLangs.texts[fit.lang].startThirdCircle);
-                        }
-                    }
-                    relaxTime.text = exerciseTimer.parseMillisecondsIntoReadableTime(exerciseTimer.timerRelax);
-                }
-            }
-
-            function resetDataPlay() {
-                exerciseTimer.rounds = 1;
-                exerciseTimer.timerExercise = 30000;
-                exerciseTimer.timerRelax = 15000;
-                exerciseTime.text = "00:00:30";
-                relaxTime.text = "00:00:15";
-                exerciseTimer.stop();
-            }
-
-            /**
-            * Parse Milliseconds Into Readable Time
-            * @param {Number} milliseconds of timer
-            */
-            function parseMillisecondsIntoReadableTime(milliseconds){
-                //Get hours from milliseconds
-                const hours = milliseconds / (1000 * 60 * 60);
-                const absoluteHours = Math.floor(hours);
-                const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
-
-                //Get remainder from hours and convert to minutes
-                const minutes = (hours - absoluteHours) * 60;
-                const absoluteMinutes = Math.floor(minutes);
-                const m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
-
-                //Get remainder from minutes and convert to seconds
-                const seconds = (minutes - absoluteMinutes) * 60;
-                const absoluteSeconds = Math.floor(seconds);
-                const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
-
-                return h + ':' + m + ':' + s;
-            }
-
-        }
-    }
     /**
     * Exercise Social button
     */
@@ -344,7 +148,7 @@ Item {
             font: Font {
                 pixelSize: 15;
             }
-
+            
             onUpPressed: {
                 if (fit.fullscreen) return;
                 imagesGalary.setFocus();
@@ -352,7 +156,7 @@ Item {
 
             onSelectPressed: {
                 fit.modalController.itemsWillBeInModal = 3;
-                fit.modalController.openModal(modals.social, "exercise", exerciseDetail.id, sendSocialExerciseButton);
+                fit.modalController.openModal(appModals.social, "exercise", exerciseDetail.id, sendSocialExerciseButton, fit.lang);
             }
         }
 
@@ -373,19 +177,355 @@ Item {
         }
     }
 
+    /**
+    * Exercise play zone
+    */
+    Item {
+        id: playZone;
+        z: 4;
+        anchors.left: mainView.left;
+        anchors.right: mainView.right;
+        anchors.bottom: mainView.bottom;
+        anchors.margins: fit.fullscreen ? 0 : -appMain.sizes.margin;
+        
+        height: 110 + 10;
+        visible: fit.fullscreen;
+
+        /**
+        * Exercise rounds text
+        */
+        Text {
+            id: exerciseRounds;
+            anchors.top: parent.top;
+            anchors.left: parent.left;
+            anchors.margins: appMain.sizes.margin;
+
+            color: imagesGalary.zoom ? appMain.theme.light.textColor : fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
+            text: exerciseTimer.rounds + "/3 " + appLangs.texts[fit.lang].repetitionCircle;
+            font: Font {
+                family: "Proxima Nova Condensed";
+                pixelSize: 34;
+                black: true;
+            }
+        }
+
+        /**
+        * Exercise start button
+        */
+        Button {
+            id: startExerciseButton;
+            anchors.top: parent.top;
+            anchors.horizontalCenter: parent.horizontalCenter;
+
+            color: activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
+            text: exerciseTimer.running ? appLangs.texts[fit.lang].stop : appLangs.texts[fit.lang].start;
+            radius: appMain.sizes.radius;
+            visible: true;
+            width: 250;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+            font: Font {
+                pixelSize: 30;
+            }
+
+            onUpPressed: {
+                imagesGalary.setFocus();
+            }
+
+            onRightPressed: {
+                if (musicOrNot.withMusic) {
+                    valueDownButton.setFocus();
+                } else {
+                    musicOrNot.setFocus();
+                }
+            }
+
+            onSelectPressed: {
+                if (exerciseTimer.running) {
+                    // stop play exercise
+                    fitPlayer.abort();
+                    return exerciseTimer.resetDataPlayTimer();
+                }
+
+                fit.showNotification(appLangs.texts[fit.lang].startFirstCircle);
+                exerciseTimer.start();
+                if (musicOrNot.music) {
+                    fitPlayer.playVideoByUrl(appMain.config.main + "/videos/music_" + (Math.floor(Math.random() * 5) + 1) + ".mp4", "music");
+                }
+                startExerciseButton.setFocus();
+                // stats
+                appMain.httpServer(appMain.config.api.stats, "GET", { type: "exercise_play" }, "startButton", () => {});
+            }
+        }
+
+        /**
+        * Exercise music Value Down Button
+        */
+        Button {
+            id: valueDownButton;
+            anchors.top: parent.top;
+            anchors.right: musicOrNot.left;
+            anchors.rightMargin: appMain.sizes.margin / 2;
+
+            color: activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
+            text: "-";
+            radius: appMain.sizes.radius;
+            visible: musicOrNot.music;
+            width: 50;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+            font: Font {
+                pixelSize: 30;
+            }
+
+            onKeyPressed: {
+                if (key === "Up") {
+                    imagesGalary.setFocus();
+                } else if (key === "Left") {
+                    startExerciseButton.setFocus();
+                } else if (key === "Right") {
+                    musicOrNot.setFocus();
+                } else if (key === "Select") {
+                    mainWindow.volumeDown();
+                }
+            }
+        }
+
+        /**
+        * Exercise music ON/OFF Button
+        */
+        Button {
+            id: musicOrNot;
+            anchors.top: parent.top;
+            anchors.right: valueUpButton.left;
+            anchors.rightMargin: appMain.sizes.margin / 2;
+
+            property bool music: false; 
+
+            color: activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
+            text: music ? appLangs.texts[fit.lang].withMusic : appLangs.texts[fit.lang].noMusic;
+            radius: appMain.sizes.radius;
+            visible: true;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+            font: Font {
+                pixelSize: 25;
+            }
+
+            onKeyPressed: {
+                if (key === "Up") {
+                    imagesGalary.setFocus();
+                } else if (key === "Left") {
+                    if (musicOrNot.music) {
+                        valueDownButton.setFocus();
+                    } else {
+                        startExerciseButton.setFocus();
+                    }
+                } else if (key === "Right") {
+                    valueUpButton.setFocus();
+                } else if (key === "Select") {
+                    musicOrNot.music = !musicOrNot.music;
+                    if (!musicOrNot.music) {
+                        fitPlayer.abort();
+                    }
+                    if (musicOrNot.music && exerciseTimer.running) {
+                        fitPlayer.playVideoByUrl(appMain.config.main + "/videos/music_" + (Math.floor(Math.random() * 5) + 1) + ".mp4", "music");
+                        musicOrNot.setFocus();
+                    }
+                    save("fit_music", JSON.stringify({ music: musicOrNot.music}));
+                }
+            }
+
+            onCompleted: {
+                musicOrNot.music = JSON.parse(load("fit_music") || "{}").music ? true : false;
+            }
+        }
+
+        /**
+        * Exercise music Value Up Button
+        */
+        Button {
+            id: valueUpButton;
+            anchors.top: parent.top;
+            anchors.right: parent.right;
+            anchors.rightMargin: appMain.sizes.margin;
+
+            color: activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
+            text: "+";
+            radius: appMain.sizes.radius;
+            visible: musicOrNot.music;
+            width: 50;
+            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+            font: Font {
+                pixelSize: 30;
+            }
+
+            onKeyPressed: {
+                if (key === "Up") {
+                    imagesGalary.setFocus();
+                } else if (key === "Left") {
+                    musicOrNot.setFocus();
+                } else if (key === "Select") {
+                    mainWindow.volumeUp();
+                }
+            }
+        }
+
+        /**
+        * Exercise Progress Bar
+        */
+        ProgressBarController {
+            id: progress;
+            anchors.top: startExerciseButton.bottom;
+            anchors.left: playZone.left;
+            anchors.right: playZone.right;
+            anchors.topMargin: appMain.sizes.margin / 2;
+
+            barColor: appMain.theme.light.background;
+            height: 50;
+            progress: 0.0;
+            animationDuration: 1000;
+            radius: 0;
+
+            /**
+            * Exercise Progress Bar Text
+            */
+            Text {
+                id: progressText;
+                anchors.centerIn: progress;
+
+                color: appMain.theme.light.textColor;
+                text: "00:00:00";
+                font: Font {
+                    family: "Proxima Nova Condensed";
+                    pixelSize: 36;
+                    black: true;
+                }
+            }
+        }
+
+        /**
+        * Exercise play zone timer
+        */
+        Timer {
+            id: exerciseTimer;
+            property bool exercise: true;
+            property int timerExercise: 0;
+            property int timerRelax: 15000;
+            property int rounds: 1;
+            interval: 1000;
+            repeat: true;
+            
+            onTriggered: {
+                // stop if fullscreen closed
+                if (!fit.fullscreen) {
+                    exerciseTimer.resetDataPlayTimer();
+                    fitPlayer.abort();
+
+                    return fit.showNotification(appLangs.texts[fit.lang].playExerciseClosed);
+                }
+
+                // stop when 3 round finished
+                if (exerciseTimer.rounds === 4) {
+                    exerciseTimer.resetDataPlayTimer();
+                    fitPlayer.abort();
+                    return fit.showNotification(appLangs.texts[fit.lang].finishedExercise);
+                }
+
+                // time to do exercise
+                if (exerciseTimer.exercise) {
+                    exerciseTimer.timerExercise += interval;
+                    progress.progress = (exerciseTimer.timerExercise / 30000).toFixed(3);
+
+                    // stop, when exercise time over and run relax time
+                    if (exerciseTimer.timerExercise === 30000) {
+                        progress.reset();
+                        exerciseTimer.exercise = false;
+                        exerciseTimer.timerExercise = 0;
+
+                        // show notification on first round starts
+                        if (exerciseTimer.rounds === 1) {
+                            fit.showNotification(appLangs.texts[fit.lang].relaxCircle);
+                        }
+                    }
+                }
+
+                // time to relax
+                if (!exerciseTimer.exercise) {
+                    exerciseTimer.timerRelax -= interval;
+                    progress.progress = (exerciseTimer.timerRelax / 15000).toFixed(3);
+
+                    // stop, when relax time over
+                    if (exerciseTimer.timerRelax === 0) {
+                        progress.reset();
+                        exerciseTimer.exercise = true;
+                        exerciseTimer.timerRelax = 15000;
+                        exerciseTimer.rounds += 1;
+
+                        // show notification on new round starts
+                        if (exerciseTimer.rounds === 2) {
+                            fit.showNotification(appLangs.texts[fit.lang].startSecondCircle);
+                        }
+                        if (exerciseTimer.rounds === 3) {
+                            fit.showNotification(appLangs.texts[fit.lang].startThirdCircle);
+                        }
+                    }
+                }
+
+                const time = new Date(exerciseTimer.exercise ? exerciseTimer.timerExercise : exerciseTimer.timerRelax);
+                progressText.text = time.toISOString().substr(11, 8);
+            }
+
+            function resetDataPlayTimer() {
+                exerciseTimer.rounds = 1;
+                exerciseTimer.timerExercise = 0;
+                exerciseTimer.timerRelax = 15000;
+                progressText.text = "00:00:00";
+                progress.progress = 0;
+                exerciseTimer.stop();
+            }
+        }
+    }
+
+    Image {
+        z: 4;
+
+        anchors.top: mainView.top;
+        anchors.right: mainView.right;
+        anchors.margins: appMain.sizes.margin;
+
+        width: 35;
+        height: 25;
+
+        visible: true;
+        registerInCacheSystem: false;
+        source: exerciseDetail.bookmark ? "apps/fit_app/res/heart_added.png" : "apps/fit_app/res/heart_add.png";
+        fillMode: PreserveAspectFit;
+    }
+
+    onKeyPressed: {
+        if (key === "Red") {
+            let current = exerciseItemsList.exerciseItemModel.get(exerciseItemsList.currentIndex);
+            appMain.addToBookmark(current, "exercise", "main", (boolean) => {
+                exerciseDetail.bookmark = boolean;
+            });
+        }
+    }
+
     onVisibleChanged: {
+        // stop music
+        fitPlayer.abort();
         // stop play exercise
-        exerciseTimer.resetDataPlay();
+        exerciseTimer.resetDataPlayTimer();
         // reset galary images and add new if exist
         imagesGalary.model.reset();
         imagesGalary.zoom = false;
-        exerciseDetail.images.forEach((img, index) => {
-            index += 1;
-            imagesGalary.model.append({
-                id: index,
-                image: img
+        if (visible) {
+            exerciseDetail.images.forEach((img, index) => {
+                index += 1;
+                imagesGalary.model.append({
+                    id: index,
+                    image: img
+                });
             });
-        });
+        }
         imagesGalary.setFocus();
         imagesGalary.setFocus();
     }

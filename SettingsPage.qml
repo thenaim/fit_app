@@ -153,7 +153,7 @@ Item {
 
         onSelectPressed: {
             fit.modalController.itemsWillBeInModal = 3;
-            fit.modalController.openModal(modals.themesList, "theme", null, themeChanger);
+            fit.modalController.openModal(appModals.themesList, "theme", null, themeChanger, fit.lang);
         }
     }
 
@@ -183,7 +183,7 @@ Item {
 
         onSelectPressed: {
             fit.modalController.itemsWillBeInModal = 3;
-            return fit.modalController.openModal(modals.nutritionTypes, "nutrition_type", null, nutritionTypeButton);
+            fit.modalController.openModal(appModals.nutritionTypes, "nutrition_type", null, nutritionTypeButton, fit.lang);
         }
     }
 
@@ -214,7 +214,7 @@ Item {
 
         onSelectPressed: {
             fit.modalController.itemsWillBeInModal = 3;
-            return fit.modalController.openModal(modals.gender, "gender", null, genderTypeButton);
+            fit.modalController.openModal(appModals.gender, "gender", null, genderTypeButton, fit.lang);
         }
     }
 
@@ -248,7 +248,7 @@ Item {
             appMain.httpServer(appMain.config.api.workoutsDays, "GET", {}, "getWorkouts", (days) => {
                 if (days.items.length) {
                     fit.modalController.itemsWillBeInModal = 4;
-                    fit.modalController.openModal(days, "workouts_type", null, workoutTypeButton);
+                    fit.modalController.openModal(days, "workouts_type", null, workoutTypeButton, fit.lang);
                 }
 
                 fit.loading = false;
@@ -295,7 +295,7 @@ Item {
 
         onSelectPressed: {
             fit.modalController.itemsWillBeInModal = 3;
-            fit.modalController.openModal(modals.languages, "language", null, languageTypeButton);
+            fit.modalController.openModal(appModals.languages, "language", null, languageTypeButton, fit.lang);
         }
     }
 

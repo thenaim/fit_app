@@ -13,6 +13,7 @@ Item {
     property string steps;
     property string ingredients;
     property string image;
+    property bool bookmark: false;
 
     opacity: 1.0;
     width: nutritionItems.width;
@@ -115,7 +116,32 @@ Item {
 
         onSelectPressed: {
             fit.modalController.itemsWillBeInModal = 3;
-            fit.modalController.openModal(modals.social, "nutrition", nutritionDetail.id, sendSocialNutritionButton);
+            fit.modalController.openModal(appModals.social, "nutrition", nutritionDetail.id, sendSocialNutritionButton, fit.lang);
+        }
+    }
+
+    Image {
+        z: 4;
+
+        anchors.top: mainView.top;
+        anchors.right: mainView.right;
+        anchors.margins: appMain.sizes.margin;
+
+        width: 35;
+        height: 25;
+
+        visible: true;
+        registerInCacheSystem: false;
+        source: nutritionDetail.bookmark ? "apps/fit_app/res/heart_added.png" : "apps/fit_app/res/heart_add.png";
+        fillMode: PreserveAspectFit;
+    }
+
+    onKeyPressed: {
+        if (key === "Red") {
+            let current = nutritionItemsList.nutritionModel.get(nutritionItemsList.currentIndex);
+            appMain.addToBookmark(current, "nutrition", "main", (boolean) => {
+                nutritionDetail.bookmark = boolean;
+            });
         }
     }
 

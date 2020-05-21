@@ -1,6 +1,14 @@
 /**
-* Pages and controllers
+* Controls, Helpers and Pages
 */
+import controls.Player;
+import controls.Spinner;
+import controls.Button;
+
+import "js/app.js" as appMain;
+import "js/modals.js" as appModals;
+import "js/languages.js" as appLangs;
+
 import "Tab.qml";
 import "VideoItems.qml";
 import "ExercisesPage.qml";
@@ -11,16 +19,11 @@ import "NutritionDetail.qml";
 import "BookmarkPage.qml";
 import "StatsPage.qml";
 import "SettingsPage.qml";
-import "ModalController.qml";
-import "FitPlayer.qml";
+// import "FitPlayer.qml";
 
-import controls.Player;
-import controls.Spinner;
-import controls.Button;
-
-import "js/app.js" as appMain;
-import "js/modals.js" as modals;
-import "js/languages.js" as appLangs;
+import "controllers/ModalController.qml";
+import "controllers/FitPlayerController.qml";
+import "controllers/ProgressBarController.qml";
 
 Application {
     id: fit;
@@ -83,7 +86,7 @@ Application {
 
             focus: true;
             visible: true;
-            opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+            // opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
             keyNavigationWraps: false;
 
             onKeyPressed: {
@@ -92,7 +95,7 @@ Application {
                     tab.setFocus();
                 } else if (key === "Red") {
                     let current = model.get(videoItems.currentIndex);
-                    appMain.addToBookmark(current, "video", "main");
+                    appMain.addToBookmark(current, "video", "main", (boolean) => {});
                 } else if (key === "Select") {
                     const url = appMain.config.main + "/videos/" + video.videoId + ".mp4";
                     videoItems.playVideo(video.title, url, "main");
@@ -113,7 +116,7 @@ Application {
                 fitPlayer.title = title;
                 fitPlayer.page = page;
                 fitPlayer.visible = true;
-                fitPlayer.playVideoByUrl(url);
+                fitPlayer.playVideoByUrl(url, "video");
             }
         }
 
@@ -145,7 +148,7 @@ Application {
             anchors.margins: appMain.sizes.margin;
 
             visible: false;
-            focus: false;
+            focus: true;
             opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         }
 
@@ -283,8 +286,8 @@ Application {
         property int oneItemHeight: 77;
         property int itemsWillBeInModal: 0;
 
-        // (Modal title height + margin) + (One item height modal * how many items will be in modal)
-        height: (modalTitle.height + appMain.sizes.margin) + (modalController.oneItemHeight * modalController.itemsWillBeInModal);
+        // (Modal title height + margin of modal and margin of [cancel] button) + (One item height modal * how many items will be in modal)
+        height: (modalTitle.height + (appMain.sizes.margin * 2)) + (modalController.oneItemHeight * modalController.itemsWillBeInModal);
         width: 520;
         visible: false;
 
@@ -330,7 +333,8 @@ Application {
     */
     Spinner {
         id: loadingSpinner;
-        anchors.centerIn: mainView;
+        anchors.centerIn: mainWindow;
+        anchors.topMargin: tab.height;
         z: 3;
         visible: fit.loading;
     }
@@ -353,11 +357,12 @@ Application {
     /**
     * FitSmart Player
     */
-    FitPlayer {
+    FitPlayerController {
         id: fitPlayer;
         z: 4;
-        anchors.fill: mainWindow;
         property string page: "main";
+        property string type: "video";
+        anchors.fill: type === "video" ? mainWindow : null;
 
         visible: false;
 
@@ -510,11 +515,42 @@ Application {
                 fit.lang = lang;
                 fit.showNotification(appLangs.texts[fit.lang].languageChanged);
 
+                fit.onLanguageUpdateChangeData(tab.model.get(tab.currentIndex));
+
                 save("fit_stingray", JSON.stringify(stingray));
                 fit.stingray = JSON.parse(load("fit_stingray"));
                 fit.loading = false;
             }
         });
+    }
+
+    /**
+    * Update data after language change
+    * @param {Object} tab id, url
+    */
+    function onLanguageUpdateChangeData(current_tab) {
+        switch (current_tab.id) {
+            case "videos":
+                videoItems.getVideos(current_tab.url);
+                break;
+            case "exercises":
+                exercisesPageContainer.getChipsAndExercises();
+                break;
+            case "workouts":
+                workoutsPageContainer.getWorkoutsCategory();
+                break;
+            case "nutritions":
+                nutritionItemsList.getNutritions(nutritionDays.model.get(nutritionDays.currentIndex).day);
+                break;
+            case "bookmarks":
+                bookmarkPageContainer.getBookmarks(bookmarkTypes.model.get(bookmarkTypes.currentIndex).type);
+                break;
+            case "stats":
+                statsPage.getStats();
+                break;
+            default:
+                break;
+        }
     }
 
     /**

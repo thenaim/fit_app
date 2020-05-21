@@ -44,7 +44,7 @@ ListView {
 		anchors.topMargin: - 4;
 		color: chipsList.highlightColor;
         z: 2;
-        opacity: 1;
+		opacity: chipsList.activeFocus ? 1 : 0.4;
         radius: appMain.sizes.radius;
 
 		doHighlight: {

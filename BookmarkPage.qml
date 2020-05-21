@@ -610,7 +610,7 @@ Item {
         id: errorMessage;
         anchors.centerIn: bookmarkPage;
         opacity: parent.opacity;
-        color: "#fff";
+        color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
 
         // No items message
         // Video bookmark, Exercise bookmark and Nutrition bookmark

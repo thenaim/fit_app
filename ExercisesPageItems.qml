@@ -6,7 +6,7 @@ ListView {
 	orientation: exercisesCategory.horizontal;
 
 	spacing: 10;
-	height: appMain.sizes.exercise.height + 100;
+	height: appMain.sizes.exercise.height + 120;
 	opacity: 1;
 	focus: true;
 	clip: true;

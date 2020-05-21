@@ -41,9 +41,7 @@ GridView {
 
         width: appMain.sizes.poster.width;
         height: appMain.sizes.poster.height * 2;
-
-        visible: videoItemsList.count;
-
+        visible: videoItemsList.count && !parent.activeFocus;
 		opacity: parent.activeFocus && videoItemsList.count ? 0.2 : 0.1;
 		color: videoItemsList.highlightColor;
         // radius: appMain.sizes.radius;

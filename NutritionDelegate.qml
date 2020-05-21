@@ -80,13 +80,13 @@ Rectangle {
     Image {
         id: bookmarkImage;
         z: 2;
-        anchors.left: nutritionDelegate.left;
-        anchors.right: nutritionDelegate.right;
+
+        anchors.horizontalCenter: nutritionDelegate.horizontalCenter;
         anchors.bottom: nutritionDelegate.bottom;
         anchors.margins: appMain.sizes.margin / 2;
 
-        width: 20;
-        height: 20;
+        width: 25;
+        height: 25;
 
         visible: true;
         registerInCacheSystem: false;

@@ -27,7 +27,7 @@ this.config = {
         updateStingray: server + "/settings/update/stingray"
     },
     animationDuration: 150,
-    inactiveOpacity: 0.6,
+    inactiveOpacity: 0.5,
     defaultImage: "apps/fit_app/res/default_video_image.png"
 };
 
@@ -270,6 +270,34 @@ this.wrapText = (text, maxLength) => {
 };
 
 /**
+ * Parse Milliseconds Into Readable Time
+ * @param {Number} milliseconds of timer
+ */
+this.parseMillisecondsIntoReadableTime = (milliseconds) => {
+    //Get hours from milliseconds
+    const hours = milliseconds / (1000 * 60 * 60);
+    const absoluteHours = Math.floor(hours);
+    const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+
+    //Get remainder from hours and convert to minutes
+    const minutes = (hours - absoluteHours) * 60;
+    const absoluteMinutes = Math.floor(minutes);
+    const m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
+
+    //Get remainder from minutes and convert to seconds
+    const seconds = (minutes - absoluteMinutes) * 60;
+    const absoluteSeconds = Math.floor(seconds);
+    const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+
+    return {
+        full: h + ':' + m + ':' + s,
+        h: h,
+        m: m,
+        s: s
+    };
+}
+
+/**
  * On change tab select page
  * main.qml - 47 line.
  */
@@ -336,7 +364,7 @@ this.onTabChange = () => {
  * @param  {String} type item of adding/deleting item
  * @param  {String} page main or bookmark page
  */
-this.addToBookmark = (current, type, page) => {
+this.addToBookmark = (current, type, page, callback) => {
     fit.loading = true;
     this.httpServer(appMain.config.api.addDeleteBookmark, "GET", {
         id: type === "video" ? current.videoId : current.id,
@@ -346,10 +374,12 @@ this.addToBookmark = (current, type, page) => {
         // if bookmark added, then show notification
         if (book.added) {
             current.bookmark = true;
+            callback(true);
             fit.addDeleteBadge(book.added, type);
             fit.showNotification("Успешно сохранено в закладках");
         } else {
             current.bookmark = false;
+            callback(false);
             fit.addDeleteBadge(book.added, type);
             fit.showNotification("Успешно удалено из закладки");
         }

@@ -1,6 +1,5 @@
 Rectangle {
     id: exerciseDelegate;
-    anchors.top: exerciseItems.top;
 
     width: appMain.sizes.exercise.width;
     height: appMain.sizes.exercise.height + 100;
@@ -68,18 +67,21 @@ Rectangle {
         Image {
             id: bookmarkImage;
             z: 2;
-            anchors.left: exerciseDelegate.left;
-            anchors.right: exerciseDelegate.right;
+            
+            anchors.horizontalCenter: exerciseDelegate.horizontalCenter;
             anchors.bottom: exerciseDelegate.bottom;
             anchors.margins: appMain.sizes.margin / 2;
 
             opacity: exerciseDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
-            width: 20;
-            height: 20;
+            width: 25;
+            height: 25;
             visible: true;
             registerInCacheSystem: false;
             source: model.bookmark ? "apps/fit_app/res/heart_added.png" : "apps/fit_app/res/heart_add.png";
             fillMode: PreserveAspectFit;
+
+            Behavior on width { animation: Animation { duration: appMain.config.animationDuration; } }
+            Behavior on height { animation: Animation { duration: appMain.config.animationDuration; } }
         }
     }
 

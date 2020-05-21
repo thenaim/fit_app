@@ -10,7 +10,7 @@ ListView {
     height: appMain.sizes.tabCards.height;
 	focus: true;
 	clip: true;
-	spacing: 12;
+	spacing: 10;
     delegate: TabDelegate {}
     model: ListModel { }
 
