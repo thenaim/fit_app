@@ -3,7 +3,9 @@
  */
 const prod = true;
 
-const server = prod ? "http://ec2-52-15-73-251.us-east-2.compute.amazonaws.com:8080" : "http://192.168.1.71:8080";
+const server = prod ?
+    "http://ec2-52-15-73-251.us-east-2.compute.amazonaws.com:8080" :
+    "http://192.168.1.71:8080";
 
 /**
  * App config
@@ -24,11 +26,11 @@ this.config = {
         sendToSocial: server + "/social/send",
         themeChange: server + "/settings/themechange",
         stats: server + "/stats",
-        updateStingray: server + "/settings/update/stingray"
+        updateStingray: server + "/settings/update/stingray",
     },
     animationDuration: 150,
     inactiveOpacity: 0.5,
-    defaultImage: "apps/fit_app/res/default_video_image.png"
+    defaultImage: "apps/fit_app/res/default_video_image.png",
 };
 
 /**
@@ -38,103 +40,108 @@ this.tabs = [{
         id: "videos",
         title: {
             ru: "Видео",
-            en: "Video"
+            en: "Video",
         },
         url: server + "/videos",
-        badgeInt: 0
+        badgeInt: 0,
     },
     {
         id: "exercises",
         title: {
             ru: "Упражнения",
-            en: "Exercises"
+            en: "Exercises",
         },
         url: server + "/exercises",
-        badgeInt: 0
+        badgeInt: 0,
     },
     {
         id: "workouts",
         title: {
             ru: "Тренировки",
-            en: "Workouts"
+            en: "Workouts",
         },
         url: server + "/workouts",
-        badgeInt: 0
+        badgeInt: 0,
     },
     {
         id: "nutritions",
         title: {
             ru: "Питание",
-            en: "Nutrition"
+            en: "Nutrition",
         },
         url: server + "/nutritions",
-        badgeInt: 0
+        badgeInt: 0,
     },
     {
         id: "bookmarks",
         title: {
             ru: "Закладки",
-            en: "Bookmarks"
+            en: "Bookmarks",
         },
         url: server + "/bookmarks",
-        badgeInt: 0
+        badgeInt: 0,
     },
     {
         id: "stats",
         title: {
             ru: "Статистика",
-            en: "Stats"
+            en: "Stats",
         },
         url: server + "/stats",
-        badgeInt: 0
+        badgeInt: 0,
     },
     {
         id: "settings",
         title: {
             ru: "Настройки",
-            en: "Settings"
+            en: "Settings",
         },
         url: server + "/settings",
-        badgeInt: 0
-    }
+        badgeInt: 0,
+    },
 ];
 
 this.bookmarksTypes = [{
-    type: "video",
-    title: {
-        ru: "Видео",
-        en: "Video"
+        type: "video",
+        title: {
+            ru: "Видео",
+            en: "Video",
+        },
+        badgeInt: 0,
     },
-    badgeInt: 0
-}, {
-    type: "exercise",
-    title: {
-        ru: "Упражнения",
-        en: "Exercises"
+    {
+        type: "exercise",
+        title: {
+            ru: "Упражнения",
+            en: "Exercises",
+        },
+        badgeInt: 0,
     },
-    badgeInt: 0
-}, {
-    type: "nutrition",
-    title: {
-        ru: "Питание",
-        en: "Nutrition"
+    {
+        type: "nutrition",
+        title: {
+            ru: "Питание",
+            en: "Nutrition",
+        },
+        badgeInt: 0,
     },
-    badgeInt: 0
-}];
+];
 
 this.statsTypes = [{
-    type: "dashboard",
-    title: {
-        ru: "Статистика",
-        en: "Stats"
-    }
-}, {
-    type: "leaderboard",
-    title: {
-        ru: "Топ 5 пользователей",
-        en: "Top 5 users"
-    }
-}];
+        type: "dashboard",
+        title: {
+            ru: "Статистика",
+            en: "Stats",
+        },
+    },
+    {
+        type: "leaderboard",
+        title: {
+            ru: "Топ 5 пользователей",
+            en: "Top 5 users",
+        },
+    },
+];
 
 /**
  * Theme colors - light and dark
@@ -146,7 +153,7 @@ this.theme = {
         textColor: "#000000",
         border_color: "#989aa2",
         item_background: "#ffffff",
-        layout_background: "#f2f2f2"
+        layout_background: "#f2f2f2",
     },
     dark: {
         background: "#121212",
@@ -154,8 +161,8 @@ this.theme = {
         border_color: "#222222",
         item_background: "#1A1B1E",
         item_background_2: "#3A3B3F",
-        layout_background: "#0d0d0d"
-    }
+        layout_background: "#0d0d0d",
+    },
 };
 
 /**
@@ -167,30 +174,30 @@ this.sizes = {
     radius: 20,
     poster: {
         width: 295,
-        height: 166
+        height: 166,
     },
     tabCards: {
         width: 150,
-        height: 120
+        height: 120,
     },
     chips: {
         width: 220,
-        height: 100
+        height: 100,
     },
     exercise: {
         width: 280,
-        height: 280
+        height: 280,
     },
     nutrition: {
         width: 285,
         height: 260,
-    }
+    },
 };
 
 /**
  * Format params
  * Set auth token and stingray id
- * 
+ *
  * @param  {Object} params
  * @return {String} formated params like "?a=1&b=2&c=3"
  */
@@ -200,12 +207,14 @@ this.formatParams = (params) => {
     params.token = this.config.token;
     params.stingray = stingray.id || "";
 
-    return "?" + Object
-        .keys(params)
+    return (
+        "?" +
+        Object.keys(params)
         .map(function (key) {
             return key + "=" + encodeURIComponent(params[key]);
         })
-        .join("&");
+        .join("&")
+    );
 };
 
 /**
@@ -232,15 +241,20 @@ this.httpServer = (url, method, params, functionName, callback) => {
             if (http.status === 200) {
                 return callback(JSON.parse(http.responseText));
             }
-            error("\n----",
-                "\nError http server status:", http.status,
-                "\nFunction name:", functionName,
-                "\nError url:", url,
-                "\nText response:", http.responseText ? http.responseText : null,
-                "\n----");
+            error(
+                "\n----",
+                "\nError http server status:",
+                http.status,
+                "\nFunction name:",
+                functionName,
+                "\nError url:",
+                url,
+                "\nText response:",
+                http.responseText ? http.responseText : null,
+                "\n----"
+            );
             return callback(false);
         }
-
     };
 };
 
@@ -255,7 +269,7 @@ this.wrapText = (text, maxLength) => {
     let line = [],
         length = 0;
     text.split(" ").forEach((word) => {
-        if ((length + word.length) >= maxLength) {
+        if (length + word.length >= maxLength) {
             result.push(line.join(" "));
             line = [];
             length = 0;
@@ -277,25 +291,25 @@ this.parseMillisecondsIntoReadableTime = (milliseconds) => {
     //Get hours from milliseconds
     const hours = milliseconds / (1000 * 60 * 60);
     const absoluteHours = Math.floor(hours);
-    const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+    const h = absoluteHours > 9 ? absoluteHours : "0" + absoluteHours;
 
     //Get remainder from hours and convert to minutes
     const minutes = (hours - absoluteHours) * 60;
     const absoluteMinutes = Math.floor(minutes);
-    const m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
+    const m = absoluteMinutes > 9 ? absoluteMinutes : "0" + absoluteMinutes;
 
     //Get remainder from minutes and convert to seconds
     const seconds = (minutes - absoluteMinutes) * 60;
     const absoluteSeconds = Math.floor(seconds);
-    const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+    const s = absoluteSeconds > 9 ? absoluteSeconds : "0" + absoluteSeconds;
 
     return {
-        full: h + ':' + m + ':' + s,
+        full: h + ":" + m + ":" + s,
         h: h,
         m: m,
-        s: s
+        s: s,
     };
-}
+};
 
 /**
  * On change tab select page
@@ -314,7 +328,7 @@ this.onTabChange = () => {
     // get current tab
     const tabCurrent = {
         index: tab.currentIndex,
-        data: tab.model.get(tab.currentIndex)
+        data: tab.model.get(tab.currentIndex),
     };
 
     // check tab id and active page
@@ -337,12 +351,16 @@ this.onTabChange = () => {
         case "nutritions":
             nutritionPageContainer.visible = true;
             nutritionItemsList.setFocus();
-            nutritionItemsList.getNutritions(nutritionDays.model.get(nutritionDays.currentIndex).day);
+            nutritionItemsList.getNutritions(
+                nutritionDays.model.get(nutritionDays.currentIndex).day
+            );
             break;
         case "bookmarks":
             bookmarkPageContainer.visible = true;
             bookmarkPageContainer.setFocus();
-            bookmarkPageContainer.getBookmarks(bookmarkTypes.model.get(bookmarkTypes.currentIndex).type);
+            bookmarkPageContainer.getBookmarks(
+                bookmarkTypes.model.get(bookmarkTypes.currentIndex).type
+            );
             break;
         case "stats":
             statsPage.visible = true;
@@ -366,49 +384,62 @@ this.onTabChange = () => {
  */
 this.addToBookmark = (current, type, page, callback) => {
     fit.loading = true;
-    this.httpServer(appMain.config.api.addDeleteBookmark, "GET", {
-        id: type === "video" ? current.videoId : current.id,
-        type: type
-    }, "Add bookmark key: Red", (book) => {
-
-        // if bookmark added, then show notification
-        if (book.added) {
-            current.bookmark = true;
-            callback(true);
-            fit.addDeleteBadge(book.added, type);
-            fit.showNotification("Успешно сохранено в закладках");
-        } else {
-            current.bookmark = false;
-            callback(false);
-            fit.addDeleteBadge(book.added, type);
-            fit.showNotification("Успешно удалено из закладки");
-        }
-
-        // check page, type and update item
-        if (page === "main") {
-            if (type === "video") {
-                videoItems.model.set(videoItems.currentIndex, current);
-            } else if (type === "exercise") {
-                exerciseItemsList.model.set(exerciseItemsList.currentIndex, current);
-            } else if (type === "nutrition") {
-                nutritionItems.model.set(nutritionItems.currentIndex, current);
+    this.httpServer(
+        appMain.config.api.addDeleteBookmark,
+        "GET", {
+            id: type === "video" ? current.videoId : current.id,
+            type: type,
+        },
+        "Add bookmark key: Red",
+        (book) => {
+            // if bookmark added, then show notification
+            if (book.added) {
+                current.bookmark = true;
+                callback(true);
+                fit.addDeleteBadge(book.added, type);
+                fit.showNotification("Успешно сохранено в закладках");
+            } else {
+                current.bookmark = false;
+                callback(false);
+                fit.addDeleteBadge(book.added, type);
+                fit.showNotification("Успешно удалено из закладки");
             }
-        }
 
-        if (page === "bookmark") {
-            if (type === "video") {
-                bookmarkVideoItemsList.model.remove(bookmarkVideoItemsList.currentIndex, 1);
-            } else if (type === "exercise") {
-                bookmarkExerciseItemsList.model.remove(bookmarkExerciseItemsList.currentIndex, 1);
-            } else if (type === "nutrition") {
-                bookmarkNutritionItemsList.model.remove(bookmarkNutritionItemsList.currentIndex, 1);
+            // check page, type and update item
+            if (page === "main") {
+                if (type === "video") {
+                    videoItems.model.set(videoItems.currentIndex, current);
+                } else if (type === "exercise") {
+                    exerciseItemsList.model.set(exerciseItemsList.currentIndex, current);
+                } else if (type === "nutrition") {
+                    nutritionItems.model.set(nutritionItems.currentIndex, current);
+                }
             }
-        }
 
-        if (page === "workout") {
-            workoutItems.model.set(workoutItems.currentIndex, current);
-        }
+            if (page === "bookmark") {
+                if (type === "video") {
+                    bookmarkVideoItemsList.model.remove(
+                        bookmarkVideoItemsList.currentIndex,
+                        1
+                    );
+                } else if (type === "exercise") {
+                    bookmarkExerciseItemsList.model.remove(
+                        bookmarkExerciseItemsList.currentIndex,
+                        1
+                    );
+                } else if (type === "nutrition") {
+                    bookmarkNutritionItemsList.model.remove(
+                        bookmarkNutritionItemsList.currentIndex,
+                        1
+                    );
+                }
+            }
 
-        fit.loading = false;
-    });
+            if (page === "workout") {
+                workoutItems.model.set(workoutItems.currentIndex, current);
+            }
+
+            fit.loading = false;
+        }
+    );
 };

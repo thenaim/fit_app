@@ -191,7 +191,7 @@ Item {
                 data: workoutItems.model.get(workoutItems.currentIndex)
             };
             if (key === "Red") {
-                appMain.addToBookmark(workoutsCurrent.data, "exercise", "workout");
+                appMain.addToBookmark(workoutsCurrent.data, "exercise", "workout", (boolean) => {});
             } else if (key === "Up") {
                 tab.setFocus();
             } else if (key === "Select") {
@@ -202,6 +202,7 @@ Item {
                 exerciseDetailContainer.title = workoutsCurrent.data.title;
                 exerciseDetailContainer.description = workoutsCurrent.data.description;
                 exerciseDetailContainer.images = workoutsCurrent.data.images;
+                exerciseDetailContainer.bookmark = workoutsCurrent.data.bookmark;
 
                 workoutsPage.visible = false;
                 exerciseDetailContainer.visible = true;

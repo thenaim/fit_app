@@ -3,8 +3,7 @@ Player {
     focus: true;
     isFullscreen: true;
 
-    function playVideoByUrl(url, type) {
-        fitPlayer.type = type;
+    function playVideoByUrl(url) {
         fitPlayer.abort();
         fitPlayer.playUrl(url);
         fitPlayer.setFocus();

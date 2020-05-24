@@ -23,6 +23,7 @@ import "SettingsPage.qml";
 
 import "controllers/ModalController.qml";
 import "controllers/FitPlayerController.qml";
+import "controllers/FitPlayerMusicController.qml";
 import "controllers/ProgressBarController.qml";
 
 Application {
@@ -113,10 +114,12 @@ Application {
                 mainView.visible = false;
 
                 // Show player element and play url
-                fitPlayer.title = title;
-                fitPlayer.page = page;
-                fitPlayer.visible = true;
-                fitPlayer.playVideoByUrl(url, "video");
+                fitPlayerMain.title = title;
+                fitPlayerMain.page = page;
+
+                fitPlayerMain.type = "video";
+                fitPlayerMain.visible = true;
+                fitPlayerMain.playVideoByUrl(url);
             }
         }
 
@@ -357,21 +360,39 @@ Application {
     /**
     * FitSmart Player
     */
-    FitPlayerController {
-        id: fitPlayer;
+    FitPlayerMusicController {
+        id: fitPlayerMusic;
         z: 4;
-        property string page: "main";
-        property string type: "video";
-        anchors.fill: type === "video" ? mainWindow : null;
+        anchors.top: null;
 
         visible: false;
 
         onBackPressed: {
-            fitPlayer.hideFitPlayer(page);
+            fitPlayerMusic.abort();
         }
 
         onFinished: {
-            fitPlayer.hideFitPlayer(page);
+            fitPlayerMusic.abort();
+        }
+    }
+
+    /**
+    * FitSmart Player
+    */
+    FitPlayerController {
+        id: fitPlayerMain;
+        z: 4;
+        property string page: "main";
+        anchors.fill: mainWindow;
+
+        visible: false;
+
+        onBackPressed: {
+            fitPlayerMain.hideFitPlayer(page);
+        }
+
+        onFinished: {
+            fitPlayerMain.hideFitPlayer(page);
         }
 
         /**
@@ -385,8 +406,8 @@ Application {
             mainView.visible = true;
 
             // Hide player
-            fitPlayer.abort();
-            fitPlayer.visible = false;
+            fitPlayerMain.abort();
+            fitPlayerMain.visible = false;
 
             // Set focus
             if (page === "main") {
@@ -666,6 +687,7 @@ Application {
 
     onVisibleChanged: {
         viewsFinder.ignoreScreenSaverForApp("fit", this.visible);
-        fitPlayer.abort();
+        fitPlayerMain.abort();
+        fitPlayerMusic.abort();
     }
 }

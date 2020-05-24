@@ -242,14 +242,14 @@ Item {
             onSelectPressed: {
                 if (exerciseTimer.running) {
                     // stop play exercise
-                    fitPlayer.abort();
+                    fitPlayerMusic.abort();
                     return exerciseTimer.resetDataPlayTimer();
                 }
 
                 fit.showNotification(appLangs.texts[fit.lang].startFirstCircle);
                 exerciseTimer.start();
                 if (musicOrNot.music) {
-                    fitPlayer.playVideoByUrl(appMain.config.main + "/videos/music_" + (Math.floor(Math.random() * 5) + 1) + ".mp4", "music");
+                    fitPlayerMusic.playMusicByUrl(appMain.config.main + "/videos/music_" + (Math.floor(Math.random() * 5) + 1) + ".mp4");
                 }
                 startExerciseButton.setFocus();
                 // stats
@@ -323,10 +323,10 @@ Item {
                 } else if (key === "Select") {
                     musicOrNot.music = !musicOrNot.music;
                     if (!musicOrNot.music) {
-                        fitPlayer.abort();
+                        fitPlayerMusic.abort();
                     }
                     if (musicOrNot.music && exerciseTimer.running) {
-                        fitPlayer.playVideoByUrl(appMain.config.main + "/videos/music_" + (Math.floor(Math.random() * 5) + 1) + ".mp4", "music");
+                        fitPlayerMusic.playMusicByUrl(appMain.config.main + "/videos/music_" + (Math.floor(Math.random() * 5) + 1) + ".mp4");
                         musicOrNot.setFocus();
                     }
                     save("fit_music", JSON.stringify({ music: musicOrNot.music}));
@@ -417,7 +417,7 @@ Item {
                 // stop if fullscreen closed
                 if (!fit.fullscreen) {
                     exerciseTimer.resetDataPlayTimer();
-                    fitPlayer.abort();
+                    fitPlayerMusic.abort();
 
                     return fit.showNotification(appLangs.texts[fit.lang].playExerciseClosed);
                 }
@@ -425,7 +425,7 @@ Item {
                 // stop when 3 round finished
                 if (exerciseTimer.rounds === 4) {
                     exerciseTimer.resetDataPlayTimer();
-                    fitPlayer.abort();
+                    fitPlayerMusic.abort();
                     return fit.showNotification(appLangs.texts[fit.lang].finishedExercise);
                 }
 
@@ -501,9 +501,15 @@ Item {
     }
 
     onKeyPressed: {
-        if (key === "Red") {
+        if (key === "Red" && exerciseDetail.page === "workout") {
+            let current = workoutItems.model.get(workoutItems.currentIndex);
+            appMain.addToBookmark(current, "exercise", exerciseDetail.page, (boolean) => {
+                exerciseDetail.bookmark = boolean;
+            });
+        } 
+        if (key === "Red" && exerciseDetail.page === "main") {
             let current = exerciseItemsList.exerciseItemModel.get(exerciseItemsList.currentIndex);
-            appMain.addToBookmark(current, "exercise", "main", (boolean) => {
+            appMain.addToBookmark(current, "exercise", exerciseDetail.page, (boolean) => {
                 exerciseDetail.bookmark = boolean;
             });
         }
@@ -511,7 +517,7 @@ Item {
 
     onVisibleChanged: {
         // stop music
-        fitPlayer.abort();
+        fitPlayerMusic.abort();
         // stop play exercise
         exerciseTimer.resetDataPlayTimer();
         // reset galary images and add new if exist
