@@ -227,6 +227,7 @@ this.formatParams = (params) => {
  */
 this.httpServer = (url, method, params, functionName, callback) => {
     url = url + this.formatParams(params);
+    log(url);
 
     let http = new XMLHttpRequest();
     http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

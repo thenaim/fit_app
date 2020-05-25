@@ -240,7 +240,7 @@ Item {
         }
 
         onDownPressed: {
-            languageTypeButton.setFocus();
+            themeChanger.setFocus();
         }
 
         onSelectPressed: {
@@ -265,37 +265,6 @@ Item {
                 days = 4;
             }
             return days;
-        }
-    }
-
-    /**
-    * Language type
-    */
-    Button {
-        id: languageTypeButton;
-        z: 1;
-
-        anchors.top: workoutTypeButton.bottom;
-        anchors.right: settingPageItem.right;
-        anchors.topMargin: appMain.sizes.margin / 1.5;
-
-        opacity: languageTypeButton.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
-        color: languageTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
-        text: appLangs.texts[fit.lang].language;
-        radius: appMain.sizes.radius;
-        width: 400;
-
-        onUpPressed: {
-            workoutTypeButton.setFocus();
-        }
-
-        onDownPressed: {
-            themeChanger.setFocus();
-        }
-
-        onSelectPressed: {
-            fit.modalController.itemsWillBeInModal = 3;
-            fit.modalController.openModal(appModals.languages, "language", null, languageTypeButton, fit.lang);
         }
     }
 

@@ -57,8 +57,7 @@ this.texts = {
         appFunctions: [
             "1. Добавить в закладки. Это красная кнопка на пульте.",
             "2. Функция сделать полный экран. Это зеленая кнопка на пульте.",
-            "3. Изменить оформление. Это желтая кнопка на пульте.",
-            "4. Изменить язык. Это синяя кнопка на пульте."
+            "3. Изменить оформление. Это желтая кнопка на пульте."
         ],
 
         doFullscreen: "-- Сделайте полный экран, чтобы посмотреть полную инструкцию и начать упражнения ---"
@@ -118,8 +117,7 @@ this.texts = {
         appFunctions: [
             "1. Add to bookmarks. This is the red button on the remote.",
             "2. A function to make it full screen. This is the green button on the remote.",
-            "3. Change the design. This is the yellow button on the remote.",
-            "4. Change the language. This is the blue button on the remote."
+            "3. Change the design. This is the yellow button on the remote."
         ],
 
         doFullscreen: "--- Make a full screen to view the full instructions and start the exercise ---"

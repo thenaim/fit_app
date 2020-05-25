@@ -28,8 +28,12 @@ import "controllers/ProgressBarController.qml";
 
 Application {
     id: fit;
+    name: "fit";
+	displayname: "FitSmart";
+
     property var stingray: {};
     property int isDark: 1;
+    property string checkLanguage: tr("ru");
     property string lang: "ru";
     property bool fullscreen: false;
     property bool loading: false;
@@ -644,7 +648,7 @@ Application {
             fit.stingray = data;
 
             fit.isDark = data.isDark
-            fit.lang = data.lang;
+            fit.updateLanguage(fit.checkLanguage);
 
             callback(true);
         });
@@ -656,16 +660,12 @@ Application {
         } else if (key === "Yellow") {
             let theme = (fit.isDark === 1) ? 0 : 1;
             fit.updateTheme(theme);
-        } else if (key === "Blue") {
-            let lang = fit.stingray["lang"] === "ru" ? "en" : "ru";
-            fit.updateLanguage(lang);
         }
     }
 
     onCompleted: {
         fit.loading = true;
         tab.currentIndex = 0;
-
         // Waiting stingray token/settings, then load page data
         fit.appInit((callback) => {
             if (callback) {
