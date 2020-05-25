@@ -29,7 +29,7 @@ import "controllers/ProgressBarController.qml";
 Application {
     id: fit;
     name: "fit";
-	displayname: "FitSmart";
+    displayname: "FitSmart";
 
     property var stingray: {};
     property int isDark: 1;
@@ -331,7 +331,7 @@ Application {
                     break;
             }
 
-            modalContainerMain.closeModal();
+            modalController.visible = false;
         }
     }
 

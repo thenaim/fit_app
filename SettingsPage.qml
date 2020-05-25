@@ -5,7 +5,7 @@ Item {
     width: 600;
 
     /**
-    * FitSmart logo
+    * App logo
     */
     Image {
         id: fitSmartImage;
@@ -153,7 +153,7 @@ Item {
 
         onSelectPressed: {
             fit.modalController.itemsWillBeInModal = 3;
-            fit.modalController.openModal(appModals.themesList, "theme", null, themeChanger, fit.lang);
+            fit.modalController.openModal(appModals.themesList, "theme", null, themeChanger, fit.lang, fit.isDark);
         }
     }
 
@@ -183,7 +183,7 @@ Item {
 
         onSelectPressed: {
             fit.modalController.itemsWillBeInModal = 3;
-            fit.modalController.openModal(appModals.nutritionTypes, "nutrition_type", null, nutritionTypeButton, fit.lang);
+            fit.modalController.openModal(appModals.nutritionTypes, "nutrition_type", null, nutritionTypeButton, fit.lang, fit.stingray["meal"]);
         }
     }
 
@@ -214,7 +214,7 @@ Item {
 
         onSelectPressed: {
             fit.modalController.itemsWillBeInModal = 3;
-            fit.modalController.openModal(appModals.gender, "gender", null, genderTypeButton, fit.lang);
+            fit.modalController.openModal(appModals.gender, "gender", null, genderTypeButton, fit.lang, fit.stingray["gender"]);
         }
     }
 
@@ -248,7 +248,7 @@ Item {
             appMain.httpServer(appMain.config.api.workoutsDays, "GET", {}, "getWorkouts", (days) => {
                 if (days.items.length) {
                     fit.modalController.itemsWillBeInModal = 4;
-                    fit.modalController.openModal(days, "workouts_type", null, workoutTypeButton, fit.lang);
+                    fit.modalController.openModal(days, "workouts_type", null, workoutTypeButton, fit.lang, fit.stingray["workoutDays"]);
                 }
 
                 fit.loading = false;

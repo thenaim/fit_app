@@ -1,7 +1,10 @@
 {
 	"id": "fit_app",
 	"display": {
-		"name": "FitSmart - Тренер",
+		"name": {
+			"rus": "FitSmart - Тренер",
+			"eng": "FitSmart - Сoach"
+		},
 		"icon": "res/logo.png"
 	},
 	"application": { }

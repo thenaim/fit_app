@@ -43,8 +43,8 @@ Rectangle {
 
         opacity: 1.0;
         spacing: 10;
-	    width: modalController.width - (appMain.sizes.margin * 2);
-        height: modalController.height - (appMain.sizes.margin * 2);
+	    width: parent.width - (appMain.sizes.margin * 2);
+        height: parent.height - (appMain.sizes.margin * 2);
         focus: true;
         clip: true;
         model: ListModel {}
@@ -74,8 +74,9 @@ Rectangle {
     * @param  {String} idContent optional
     * @param  {Element} elementToFocus to focus on close or confirm
     * @param  {String} lang ru|en
+    * @param  {String} itemActiveId
     */
-    function openModal(array, type, idContent, elementToFocus, lang) {
+    function openModal(array, type, idContent, elementToFocus, lang, itemActiveId) {
         modalContainerMain.title = array.title[lang];
         modalContainerMain.type = type;
         modalContainerMain.idContent = idContent;
@@ -85,12 +86,14 @@ Rectangle {
         modalTypes.model.reset();
         
         // add items
+        const activeIndex = array["items"].findIndex(i => i.id == itemActiveId);
         array["items"].forEach((element, index) => {
             modalTypes.model.append({ id: element.id, data: element.data[lang] ? element.data[lang] : element.data });
         });
+        modalTypes.currentIndex = activeIndex !== -1 ? activeIndex : 0;
 
         // show modal and set focus
-        fit.modalController.visible = true;
+        this.visible = true;
         modalTypes.setFocus();
     }
 
@@ -98,9 +101,15 @@ Rectangle {
     * Close modal
     */
     function closeModal() {
-        modalController.visible = false;
-        modalController.itemsWillBeInModal = 0;
+        this.visible = false;
+        this.itemsWillBeInModal = 0;
         modalContainerMain.focusElement.setFocus();
+    }
+
+    onVisibleChanged: {
+        if (!visible) {
+            modalContainerMain.closeModal();
+        }
     }
 
     onBackPressed: {
