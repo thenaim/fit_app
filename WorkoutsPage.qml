@@ -165,14 +165,15 @@ Item {
     */
     GridView {
         id: workoutItems;
+        property string isWoman: fit.stingray["gender"] == "woman";
+
         anchors.top: workoutsPage.top;
         anchors.left: workoutsPage.left;
         anchors.right: workoutsPage.right;
         anchors.bottom: workoutsPage.bottom;
         z: 1;
-        opacity: 1;
 
-        cellWidth: appMain.sizes.exercise.width + 5;
+        cellWidth: isWoman ? appMain.sizes.exercise.width + 105 : appMain.sizes.exercise.width + 5;
         cellHeight: appMain.sizes.exercise.height + 105;
 
         focus: true;
@@ -221,7 +222,7 @@ Item {
         /**
         * ListView exerciseHighlight
         */
-        property int hlWidth: appMain.sizes.exercise.width;
+        property int hlWidth: workoutItems.isWoman ? appMain.sizes.exercise.width + 100 : appMain.sizes.exercise.width;
         property int hlHeight: appMain.sizes.exercise.height + 100;
         property Color highlightColor: appMain.theme.light.background;
 
@@ -230,7 +231,7 @@ Item {
             z: 2;
             color: workoutItems.highlightColor;
             opacity: workoutItems.activeFocus ? 0.2 : 0.1;
-            visible: workoutItems.count;
+            visible: workoutItems.count && !parent.activeFocus;
 
             doHighlight: {
                 if (!workoutItems || !workoutItems.model || !workoutItems.count)

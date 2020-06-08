@@ -6,7 +6,7 @@ Rectangle {
     width: appMain.sizes.nutrition.width - 5;
     height: appMain.sizes.nutrition.height + 35;
 
-    opacity: 1;
+	opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
     color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
     radius: appMain.sizes.radius;
     focus: true;

@@ -2,12 +2,12 @@ import "ExerciseDelegate.qml";
 
 ListView {
 	id: exerciseItemsList;
+    property string isWoman: fit.stingray["gender"] == "woman";
 	z: 1;
 	orientation: exercisesCategory.horizontal;
 
 	spacing: 10;
-	height: appMain.sizes.exercise.height + 120;
-	opacity: 1;
+	height: isWoman ? appMain.sizes.exercise.height + 120 : appMain.sizes.exercise.height + 120;
 	focus: true;
 	clip: true;
 	delegate: ExerciseDelegate {}

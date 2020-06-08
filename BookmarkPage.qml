@@ -173,6 +173,8 @@ Item {
 
         cellWidth: appMain.sizes.poster.width + 5;
         cellHeight: (appMain.sizes.poster.height * 2) + 5;
+	    opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+
         visible: false;
         focus: false;
         clip: true;
@@ -211,11 +213,10 @@ Item {
             width: appMain.sizes.poster.width;
             height: appMain.sizes.poster.height * 2;
 
-            visible: bookmarkVideoItemsList.count;
+            visible: bookmarkVideoItemsList.count && !parent.activeFocus;
 
-            opacity: parent.activeFocus && bookmarkVideoItemsList.count ? 0.4 : 0.2;
+            opacity: 0.2;
             color: bookmarkVideoItemsList.highlightColor;
-            // radius: appMain.sizes.radius;
 
             updateHighlight: {
                 this.doHighlight();
@@ -304,7 +305,7 @@ Item {
 
         spacing: 10;
         height: appMain.sizes.exercise.height + 100;
-        opacity: 1.0;
+	    opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         visible: false;
         focus: false;
         clip: true;
@@ -340,8 +341,8 @@ Item {
             id: exerciseHighlight;
             z: 2;
             color: bookmarkExerciseItemsList.highlightColor;
-            opacity: bookmarkExerciseItemsList.activeFocus ? 0.4 : 0.2;
-            visible: bookmarkExerciseItemsList.count;
+            opacity: 0.2;
+            visible: bookmarkExerciseItemsList.count && !parent.activeFocus;
 
             doHighlight: {
                 if (!bookmarkExerciseItemsList || !bookmarkExerciseItemsList.model || !bookmarkExerciseItemsList.count)
@@ -433,6 +434,7 @@ Item {
         cellWidth: appMain.sizes.nutrition.width;
         cellHeight: appMain.sizes.nutrition.height + 40;
 
+	    opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         visible: false;
         focus: false;
         clip: true;
@@ -469,9 +471,9 @@ Item {
             width: bookmarkNutritionItemsList.cellWidth - 5;
             height: bookmarkNutritionItemsList.cellHeight - 5;
 
-            visible: bookmarkNutritionItemsList.count;
+            visible: bookmarkNutritionItemsList.count && !parent.activeFocus;
 
-            opacity: parent.activeFocus && bookmarkNutritionItemsList.count ? 0.2 : 0.1;
+            opacity: 0.2;
             color: bookmarkNutritionItemsList.highlightColor;
             radius: appMain.sizes.radius;
 

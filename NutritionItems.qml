@@ -6,7 +6,8 @@ GridView {
 
     cellWidth: appMain.sizes.nutrition.width;
     cellHeight: appMain.sizes.nutrition.height + 40;
-
+    
+	opacity: activeFocus ? 1.0 : appMain.config.inactiveOpacity;
     focus: true;
     clip: true;
     delegate: NutritionDelegate {}
@@ -46,9 +47,9 @@ GridView {
         width: nutritionItemsList.cellWidth - 5;
         height: nutritionItemsList.cellHeight - 5;
 
-        visible: nutritionItemsList.count;
+        visible: nutritionItemsList.count && !parent.activeFocus;
 
-		opacity: parent.activeFocus && nutritionItemsList.count ? 0.2 : 0.1;
+		opacity: 0.2;
 		color: nutritionItemsList.highlightColor;
         radius: appMain.sizes.radius;
 

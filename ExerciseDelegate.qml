@@ -1,7 +1,8 @@
 Rectangle {
     id: exerciseDelegate;
+    property string isWoman: fit.stingray["gender"] == "woman";
 
-    width: appMain.sizes.exercise.width;
+    width: appMain.sizes.exercise.width + 100;
     height: appMain.sizes.exercise.height + 100;
     opacity: 1.0;
     color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;
@@ -19,8 +20,8 @@ Rectangle {
         color: "#ffffff";
         opacity: 1;
 
-        width: appMain.sizes.exercise.width;
-        height: appMain.sizes.exercise.height;
+        width: exerciseDelegate.isWoman ? appMain.sizes.exercise.width + 100 : appMain.sizes.exercise.width;
+        height: exerciseDelegate.isWoman ? appMain.sizes.exercise.height - 40 : appMain.sizes.exercise.height;
 
         Image {
             id: imageCard;
@@ -28,8 +29,8 @@ Rectangle {
             anchors.top: imageExerciseItem.top;
             opacity: exerciseDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
 
-            width: appMain.sizes.exercise.width;
-            height: appMain.sizes.exercise.height;
+            width: exerciseDelegate.isWoman ? appMain.sizes.exercise.width + 100 : appMain.sizes.exercise.width;
+            height: exerciseDelegate.isWoman ? appMain.sizes.exercise.height - 40 : appMain.sizes.exercise.height;
 
             registerInCacheSystem: false;
             source: appMain.config.static + "/images/img/" + model.images[0];
@@ -45,7 +46,7 @@ Rectangle {
         anchors.margins: appMain.sizes.margin / 2;
         opacity: exerciseDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
 
-        width: appMain.sizes.exercise.width;
+        width: exerciseDelegate.isWoman ? appMain.sizes.exercise.width + 100 : appMain.sizes.exercise.width;
         height: (appMain.sizes.exercise.height / 2) + 30;
 
         Text {

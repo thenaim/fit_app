@@ -395,12 +395,10 @@ this.addToBookmark = (current, type, page, callback) => {
             // if bookmark added, then show notification
             if (book.added) {
                 current.bookmark = true;
-                callback(true);
                 fit.addDeleteBadge(book.added, type);
                 fit.showNotification("Успешно сохранено в закладках");
             } else {
                 current.bookmark = false;
-                callback(false);
                 fit.addDeleteBadge(book.added, type);
                 fit.showNotification("Успешно удалено из закладки");
             }
@@ -440,6 +438,8 @@ this.addToBookmark = (current, type, page, callback) => {
             }
 
             fit.loading = false;
+
+            callback(current.bookmark);
         }
     );
 };
