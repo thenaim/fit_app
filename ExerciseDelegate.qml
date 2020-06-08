@@ -1,8 +1,8 @@
 Rectangle {
     id: exerciseDelegate;
-    property string isWoman: fit.stingray["gender"] == "woman";
+    property bool isWoman: fit.stingray["gender"] === "woman";
 
-    width: appMain.sizes.exercise.width + 100;
+    width: isWoman ? appMain.sizes.exercise.width + 100 : appMain.sizes.exercise.width;
     height: appMain.sizes.exercise.height + 100;
     opacity: 1.0;
     color: fit.isDark ? appMain.theme.dark.layout_background : appMain.theme.light.layout_background;

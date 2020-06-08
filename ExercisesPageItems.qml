@@ -2,7 +2,7 @@ import "ExerciseDelegate.qml";
 
 ListView {
 	id: exerciseItemsList;
-    property string isWoman: fit.stingray["gender"] == "woman";
+    property bool isWoman: fit.stingray["gender"] === "woman";
 	z: 1;
 	orientation: exercisesCategory.horizontal;
 

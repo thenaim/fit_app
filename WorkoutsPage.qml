@@ -165,7 +165,7 @@ Item {
     */
     GridView {
         id: workoutItems;
-        property string isWoman: fit.stingray["gender"] == "woman";
+        property bool isWoman: fit.stingray["gender"] === "woman";
 
         anchors.top: workoutsPage.top;
         anchors.left: workoutsPage.left;
