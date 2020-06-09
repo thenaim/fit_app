@@ -1,14 +1,19 @@
 <p align="center"><img src="./res/light_logo.png"></p>
-
-[![](https://badgen.net/github/release/thenaim/fit_app)](https://github.com/thenaim/fit_app/releases)
-[![](https://badgen.net/github/commits/thenaim/fit_app)](https://github.com/thenaim/fit_app/commits/master)
-[![](https://badgen.net/github/last-commit/thenaim/fit_app)](https://github.com/thenaim/fit_app/commits/master)
-[![](https://badgen.net/github/contributors/thenaim/fit_app)](https://github.com/thenaim/fit_app/commits/master)
-[![](https://badgen.net/github/stars/thenaim/fit_app)](https://github.com/thenaim/fit_app/stargazers)
-[![](https://badgen.net/github/forks/thenaim/fit_app)](https://github.com/thenaim/fit_app/network/members)
-[![](https://badgen.net/github/issues/thenaim/fit_app)](https://github.com/thenaim/fit_app/issues?q=)
-[![](https://badgen.net/github/open-issues/thenaim/fit_app)](https://github.com/thenaim/fit_app/issues?q=is%3Aissue+is%3Aopen+)
-[![](https://badgen.net/github/license/thenaim/fit_app)](https://github.com/thenaim/fit_app/blob/master/LICENSE)
+<p align="center">
+  <a href="https://github.com/thenaim/fit_app/releases" target="_blank">
+    <img src="https://badgen.net/github/release/thenaim/fit_app">
+  </a>
+    <a href="https://github.com/thenaim/fit_app/commits/master">
+    <img src="https://badgen.net/github/commits/thenaim/fit_app">
+  </a>
+    <a href="https://github.com/thenaim/fit_app/commits/master">
+    <img src="https://badgen.net/github/last-commit/thenaim/fit_app">
+  </a>
+    </a>
+    <a href="https://github.com/thenaim/fit_app/blob/master/LICENSE" target="_blank">
+    <img src="https://badgen.net/github/license/thenaim/fit_app">
+  </a>
+</p>
 
 ## Main
 
