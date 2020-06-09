@@ -48,7 +48,12 @@ git clone https://github.com/thenaim/fit_app
 ```sh
 ./run_emu --audiocard-number=1 --audiodevice-number=0
 ```
-### Remote control functions :tada:
+## Stingray CLI tool for emulator :tada:
+You can run apps, install, delete and update emulator.
+
+[stingray-cli](https://github.com/thenaim/stingray-cli)
+
+## Remote control functions :tada:
 1. Add to bookmarks. This is the RED button on the remote.
 2. A function to make it full screen. This is the GREEN button on the remote.
 3. Change the design. This is the YELLOW button on the remote.
