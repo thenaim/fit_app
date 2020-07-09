@@ -29,40 +29,49 @@
 
 Documentation: [Emulator](https://devstingray.gs-labs.tv/emulator)
 
-### Step 2. Clone App.
+### Step 2. Clone App and install.
 
 Clone fit_app to Emulator directory.
 
-```sh
+```bash
 git clone https://github.com/thenaim/fit_app
-```
-
-### Step 3. Install fit_app to Emulator.
-
-```sh
 ./install_app ./fit_app
 ```
 
-### Step 4. Run Emulator.
+### Step 3. Install nodejs server
 
-```sh
+Clone fit_server to your home directory.
+```bash
+git clone https://github.com/thenaim/fit_server
+cd fit_server
+npm i
+```
+### Step 4. Run nodejs server
+
+On [fit_server](https://github.com/thenaim/fit_server) project set your IPv4 and port on .evn file.
+
+```bash
+node app.js
+```
+
+### Step 5. Run Emulator.
+
+On [fit_app](https://github.com/thenaim/fir_app) project set your IPv4 and port on js/app.js. In line 6.
+
+```bash
 ./run_emu --audiocard-number=1 --audiodevice-number=0
 ```
 ## Stingray CLI tool for emulator :tada:
 You can run apps, install, delete and update emulator.
 
-[stingray-cli](https://github.com/thenaim/stingray-cli)
+For more information: [stingray-cli](https://github.com/thenaim/stingray-cli)
 
 ## Remote control functions :tada:
 1. Add to bookmarks. This is the RED button on the remote.
 2. A function to make it full screen. This is the GREEN button on the remote.
 3. Change the design. This is the YELLOW button on the remote.
 
-## Server side (If you want to run localy)
-
-NodeJs server [fit_server](https://github.com/thenaim/fit_server)
-
-## All format logos (created by me)
+## Logo (created by me)
 
 [Figma](https://www.figma.com/file/UxgnFWoQ5yJePKsSIgZ67l)
 
