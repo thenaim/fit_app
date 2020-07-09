@@ -10,9 +10,29 @@ Rectangle {
     radius: appMain.sizes.radius;
     focus: true;
 
+    Image {
+        id: workoutCategoryImage;
+        anchors.top: workoutsPageCategoryDelegate.top;
+        anchors.horizontalCenter: workoutsPageCategoryDelegate.horizontalCenter;
+        anchors.topMargin: appMain.sizes.margin;
+
+        opacity: 1.0;
+        height: 100;
+        // width: 100;
+        registerInCacheSystem: false;
+        async: false;
+        fillMode: PreserveAspectFit;
+        source: "apps/fit_app/res/workouts/" + model.image + ".png";
+
+        Behavior on width  { animation: Animation { duration: appMain.config.animationDuration; } }
+        Behavior on height { animation: Animation { duration: appMain.config.animationDuration; } }
+    }
+
 	Text {
 		id: workoutCategoryText;
-        anchors.centerIn: workoutsPageCategoryDelegate;
+        anchors.bottom: workoutsPageCategoryDelegate.bottom;
+        anchors.horizontalCenter: workoutsPageCategoryDelegate.horizontalCenter;
+        anchors.bottomMargin: appMain.sizes.margin;
 
         opacity: workoutsPageCategoryDelegate.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
 		color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
