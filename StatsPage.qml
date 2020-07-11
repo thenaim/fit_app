@@ -388,4 +388,12 @@ Item {
             fit.loading = false;
         });
     }
+
+    onVisibleChanged: {
+        if (!visible) {
+            [0,1,2,3,4].forEach((element) => {
+                barCharts.model.remove(element, 1);
+            });
+        }
+    }
 }

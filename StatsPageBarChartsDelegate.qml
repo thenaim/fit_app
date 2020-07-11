@@ -42,4 +42,34 @@ Rectangle {
               black: true;
 		}
 	}
+
+    Image {
+        id: flower;
+        anchors.fill: barChartsDelegate;
+
+        opacity: 1.0;
+        registerInCacheSystem: false;
+        async: false;
+        fillMode: PreserveAspectFit;
+        source: appMain.config.static + "/images/flowers/" + barChartsDelegate.getFlower(model.points);
+
+        Behavior on width  { animation: Animation { duration: appMain.config.animationDuration; } }
+        Behavior on height { animation: Animation { duration: appMain.config.animationDuration; } }
+    }
+
+    function getFlower(points) {
+        if (points <= 50) {
+            return "1.png";
+        } else if (points > 50 && points <= 100) {
+            return "2.png";
+        } else if (points > 100 && points <= 150) {
+            return "3.png";
+        } else if (points > 150 && points <= 200) {
+            return "4.png";
+        } else if (points > 200 && points <= 250) {
+            return "5.png";
+        } else {
+            return "6.png";
+        }
+    }
 }
