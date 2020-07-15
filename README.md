@@ -48,7 +48,7 @@ npm i
 ```
 ### Step 4. Run nodejs server
 
-On [fit_server](https://github.com/thenaim/fit_server) project set your IPv4 and port on .evn file.
+On [fit_server](https://github.com/thenaim/fit_server) project set your IPv4, port and auth token on .evn file.
 
 ```bash
 node app.js
@@ -56,7 +56,7 @@ node app.js
 
 ### Step 5. Run Emulator.
 
-On [fit_app](https://github.com/thenaim/fir_app) project set your IPv4 and port on js/app.js. In line 6.
+On [fit_app](https://github.com/thenaim/fir_app) project set your IPv4, port and auth token on js/app.js. In line 6 and 12.
 
 ```bash
 ./run_emu --audiocard-number=1 --audiodevice-number=0
