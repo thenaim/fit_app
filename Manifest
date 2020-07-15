@@ -2,8 +2,8 @@
 	"id": "fit_app",
 	"display": {
 		"name": {
-			"rus": "FitSmart - Тренер",
-			"eng": "FitSmart - Сoach"
+			"rus": "FitSmart - Личный тренер",
+			"eng": "FitSmart - Personal coach"
 		},
 		"icon": "res/logo.png"
 	},

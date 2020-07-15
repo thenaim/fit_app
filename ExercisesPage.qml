@@ -102,6 +102,7 @@ Item {
                     exercisesPageContainer.visible = false;
                     exerciseDetailContainer.visible = true;
                     exerciseDetailContainer.setFocus();
+                    imagesGalary.setFocus();
 
                     // stats
                     appMain.httpServer(appMain.config.api.stats, "GET", { type: "exercise" }, "statsExercise", () => {});

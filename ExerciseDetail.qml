@@ -57,7 +57,7 @@ Item {
         anchors.topMargin: imagesGalary.zoom ? 0 : appMain.sizes.margin / 2;
 
         height: appMain.sizes.exercise.height + (fit.fullscreen ? 100 : 80);
-        spacing: 1;
+        // spacing: 1;
         focus: true;
         clip: true;
         delegate: ImagesGalaryDelegate {}
@@ -530,10 +530,13 @@ Item {
                     id: index,
                     image: img
                 });
+            imagesGalary.setFocus();
             });
+
+            imagesGalary.setFocus();
+            imagesGalary.setFocus();
         }
-        imagesGalary.setFocus();
-        imagesGalary.setFocus();
+
     }
 
     onBackPressed: {
