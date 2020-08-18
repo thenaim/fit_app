@@ -169,7 +169,7 @@ Item {
 
         opacity: nutritionTypeButton.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         color: nutritionTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
-        text: fit.stingray["meal"] ? appLangs.texts[fit.lang].nutritionMuscleBuilding : appLangs.texts[fit.lang].nutritionWeightLoss;
+        text: fit.stingray["meal"] ? "Питание: " + appLangs.texts[fit.lang].nutritionMuscleBuilding : "Nutrition: " + appLangs.texts[fit.lang].nutritionWeightLoss;
         radius: appMain.sizes.radius;
         width: 400;
 
@@ -200,7 +200,7 @@ Item {
 
         opacity: genderTypeButton.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         color: genderTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
-        text: fit.stingray["gender"] !== "man" ? appLangs.texts[fit.lang].genderFemale : appLangs.texts[fit.lang].genderMale;
+        text: fit.stingray["gender"] !== "man" ? "Пол: " + appLangs.texts[fit.lang].genderFemale : "Пол: " + appLangs.texts[fit.lang].genderMale;
         radius: appMain.sizes.radius;
         width: 400;
 
@@ -231,7 +231,7 @@ Item {
 
         opacity: workoutTypeButton.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
         color: workoutTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
-        text: (fit.lang === "ru") ? workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " дня в неделю" : workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " days per week";
+        text: (fit.lang === "ru") ? "Тренировки: " + workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " дня в неделю" : "Workouts: " + workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " days per week";
         radius: appMain.sizes.radius;
         width: 400;
 

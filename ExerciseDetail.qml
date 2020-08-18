@@ -151,6 +151,8 @@ Item {
             
             onUpPressed: {
                 if (fit.fullscreen) return;
+
+                imagesGalary.currentIndex = 0;
                 imagesGalary.setFocus();
             }
 
