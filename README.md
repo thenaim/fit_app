@@ -39,6 +39,9 @@ git clone https://github.com/thenaim/fit_app
 ```
 
 ### Step 3. Install nodejs server
+1. Make sure you're using nodejs v10.20.1 or later
+
+2. Make sure you have [`node-gyp`](https://github.com/nodejs/node-gyp#installation) globally installed, including all of [its dependencies](https://github.com/nodejs/node-gyp#on-unix). On Windows you may need to [configure some things manually](https://github.com/nodejs/node-gyp#on-windows).
 
 Clone fit_server to your home directory.
 ```bash
