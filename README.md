@@ -32,16 +32,6 @@ Documentation: [Emulator](https://devstingray.gs-labs.tv/emulator)
 ### Step 2. Install nodejs server [fit_server](https://github.com/thenaim/fit_server)
 1. Make sure you're using nodejs v10.20.1 or later
 
-Clone fit_app to Emulator directory.
-
-```bash
-git clone https://github.com/thenaim/fit_app
-./install_app ./fit_app
-```
-
-### Step 3. Install nodejs server [fit_server](https://github.com/thenaim/fit_server)
-1. Make sure you're using nodejs v10.20.1 or later
-
 2. Make sure you have [`node-gyp`](https://github.com/nodejs/node-gyp#installation) globally installed, including all of [its dependencies](https://github.com/nodejs/node-gyp#on-unix). On Windows you may need to [configure some things manually](https://github.com/nodejs/node-gyp#on-windows).
 
 Clone fit_server to your home directory.
@@ -50,7 +40,7 @@ git clone https://github.com/thenaim/fit_server
 cd fit_server
 npm i
 ```
-### Step 4. Run nodejs server
+### Step 3. Run nodejs server
 
 Set IPv4, port and auth token (it's required) on .evn file.
 
@@ -58,7 +48,7 @@ Set IPv4, port and auth token (it's required) on .evn file.
 node app.js
 ```
 
-### Step 5. Clone App and install.
+### Step 4. Clone App and install.
 
 Clone fit_app to Emulator directory.
 
@@ -66,13 +56,13 @@ Clone fit_app to Emulator directory.
 git clone https://github.com/thenaim/fit_app
 ```
 
-Set your IPv4, port and auth token (from [Step 4](https://github.com/thenaim/fit_app#step-4-run-nodejs-server)) on js/app.js. In line 6 and 12.
+Set your IPv4, port and auth token (from [Step 3](https://github.com/thenaim/fit_app#step-3-run-nodejs-server)) on js/app.js. In line 6 and 12.
 
 ```bash
 ./install_app ./fit_app
 ```
 
-### Step 6. Run Emulator.
+### Step 5. Run Emulator.
 
 ```bash
 ./run_emu --audiocard-number=1 --audiodevice-number=0
