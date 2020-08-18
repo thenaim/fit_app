@@ -42,7 +42,7 @@ npm i
 ```
 ### Step 3. Run nodejs server
 
-Set IPv4, port and auth token (it's required) on .evn file.
+Rename `.env.example` to `.env`, then set IPv4, port and auth token (it's required for StingrayTV app work) on .evn file.
 
 ```bash
 node app.js
