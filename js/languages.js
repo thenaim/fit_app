@@ -6,6 +6,10 @@ this.texts = {
         language: "Русский",
         languageChanged: "Вы изменили язык на русский",
 
+        beginner: "Начинающий",
+        experienced: "Опытный",
+        master: "Мастер",
+        level: "Уровень тренировки: ",
         noMusic: "Без музыки",
         withMusic: "C музыкой",
         place: "Место",
@@ -66,6 +70,10 @@ this.texts = {
         language: "English",
         languageChanged: "You changed the language to english",
 
+        beginner: "Beginner",
+        experienced: "Experienced",
+        master: "Master",
+        level: "Level workout: ",
         noMusic: "Without music",
         withMusic: "With music",
         place: "Place",

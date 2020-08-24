@@ -308,6 +308,9 @@ Application {
                 case "theme":
                     fit.updateTheme(selected.id);
                     break;
+                case "level_type":
+                    fit.updateLevel(selected.id);
+                    break;
                 case "nutrition_type":
                     fit.updateNutritionType(selected.id);
                     break;
@@ -449,6 +452,33 @@ Application {
                     fit.showNotification(appLangs.texts[fit.lang].darkThemeActive);
                 } else {
                     fit.showNotification(appLangs.texts[fit.lang].lightThemeActive);
+                }
+
+                save("fit_stingray", JSON.stringify(stingray));
+            }
+
+            fit.loading = false;
+        });
+    }
+
+    /**
+    * Update Level
+    * @param {String} level beginner|experienced|master
+    */
+    function updateLevel(level) {
+        let stingray = JSON.parse(load("fit_stingray"));
+        if (stingray.level === level) return;
+
+        fit.loading = true;
+        appMain.httpServer(appMain.config.api.updateStingray, "GET", { level: level }, "updateLevel", (is) => {
+            if (is.updated) {
+                stingray.level = level;
+                fit.level = level;
+
+                if (fit.lang === "ru") {
+                    fit.showNotification("Ваш уровень обновлен на " + appLangs.texts[fit.lang][level]);
+                } else {
+                    fit.showNotification("Your level changed to " + appLangs.texts[fit.lang][level]);
                 }
 
                 save("fit_stingray", JSON.stringify(stingray));

@@ -45,6 +45,35 @@ Rectangle {
             source: appMain.config.static + "/images/coverMeal/" + model.image;
             fillMode: PreserveAspectFit;
         }
+
+        Rectangle {
+            id: typeNut;
+            z: 3;
+            anchors.right: imageNutritionItem.right;
+            anchors.bottom: imageNutritionItem.bottom;
+            anchors.margins: appMain.sizes.margin / 2;
+            radius: 10;
+            width: 100;
+            height: 30;
+
+            opacity: imageNutritionItem.activeFocus ? 1.0 : 0.8;
+            color: fit.isDark ? appMain.theme.dark.item_background : appMain.theme.light.item_background;
+            focus: true;
+
+            Text {
+                id: indexTxt;
+                anchors.centerIn: parent;
+
+                opacity: imageNutritionItem.activeFocus ? 1.0 : 0.8;
+                color: fit.isDark ? appMain.theme.dark.textColor : appMain.theme.light.textColor;
+                text: model.type;
+                font: Font {
+                    family: "Proxima Nova Condensed";
+                    pixelSize: 26;
+                    black: true;
+                }
+            }
+        }
     }
 
     Item {

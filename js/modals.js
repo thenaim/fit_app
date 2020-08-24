@@ -1,4 +1,39 @@
 /**
+ * Level
+ */
+this.levels = {
+    title: {
+        ru: "Выберите ваш уровень тренировки",
+        en: "Choose your lever workout"
+    },
+    items: [{
+        id: "beginner",
+        data: {
+            ru: "Начинающий",
+            en: "Beginner"
+        }
+    }, {
+        id: "experienced",
+        data: {
+            ru: "Опытный",
+            en: "Experienced"
+        }
+    }, {
+        id: "master",
+        data: {
+            ru: "Мастер",
+            en: "Master"
+        }
+    }, {
+        id: "cancel",
+        data: {
+            ru: "Отменить",
+            en: "Cancel"
+        }
+    }]
+};
+
+/**
  * Theme
  */
 this.themesList = {

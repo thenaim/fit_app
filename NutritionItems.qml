@@ -19,15 +19,44 @@ GridView {
         appMain.httpServer(appMain.tabs[3].url, "GET", { type: stingray.meal ? "muscle_building" : "weight_loss", day: day || 1 }, "getNutritions", (nutritions) => {
             nutritionItemsList.nutritionModel.reset();
             if (nutritions.length) {
-                nutritions.forEach((nut) => {
-                    nutritionItemsList.nutritionModel.append({
+
+                nutritions.forEach((nut, index) => {
+					let indexNut = parseInt(index);
+					let myNut = {
                         id: nut["id"],
                         name: nut["name"],
                         steps: nut["steps"],
                         ingredients: nut["ingredients"],
                         bookmark: nut["bookmark"],
-                        image: nut["image"] //.split(".")[0]
-                    });
+                        image: nut["image"], //.split(".")[0]
+						type: ""
+                    };
+
+
+					if (nut["type"] === "muscle_building") {
+						if (indexNut === 0 || indexNut === 1) {
+							myNut["type"] = "Завтрак";
+						}
+						if (indexNut === 2 || indexNut === 3) {
+							myNut["type"] = "Обед";
+						}
+						if (indexNut === 4 || indexNut === 5) {
+							myNut["type"] = "Ужин";
+						}
+					}
+
+					if (nut["type"] === "weight_loss") {
+						if (indexNut === 0) {
+							myNut["type"] = "Завтрак";
+						}
+						if (indexNut === 1 || indexNut === 2) {
+							myNut["type"] = "Обед";
+						}
+						if (indexNut === 3 || indexNut === 4) {
+							myNut["type"] = "Ужин";
+						}
+					}
+                    nutritionItemsList.nutritionModel.append(myNut);
                 });
             };
 

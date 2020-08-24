@@ -142,13 +142,13 @@ Item {
         color: themeChanger.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
         text: fit.isDark ? appLangs.texts[fit.lang].activeThemeDark : appLangs.texts[fit.lang].activeThemeLight;
         radius: appMain.sizes.radius;
-        width: 400;
+        width: 450;
         onUpPressed: {
             tab.setFocus();
         }
 
         onDownPressed: {
-            nutritionTypeButton.setFocus();
+            levelTypeButton.setFocus();
         }
 
         onSelectPressed: {
@@ -158,23 +158,53 @@ Item {
     }
 
     /**
-    * Nutrition type
+    * Level type
     */
     Button {
-        id: nutritionTypeButton;
+        id: levelTypeButton;
         z: 1;
         anchors.top: themeChanger.bottom;
         anchors.right: settingPageItem.right;
         anchors.topMargin: appMain.sizes.margin / 1.5;
 
-        opacity: nutritionTypeButton.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
-        color: nutritionTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
-        text: fit.stingray["meal"] ? "Питание: " + appLangs.texts[fit.lang].nutritionMuscleBuilding : "Nutrition: " + appLangs.texts[fit.lang].nutritionWeightLoss;
+        opacity: levelTypeButton.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+        color: levelTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
+        text: fit.stingray["level"] ? appLangs.texts[fit.lang].level + appLangs.texts[fit.lang][fit.stingray["level"]] : appLangs.texts[fit.lang].level + appLangs.texts[fit.lang][fit.stingray["level"]];
         radius: appMain.sizes.radius;
-        width: 400;
+        width: 450;
 
         onUpPressed: {
             themeChanger.setFocus();
+        }
+
+        onDownPressed: {
+            nutritionTypeButton.setFocus();
+        }
+
+        onSelectPressed: {
+            fit.modalController.itemsWillBeInModal = 4;
+            fit.modalController.openModal(appModals.levels, "level_type", null, levelTypeButton, fit.lang, fit.stingray["level"]);
+        }
+    }
+
+    /**
+    * Nutrition type
+    */
+    Button {
+        id: nutritionTypeButton;
+        z: 1;
+        anchors.top: levelTypeButton.bottom;
+        anchors.right: settingPageItem.right;
+        anchors.topMargin: appMain.sizes.margin / 1.5;
+
+        opacity: nutritionTypeButton.activeFocus ? 1.0 : appMain.config.inactiveOpacity;
+        color: nutritionTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
+        text: fit.stingray["meal"] ? "Питание: " + appLangs.texts[fit.lang].nutritionMuscleBuilding : "Питание: " + appLangs.texts[fit.lang].nutritionWeightLoss;
+        radius: appMain.sizes.radius;
+        width: 450;
+
+        onUpPressed: {
+            levelTypeButton.setFocus();
         }
 
         onDownPressed: {
@@ -202,7 +232,7 @@ Item {
         color: genderTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
         text: fit.stingray["gender"] !== "man" ? "Пол: " + appLangs.texts[fit.lang].genderFemale : "Пол: " + appLangs.texts[fit.lang].genderMale;
         radius: appMain.sizes.radius;
-        width: 400;
+        width: 450;
 
         onUpPressed: {
             nutritionTypeButton.setFocus();
@@ -233,7 +263,7 @@ Item {
         color: workoutTypeButton.activeFocus ? appMain.theme.light.background : appMain.theme.dark.layout_background;
         text: (fit.lang === "ru") ? "Тренировки: " + workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " дня в неделю" : "Workouts: " + workoutTypeButton.getDay(fit.stingray["workoutDays"]) + " days per week";
         radius: appMain.sizes.radius;
-        width: 400;
+        width: 450;
 
         onUpPressed: {
             genderTypeButton.setFocus();

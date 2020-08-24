@@ -3,7 +3,7 @@
  */
 const prod = false;
 
-const server = prod ? "" : "http://172.20.10.4:8080";
+const server = prod ? "" : "http://192.168.1.144:8080";
 
 /**
  * App config

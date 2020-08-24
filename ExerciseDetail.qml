@@ -152,7 +152,8 @@ Item {
             onUpPressed: {
                 if (fit.fullscreen) return;
 
-                imagesGalary.currentIndex = 0;
+                imagesGalary.setFocus();
+                imagesGalary.setFocus();
                 imagesGalary.setFocus();
             }
 
@@ -412,6 +413,7 @@ Item {
             property int timerExercise: 0;
             property int timerRelax: 15000;
             property int rounds: 1;
+            property int roundsFinish: 1;
             interval: 1000;
             repeat: true;
             
@@ -425,7 +427,7 @@ Item {
                 }
 
                 // stop when 3 round finished
-                if (exerciseTimer.rounds === 4) {
+                if (exerciseTimer.roundsFinish === 4) {
                     exerciseTimer.resetDataPlayTimer();
                     fitPlayerMusic.abort();
                     return fit.showNotification(appLangs.texts[fit.lang].finishedExercise);
@@ -443,7 +445,7 @@ Item {
                         exerciseTimer.timerExercise = 0;
 
                         // show notification on first round starts
-                        if (exerciseTimer.rounds === 1) {
+                        if (exerciseTimer.roundsFinish === 1) {
                             fit.showNotification(appLangs.texts[fit.lang].relaxCircle);
                         }
                     }
@@ -459,13 +461,16 @@ Item {
                         progress.reset();
                         exerciseTimer.exercise = true;
                         exerciseTimer.timerRelax = 15000;
-                        exerciseTimer.rounds += 1;
+                        exerciseTimer.roundsFinish += 1;
+                        if (exerciseTimer.rounds !== 3) {
+                            exerciseTimer.rounds += 1;
+                        }
 
                         // show notification on new round starts
-                        if (exerciseTimer.rounds === 2) {
+                        if (exerciseTimer.roundsFinish === 2) {
                             fit.showNotification(appLangs.texts[fit.lang].startSecondCircle);
                         }
-                        if (exerciseTimer.rounds === 3) {
+                        if (exerciseTimer.roundsFinish === 3) {
                             fit.showNotification(appLangs.texts[fit.lang].startThirdCircle);
                         }
                     }
@@ -477,6 +482,7 @@ Item {
 
             function resetDataPlayTimer() {
                 exerciseTimer.rounds = 1;
+                exerciseTimer.roundsFinish = 1;
                 exerciseTimer.timerExercise = 0;
                 exerciseTimer.timerRelax = 15000;
                 progressText.text = "00:00:00";
@@ -532,7 +538,6 @@ Item {
                     id: index,
                     image: img
                 });
-            imagesGalary.setFocus();
             });
 
             imagesGalary.setFocus();
